@@ -38,7 +38,7 @@ export const config = {
   ],
 } as const satisfies Config
 
-export const [Singleton, Collection] = createComponents(config)
+export const { Singleton, Collection } = createComponents(config)
 ```
 
 ## Singleton
