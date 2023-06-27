@@ -1,5 +1,4 @@
-import { Collection, CollectionData, Singleton } from './collection'
-import { getCollectionData, getSingletonData } from './data'
+import { Collection, CollectionData, Singleton, getCollectionData, getSingletonData } from './collection'
 
 export type Config = {
   collections: { [key: string]: Collection }

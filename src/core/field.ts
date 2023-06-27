@@ -23,7 +23,7 @@ export type NumberField = {
 
 export type DateField = {
   type: 'date'
-  default?: Date
+  default?: string
 }
 
 export type SingleImageField = {
