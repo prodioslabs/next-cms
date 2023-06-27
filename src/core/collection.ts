@@ -25,11 +25,3 @@ export type ZodSchemaForCollection<C extends Collection> = z.ZodObject<{
     ? InferFieldZodSchema<C['fields'][FieldKey]>
     : z.ZodOptional<InferFieldZodSchema<C['fields'][FieldKey]>>
 }>
-
-export type CollectionProps<C extends Collection> = {
-  children: (props: { items: CollectionData<C>[] }) => React.ReactNode
-}
-
-export type SingletonProps<S extends Singleton> = {
-  children: (props: { item: CollectionData<S> }) => React.ReactNode
-}
