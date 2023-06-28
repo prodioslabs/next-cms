@@ -32,6 +32,7 @@ export function createCollectionComponentFromConfig<C extends Config, Collection
 
     const containerProps = {
       'data-cms-type': 'collection',
+      'data-cms-name': collection.name,
       'data-cms-id': collectionId as string,
     } as const
 
@@ -66,6 +67,7 @@ export function createSingletonComponentFromConfig<C extends Config, SingletonId
 
     const containerProps = {
       'data-cms-type': 'singleton',
+      'data-cms-name': singleton.name,
       'data-cms-id': singletonId as string,
     } as const
 
