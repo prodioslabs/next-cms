@@ -12,6 +12,7 @@ import { Field } from './field'
  * @returns dummy data
  */
 function generateDummyDataForField(field: Field) {
+  console.log({ field })
   if ('default' in field) {
     return field.default
   }

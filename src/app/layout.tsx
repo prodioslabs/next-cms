@@ -1,7 +1,7 @@
 import { Inter } from 'next/font/google'
-import AdminPanel from '~/components/admin-panel'
 
 import './globals.css'
+import AdminPanel from '~/components/admin-panel'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,8 +13,10 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
-      <AdminPanel />
+      <body className={inter.className}>
+        {children}
+        <AdminPanel />
+      </body>
     </html>
   )
 }
