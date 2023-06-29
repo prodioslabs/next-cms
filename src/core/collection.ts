@@ -6,7 +6,6 @@ import { fixData, generateDummyData } from './data'
 import { isErrnoException } from './utils/file'
 
 export type Collection = {
-  slug: string
   name: string
   // TODO: add path validation
   path: string

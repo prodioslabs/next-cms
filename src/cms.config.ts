@@ -3,7 +3,6 @@ import { Config } from './core/config'
 const cmsConfig = {
   singletons: {
     homePageHeroSection: {
-      slug: 'home-page-hero-section',
       name: 'Home Page Hero Section',
       path: 'home-page/hero-section',
       fields: {
@@ -20,7 +19,6 @@ const cmsConfig = {
   },
   collections: {
     blogs: {
-      slug: 'blogs',
       name: 'Blogs',
       path: 'blogs',
       fields: {

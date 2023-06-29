@@ -1,7 +1,6 @@
 import { Inter } from 'next/font/google'
 
 import './globals.css'
-import AdminPanel from '~/components/admin-panel'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={inter.className}>
         {children}
-        <AdminPanel />
+        <div id="editable-element-portal" />
       </body>
     </html>
   )

@@ -1,17 +1,15 @@
+import { Slot } from '@radix-ui/react-slot'
+import { nanoid } from 'nanoid'
 import { Collection, CollectionData, Singleton, getCollectionData, getSingletonData } from './collection'
+import EditableLink from '~/components/editable-link/editable-link'
 
 export type Config = {
   collections: { [key: string]: Collection }
   singletons: { [key: string]: Singleton }
 }
 
-type ContainerProps = {
-  'data-cms-type': 'collection' | 'singleton'
-  'data-cms-id': string
-}
-
 export type CollectionProps<C extends Collection> = {
-  children: (props: { items: CollectionData<C>[]; containerProps: ContainerProps }) => React.ReactNode
+  render: (props: { items: CollectionData<C>[] }) => React.ReactNode
 }
 
 /**
@@ -25,7 +23,7 @@ export function createCollectionComponentFromConfig<C extends Config, Collection
   config: C,
   collectionId: CollectionId,
 ) {
-  async function CollectionComponent({ children }: CollectionProps<C['collections'][CollectionId]>) {
+  async function CollectionComponent({ render }: CollectionProps<C['collections'][CollectionId]>) {
     // TODO: Figure out the reason for typecasting and remove it later on if possible
     const collection = config.collections[collectionId as string]
     const items = await getCollectionData(collection)
@@ -34,19 +32,28 @@ export function createCollectionComponentFromConfig<C extends Config, Collection
       'data-cms-type': 'collection',
       'data-cms-name': collection.name,
       'data-cms-id': collectionId as string,
+      className: 'group',
+      id: nanoid(),
     } as const
 
-    // Wrapped the children with Fragment because of this issue: https://github.com/vercel/next.js/issues/49280
-    // TODO: Remove this if the issue is fixed
     // TODO: Remove the typecasting if possible
-    return <>{children({ items: items as CollectionData<C['collections'][CollectionId]>[], containerProps })}</>
+    return (
+      <>
+        <Slot {...containerProps}>
+          {render({
+            items: items as CollectionData<C['collections'][CollectionId]>[],
+          })}
+        </Slot>
+        <EditableLink collection={collection} collectionId={collectionId as string} elementId={containerProps.id} />
+      </>
+    )
   }
 
   return CollectionComponent
 }
 
 export type SingletonProps<S extends Singleton> = {
-  children: (props: { item: CollectionData<S>; containerProps: ContainerProps }) => React.ReactNode
+  render: (props: { item: CollectionData<S> }) => React.ReactNode
 }
 
 /**
@@ -60,7 +67,7 @@ export function createSingletonComponentFromConfig<C extends Config, SingletonId
   config: C,
   singletonId: SingletonId,
 ) {
-  async function CollectionComponent({ children }: SingletonProps<C['singletons'][SingletonId]>) {
+  async function SingletonComponent({ render }: SingletonProps<C['singletons'][SingletonId]>) {
     // TODO: Figure out the reason for typecasting and remove it later on if possible
     const singleton = config.singletons[singletonId as string]
     const item = await getSingletonData(singleton)
@@ -69,13 +76,22 @@ export function createSingletonComponentFromConfig<C extends Config, SingletonId
       'data-cms-type': 'singleton',
       'data-cms-name': singleton.name,
       'data-cms-id': singletonId as string,
+      className: 'group',
+      id: nanoid(),
     } as const
 
-    // Wrapped the children with Fragment because of this issue: https://github.com/vercel/next.js/issues/49280
-    // TODO: Remove this if the issue is fixed
     // TODO: Remove the typecasting if possible
-    return <>{children({ item: item as CollectionData<C['singletons'][SingletonId]>, containerProps })}</>
+    return (
+      <>
+        <Slot {...containerProps}>
+          {render({
+            item: item as CollectionData<C['singletons'][SingletonId]>,
+          })}
+        </Slot>
+        <EditableLink collection={singleton} collectionId={singletonId as string} elementId={containerProps.id} />
+      </>
+    )
   }
 
-  return CollectionComponent
+  return SingletonComponent
 }
