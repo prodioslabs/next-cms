@@ -7,6 +7,7 @@ import { isErrnoException } from './utils/file'
 
 export type Collection = {
   name: string
+  description?: string
   // TODO: add path validation
   path: string
   fields: { [key: string]: Field }

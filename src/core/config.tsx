@@ -44,7 +44,12 @@ export function createCollectionComponentFromConfig<C extends Config, Collection
             items: items as CollectionData<C['collections'][CollectionId]>[],
           })}
         </Slot>
-        <EditableLink collection={collection} collectionId={collectionId as string} elementId={containerProps.id} />
+        <EditableLink
+          collection={collection}
+          collectionId={collectionId as string}
+          elementId={containerProps.id}
+          type="collection"
+        />
       </>
     )
   }
@@ -88,7 +93,12 @@ export function createSingletonComponentFromConfig<C extends Config, SingletonId
             item: item as CollectionData<C['singletons'][SingletonId]>,
           })}
         </Slot>
-        <EditableLink collection={singleton} collectionId={singletonId as string} elementId={containerProps.id} />
+        <EditableLink
+          collection={singleton}
+          collectionId={singletonId as string}
+          elementId={containerProps.id}
+          type="singleton"
+        />
       </>
     )
   }

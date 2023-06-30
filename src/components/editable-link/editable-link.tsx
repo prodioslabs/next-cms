@@ -9,12 +9,13 @@ import { Collection } from '~/core'
 import { cn } from '~/lib/utils'
 
 type EditableLinkProps = {
+  type: 'singleton' | 'collection'
   collection: Collection
   collectionId: string
   elementId: string
 }
 
-export default function EditableLink({ collectionId, collection, elementId }: EditableLinkProps) {
+export default function EditableLink({ type, collectionId, collection, elementId }: EditableLinkProps) {
   const [visible, setVisible] = useState(false)
   const [computedPosition, setComputedPosition] = useState<ComputePositionReturn | undefined>(undefined)
   const [containerBBox, setContainerBBox] = useState<DOMRect | undefined>()
@@ -89,9 +90,13 @@ export default function EditableLink({ collectionId, collection, elementId }: Ed
     ? createPortal(
         <>
           <Link
-            href={`/admin/${collectionId}`}
+            href={`/admin/${type}/${collectionId}`}
             className={cn(
               'fixed flex w-max items-center whitespace-nowrap rounded border border-border bg-muted px-2 py-1 text-xs text-muted-foreground hover:bg-secondary hover:text-secondary-foreground',
+              {
+                'rounded-t-none border-t-0': computedPosition?.placement?.startsWith('bottom'),
+                'rounded-b-none border-b-0': computedPosition?.placement?.startsWith('top'),
+              },
             )}
             id={`bbox-${elementId}`}
             style={{
@@ -106,7 +111,7 @@ export default function EditableLink({ collectionId, collection, elementId }: Ed
           </Link>
           {containerBBox ? (
             <div
-              className="pointer-events-none fixed rounded-md border"
+              className="pointer-events-none fixed rounded-md ring-2 ring-border"
               style={{
                 top: containerBBox.top - 4,
                 left: containerBBox.left - 4,

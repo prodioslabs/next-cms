@@ -4,6 +4,7 @@ const cmsConfig = {
   singletons: {
     homePageHeroSection: {
       name: 'Home Page Hero Section',
+      description: 'Hero section on the home page',
       path: 'home-page/hero-section',
       fields: {
         title: {

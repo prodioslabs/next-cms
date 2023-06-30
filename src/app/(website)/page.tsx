@@ -1,6 +1,8 @@
 import { FaGoogle } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
 import Image from 'next/image'
+import { LuArrowRight } from 'react-icons/lu'
+import Link from 'next/link'
 import cmsConfig from '~/cms.config'
 import { Button } from '~/components/ui/button'
 import { createCollectionComponentFromConfig, createSingletonComponentFromConfig } from '~/core/config'
@@ -26,11 +28,17 @@ export default function Home() {
           )
         }}
       />
-      <div>
-        <div className="mb-4 text-lg font-semibold text-foreground">Blogs</div>
-        <BlogsCollection
-          render={({ items: blogs }) => {
-            return (
+      <BlogsCollection
+        render={({ items: blogs }) => {
+          return (
+            <div>
+              <div className="mb-4 flex items-center justify-between">
+                <div className="text-lg font-semibold text-foreground">Blogs</div>
+                <Link href="/blogs" className="flex items-center text-sm text-muted-foreground">
+                  View all
+                  <LuArrowRight className="ml-1 h-5 w-5" />
+                </Link>
+              </div>
               <div className="grid grid-cols-6 gap-4">
                 {blogs.map((blog, index) => {
                   return (
@@ -48,10 +56,10 @@ export default function Home() {
                   )
                 })}
               </div>
-            )
-          }}
-        />
-      </div>
+            </div>
+          )
+        }}
+      />
     </div>
   )
 }
