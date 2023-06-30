@@ -1,9 +1,10 @@
 import path from 'path'
 import fs from 'fs/promises'
 import { z } from 'zod'
-import { Field, InferFieldDataType, InferFieldZodSchema, getValidationSchemaForField } from './field'
+import { Field, InferFieldDataType } from './field'
 import { fixData, generateDummyData } from './data'
 import { isErrnoException } from './utils/file'
+import { getValidationSchemaForCollection, getValidationSchemaForSingleton } from './collection-schema'
 
 export type Collection = {
   name: string
@@ -19,57 +20,6 @@ export type Collection = {
  */
 export type Singleton = Collection
 
-export type ZodSchemaForCollection<C extends Collection> = z.ZodObject<{
-  [FieldKey in keyof C['fields']]: C['fields'][FieldKey]['required'] extends true
-    ? InferFieldZodSchema<C['fields'][FieldKey]>
-    : z.ZodOptional<InferFieldZodSchema<C['fields'][FieldKey]>>
-}>
-
-/**
- * Creates a zod validation schema for the collection fields. This component is helper utility
- * which can be used for creating validation schema for both collection and singletons
- *
- * @param collection collection to get the validation schema for
- * @returns zod validation schema for the collection
- * @see getValidationSchemaForCollection
- * @see getValidationSchemaForSingleton
- */
-function getValidationSchemaForFields<C extends Collection>(collection: Collection): ZodSchemaForCollection<C> {
-  let schema = z.object({})
-  Object.entries(collection.fields).forEach(([fieldKey, field]) => {
-    const fieldSchema = getValidationSchemaForField(field)
-    if (!field.required) {
-      schema = schema.extend({ [fieldKey]: fieldSchema.optional() })
-    } else {
-      schema = schema.extend({ [fieldKey]: fieldSchema })
-    }
-  })
-  return schema as ZodSchemaForCollection<C>
-}
-
-/**
- * Create a zod validation schema for the collection. As the collection data would be
- * present in an array, this function will create a zod array schema from the fields validation schema.
- *
- * @param collection collection to get the validation schema for
- * @returns zod validation schema for the collection
- * @see getValidationSchemaForFields
- */
-function getValidationSchemaForCollection(collection: Collection) {
-  return z.array(getValidationSchemaForFields(collection))
-}
-
-/**
- * Create a zod validation schema for the singleton. As the singleton data would be a single object,
- * this function will create a zod object schema from the fields validation schema.
- *
- * @param singleton singleton to get the validation schema for
- * @returns zod validation schema for the singleton
- */
-function getValidationSchemaForSingleton(singleton: Singleton) {
-  return getValidationSchemaForFields(singleton)
-}
-
 /**
  * Get the collection folder path. If the folder is not present, it will create it.
  *
@@ -77,7 +27,7 @@ function getValidationSchemaForSingleton(singleton: Singleton) {
  * @param collectionPath path of the collection
  * @returns the full path of the collection folder
  */
-async function getDataFolder(basePath: string, collectionPath: string) {
+export async function getDataFolderPath(collectionPath: string, basePath: string) {
   const fullPath = path.resolve(basePath, collectionPath)
   try {
     await fs.stat(fullPath)
@@ -89,6 +39,19 @@ async function getDataFolder(basePath: string, collectionPath: string) {
     }
   }
   return fullPath
+}
+
+/**
+ * Get the collection data file path.
+ *
+ * @param basePath base path of the project
+ * @param collectionPath path of the collection
+ * @returns the full path of the collection data file
+ * @see getDataFolderPath
+ */
+export async function getDataFilePath(collectionPath: string, basePath: string) {
+  const collectionFolderPath = await getDataFolderPath(collectionPath, basePath)
+  return path.resolve(collectionFolderPath, 'data.json')
 }
 
 /**
@@ -125,7 +88,7 @@ async function readOrCreateDataFromFile(dataPath: string, schema: Collection, is
  * @see getCollectionData
  * @see getSingletonData
  */
-async function writeDataToFile(dataPath: string, data: any) {
+export async function writeDataToFile(dataPath: string, data: any) {
   await fs.writeFile(dataPath, JSON.stringify(data, null, 2), 'utf-8')
 }
 
@@ -146,9 +109,8 @@ export type CollectionData<C extends Collection> = {
  * @param basePath base path of the local storage folder
  * @returns collection data
  */
-export async function getCollectionData<C extends Collection>(collection: C, basePath = `${process.cwd()}/content`) {
-  const collectionFolderPath = await getDataFolder(basePath, collection.path)
-  const collectionDataFile = path.resolve(collectionFolderPath, 'data.json')
+export async function getCollectionData<C extends Collection>(collection: C, basePath: string) {
+  const collectionDataFile = await getDataFilePath(collection.path, basePath)
   const collectionData = await readOrCreateDataFromFile(collectionDataFile, collection, false)
 
   const validationSchema = getValidationSchemaForCollection(collection)
@@ -174,9 +136,8 @@ export async function getCollectionData<C extends Collection>(collection: C, bas
  * @param basePath base path of the local storage folder
  * @returns singleton data
  */
-export async function getSingletonData<S extends Singleton>(singleton: S, basePath = `${process.cwd()}/content`) {
-  const singleFolderPath = await getDataFolder(basePath, singleton.path)
-  const singletonDataFile = path.resolve(singleFolderPath, 'data.json')
+export async function getSingletonData<S extends Singleton>(singleton: S, basePath: string) {
+  const singletonDataFile = await getDataFilePath(singleton.path, basePath)
   const singletonData = await readOrCreateDataFromFile(singletonDataFile, singleton, true)
 
   const validationSchema = getValidationSchemaForSingleton(singleton)

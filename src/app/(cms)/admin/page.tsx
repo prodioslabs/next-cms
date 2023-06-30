@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { LuChevronRight, LuFile, LuFolderOpen } from 'react-icons/lu'
 import cmsConfig from '~/cms.config'
 
-export default function Page() {
+export default function AdminDashboard() {
   return (
     <div className="h-full space-y-8 overflow-auto p-4">
       <div className="text-2xl font-medium text-secondary-foreground">Dashboard</div>

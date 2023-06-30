@@ -1,6 +1,8 @@
 import { LuFolderOpen, LuFile } from 'react-icons/lu'
 import cmsConfig from '~/cms.config'
 import NavLink from '~/components/nav-link/nav-link'
+import Providers from './providers'
+import { Toaster } from '~/components/ui/toaster'
 
 export const metadata = {
   title: 'Next CMS Admin',
@@ -49,7 +51,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           })}
         </div>
       </div>
-      <div className="flex-1">{children}</div>
+      <div className="flex-1">
+        <Providers>{children}</Providers>
+      </div>
+      <Toaster />
     </div>
   )
 }

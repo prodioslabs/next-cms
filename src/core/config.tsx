@@ -4,6 +4,7 @@ import { Collection, CollectionData, Singleton, getCollectionData, getSingletonD
 import EditableLink from '~/components/editable-link/editable-link'
 
 export type Config = {
+  basePath: string
   collections: { [key: string]: Collection }
   singletons: { [key: string]: Singleton }
 }
@@ -26,7 +27,7 @@ export function createCollectionComponentFromConfig<C extends Config, Collection
   async function CollectionComponent({ render }: CollectionProps<C['collections'][CollectionId]>) {
     // TODO: Figure out the reason for typecasting and remove it later on if possible
     const collection = config.collections[collectionId as string]
-    const items = await getCollectionData(collection)
+    const items = await getCollectionData(collection, config.basePath)
 
     const containerProps = {
       'data-cms-type': 'collection',
@@ -75,7 +76,7 @@ export function createSingletonComponentFromConfig<C extends Config, SingletonId
   async function SingletonComponent({ render }: SingletonProps<C['singletons'][SingletonId]>) {
     // TODO: Figure out the reason for typecasting and remove it later on if possible
     const singleton = config.singletons[singletonId as string]
-    const item = await getSingletonData(singleton)
+    const item = await getSingletonData(singleton, config.basePath)
 
     const containerProps = {
       'data-cms-type': 'singleton',

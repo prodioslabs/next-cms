@@ -76,7 +76,7 @@ export function getValidationSchemaForField(field: Field) {
   switch (field.type) {
     case 'text':
     case 'rich-text':
-      return z.string()
+      return z.string().min(1)
 
     case 'date':
       return z.string().datetime()
