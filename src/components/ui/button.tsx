@@ -2,6 +2,7 @@ import { cloneElement, forwardRef } from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { AiOutlineLoading } from 'react-icons/ai'
+import clsx from 'clsx'
 import { cn } from '~/lib/utils'
 
 const buttonVariants = cva(
@@ -30,12 +31,25 @@ const buttonVariants = cva(
   },
 )
 
+const iconVariants = cva('', {
+  variants: {
+    type: {
+      withChildren: 'w-5 h-5 mr-3',
+      withoutChildren: 'w-4 h-4',
+    },
+  },
+  defaultVariants: {
+    type: 'withChildren',
+  },
+})
+
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   loading?: boolean
   icon?: React.ReactElement<{ className?: string }>
   asChild?: boolean
+  children?: string
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -44,9 +58,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} data-loading={loading} {...props}>
         {loading ? (
-          <AiOutlineLoading className="mr-3 h-5 w-5 animate-spin" />
+          <AiOutlineLoading
+            className={clsx(iconVariants({ type: children ? 'withChildren' : 'withoutChildren' }), 'animate-spin')}
+          />
         ) : icon ? (
-          cloneElement(icon, { className: cn(icon.props.className, 'mr-3 h-5 w-5') })
+          cloneElement(icon, {
+            className: cn(iconVariants({ type: children ? 'withChildren' : 'withoutChildren' }), icon.props.className),
+          })
         ) : null}
         {children}
       </Comp>

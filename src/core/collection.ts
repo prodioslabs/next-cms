@@ -15,7 +15,9 @@ export type Schema = {
 }
 
 export type Collection<S extends Schema = Schema> = S & {
-  primaryKey: keyof S['fields']
+  // this key would be used to identify the element in the collection
+  // in the content manager
+  identifierKey: keyof S['fields']
 }
 
 /**
@@ -94,6 +96,19 @@ async function readOrCreateDataFromFile(dataPath: string, schema: Schema, isSing
  */
 export async function writeDataToFile(dataPath: string, data: any) {
   await fs.writeFile(dataPath, JSON.stringify(data, null, 2), 'utf-8')
+}
+
+/**
+ * Write back data to a collection file for a particular index. This function will be used to write back the fixed data to the file.
+ *
+ * @param dataPath complete path to the data file
+ * @param data data to be written
+ * @param elementIndex index of the element in the collection
+ */
+export async function writeElementDataToCollectionFile(dataPath: string, data: any, elementIndex: number) {
+  const collectionData = await readOrCreateDataFromFile(dataPath, {} as Schema, false)
+  collectionData[elementIndex] = data
+  await writeDataToFile(dataPath, collectionData)
 }
 
 type Optional<T> = T | undefined

@@ -65,9 +65,8 @@ export default function ImageUploader({ uploadedImages, onChange, multiple, clas
                     // remove the image
                     onChange?.((uploadedImages ?? []).filter((image) => image.url !== uploadedImage.url))
                   }}
-                >
-                  <LuX />
-                </Button>
+                  icon={<LuX />}
+                />
               </div>
             )
           })}

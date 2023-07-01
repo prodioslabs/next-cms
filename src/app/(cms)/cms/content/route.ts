@@ -1,9 +1,15 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import cmsConfig from '~/cms.config'
-import { getCollectionData, getDataFilePath, getSingletonData, writeDataToFile } from '~/core/collection'
+import {
+  getCollectionData,
+  getDataFilePath,
+  getSingletonData,
+  writeDataToFile,
+  writeElementDataToCollectionFile,
+} from '~/core/collection'
 import { Config } from '~/core/config'
-import { getValidationSchemaForCollection, getValidationSchemaForSingleton } from '~/core/collection-schema'
+import { getValidationSchemaForSingleton } from '~/core/collection-schema'
 import { generateRouteHandlerSchemas } from './schema'
 
 // TODO: Move this makehandlers into the core folder
@@ -47,31 +53,39 @@ function makehandlers(config: Config) {
 
   async function POST(request: Request) {
     try {
-      const { type, data, id } = updateContentBodySchema.parse(await request.json())
+      const input = updateContentBodySchema.parse(await request.json())
 
       let schema
-      if (type === 'collection') {
-        schema = cmsConfig.collections[id as keyof typeof cmsConfig.collections]
-      } else if (type === 'singleton') {
-        schema = cmsConfig.singletons[id as keyof typeof cmsConfig.singletons]
+      if (input.type === 'collection') {
+        schema = cmsConfig.collections[input.id as keyof typeof cmsConfig.collections]
+      } else if (input.type === 'singleton') {
+        schema = cmsConfig.singletons[input.id as keyof typeof cmsConfig.singletons]
       }
 
       if (!schema) {
-        return NextResponse.json({ error: `${type} with id - ${data.id} not found in the config` }, { status: 404 })
+        return NextResponse.json(
+          { error: `${input.type} with id - ${input.id} not found in the config` },
+          { status: 404 },
+        )
       }
 
-      const validationSchema =
-        type === 'collection' ? getValidationSchemaForCollection(schema) : getValidationSchemaForSingleton(schema)
-      const parsedData = validationSchema.parse(data)
+      // validationSchema is always computed assuming schema as a singleton because of even for the collection
+      // each element of the collection would be having its own content manager
+      const validationSchema = getValidationSchemaForSingleton(schema)
+      const parsedData = validationSchema.parse(input.data)
 
       // update the data file
       const dataFile = await getDataFilePath(schema.path, config.basePath)
-      await writeDataToFile(dataFile, parsedData)
+      if (input.type === 'singleton') {
+        await writeDataToFile(dataFile, parsedData)
+      } else {
+        await writeElementDataToCollectionFile(dataFile, parsedData, input.elementIndex)
+      }
 
       return NextResponse.json(
         {
-          type,
-          id,
+          type: input.type,
+          id: input.id,
           data: parsedData,
         },
         { status: 200 },

@@ -12,6 +12,7 @@ export default async function SingletonContentManager({ params: { key } }: { par
   if (key in cmsConfig.singletons) {
     const singleton = cmsConfig.singletons[key as keyof typeof cmsConfig.singletons]
 
+    // TODO: Check if this is slower than directly calling the function
     const res = await fetch(resolveUrl(`/cms/content?type=singleton&id=${key}`), {
       cache: 'no-cache',
     })
