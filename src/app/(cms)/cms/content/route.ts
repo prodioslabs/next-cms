@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import cmsConfig from '~/cms.config'
 import {
+  ElementData,
   getCollectionData,
   getDataFilePath,
   getSingletonData,
@@ -14,7 +15,8 @@ import { generateRouteHandlerSchemas } from './schema'
 
 // TODO: Move this makehandlers into the core folder
 function makehandlers(config: Config) {
-  const { getContentQueryParamsSchema, updateContentBodySchema } = generateRouteHandlerSchemas(config)
+  const { getContentQueryParamsSchema, updateContentBodySchema, deleteContentQueryParamsSchema } =
+    generateRouteHandlerSchemas(config)
 
   /**
    * GET /cms/content?type=singleton&id={singletonId}
@@ -57,6 +59,11 @@ function makehandlers(config: Config) {
     }
   }
 
+  /**
+   * POST /cms/content
+   *
+   * Method to update the content of a singleton or a collection
+   */
   async function POST(request: Request) {
     try {
       const input = updateContentBodySchema.parse(await request.json())
@@ -115,10 +122,43 @@ function makehandlers(config: Config) {
     }
   }
 
+  /**
+   * DELETE /cms/content
+   *
+   * Method to delete the element of a collection
+   */
+  async function DELETE(request: Request) {
+    const { searchParams } = new URL(request.url)
+
+    try {
+      const { elementIndex, id } = deleteContentQueryParamsSchema.parse({
+        elementIndex: Number.parseInt(searchParams.get('elementIndex') as string),
+        id: searchParams.get('id'),
+      })
+      const collection = cmsConfig.collections[id as keyof typeof cmsConfig.collections]
+
+      const data = (await getCollectionData(collection, cmsConfig.basePath)) as ElementData<typeof collection>[]
+      const updatedData = data.filter((_, index) => index !== elementIndex)
+
+      await writeDataToFile(await getDataFilePath(collection.path, cmsConfig.basePath), updatedData)
+
+      return NextResponse.json({ id, elementIndex })
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return NextResponse.json(
+          { error: { issues: error.issues, message: error.message, name: error.name } },
+          { status: 422 },
+        )
+      }
+      throw error
+    }
+  }
+
   return {
     GET,
     POST,
+    DELETE,
   }
 }
 
-export const { GET, POST } = makehandlers(cmsConfig)
+export const { GET, POST, DELETE } = makehandlers(cmsConfig)

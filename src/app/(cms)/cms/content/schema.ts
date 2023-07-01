@@ -42,6 +42,13 @@ export function generateRouteHandlerSchemas(config: Config) {
   // change the response schema to be different from the body schema, to include additional props
   const updateContentResponseSchema = updateContentBodySchema
 
+  const deleteContentQueryParamsSchema = z.object({
+    elementIndex: z.number(),
+    id: z.enum(Object.keys(config.collections) as [string, ...string[]]),
+  })
+
+  const deleteContentResponseSchema = deleteContentQueryParamsSchema
+
   return {
     // GET handler schemas
     getContentQueryParamsSchema,
@@ -49,5 +56,8 @@ export function generateRouteHandlerSchemas(config: Config) {
     // POST handler schemas
     updateContentBodySchema,
     updateContentResponseSchema,
+    // DELETE handler schemas
+    deleteContentQueryParamsSchema,
+    deleteContentResponseSchema,
   }
 }
