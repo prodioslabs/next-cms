@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { generateRouteHandlerSchemas } from '~/app/(cms)/cms/content/schema'
 import cmsConfig from '~/cms.config'
-import { resolveUrl } from '~/lib/api'
+import { API_BASE_URL, resolveUrl } from '~/lib/api'
 
 const { updateContentResponseSchema, updateContentBodySchema } = generateRouteHandlerSchemas(cmsConfig)
 
@@ -22,7 +22,7 @@ export async function updateContent(input: z.infer<typeof updateContentBodySchem
     }
   }
 
-  const res = await fetch(resolveUrl('/cms/content'), {
+  const res = await fetch(resolveUrl('/cms/content', API_BASE_URL), {
     method: 'POST',
     body: JSON.stringify(body),
   })

@@ -1,9 +1,7 @@
 import { Slot } from '@radix-ui/react-slot'
 import { nanoid } from 'nanoid'
-import { Schema, ElementData, Singleton, Collection } from './collection'
+import { Schema, ElementData, Singleton, Collection, getCollectionData, getSingletonData } from './collection'
 import EditableLink from '~/components/editable-link/editable-link'
-import { resolveUrl } from '~/lib/api'
-import { generateRouteHandlerSchemas } from '~/app/(cms)/cms/content/schema'
 
 export type Config = {
   basePath: string
@@ -26,15 +24,10 @@ export function createCollectionComponentFromConfig<C extends Config, Collection
   config: C,
   collectionId: CollectionId,
 ) {
-  const { getContentResponseSchema } = generateRouteHandlerSchemas(config)
-
   async function CollectionComponent({ render }: CollectionProps<C['collections'][CollectionId]>) {
     // TODO: Figure out the reason for typecasting and remove it later on if possible
     const collection = config.collections[collectionId as string]
-    const res = await fetch(resolveUrl(`/cms/content?type=collection&id=${collectionId as string}`), {
-      cache: 'no-cache',
-    })
-    const items = getContentResponseSchema.parse(await res.json()).data
+    const items = await getCollectionData(collection, config.basePath)
 
     const containerProps = {
       'data-cms-type': 'collection',
@@ -80,15 +73,10 @@ export function createSingletonComponentFromConfig<C extends Config, SingletonId
   config: C,
   singletonId: SingletonId,
 ) {
-  const { getContentResponseSchema } = generateRouteHandlerSchemas(config)
-
   async function SingletonComponent({ render }: SingletonProps<C['singletons'][SingletonId]>) {
     // TODO: Figure out the reason for typecasting and remove it later on if possible
     const singleton = config.singletons[singletonId as string]
-    const res = await fetch(resolveUrl(`/cms/content?type=singleton&id=${singletonId as string}`), {
-      cache: 'no-cache',
-    })
-    const item = getContentResponseSchema.parse(await res.json()).data
+    const item = await getSingletonData(singleton, config.basePath)
 
     const containerProps = {
       'data-cms-type': 'singleton',

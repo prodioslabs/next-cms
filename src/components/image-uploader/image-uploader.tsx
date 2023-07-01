@@ -1,9 +1,8 @@
 'use client'
 
 import { useMutation } from 'react-query'
-import { AiOutlineLoading } from 'react-icons/ai'
 import Image from 'next/image'
-import { LuX } from 'react-icons/lu'
+import { X, Loader2 } from 'lucide-react'
 import { ImageData } from '~/core/field'
 import { Uploader } from '../ui/uploader'
 import { uploadImage } from './queries'
@@ -38,7 +37,7 @@ export default function ImageUploader({ uploadedImages, onChange, multiple, clas
           mutation.mutate(acceptedFile[0])
         }}
       />
-      {mutation.isLoading ? <AiOutlineLoading className="absolute right-3 top-3 h-6 w-6 animate-spin" /> : null}
+      {mutation.isLoading ? <Loader2 className="absolute right-3 top-3 h-6 w-6 animate-spin" /> : null}
       {uploadedImages?.length ? (
         <div className="mt-2 space-y-2">
           {uploadedImages.map((uploadedImage) => {
@@ -65,7 +64,7 @@ export default function ImageUploader({ uploadedImages, onChange, multiple, clas
                     // remove the image
                     onChange?.((uploadedImages ?? []).filter((image) => image.url !== uploadedImage.url))
                   }}
-                  icon={<LuX />}
+                  icon={<X />}
                 />
               </div>
             )

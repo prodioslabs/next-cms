@@ -16,6 +16,12 @@ import { generateRouteHandlerSchemas } from './schema'
 function makehandlers(config: Config) {
   const { getContentQueryParamsSchema, updateContentBodySchema } = generateRouteHandlerSchemas(config)
 
+  /**
+   * GET /cms/content?type=singleton&id={singletonId}
+   * GET /cms/content?type=collection&id={collectionId}
+   *
+   * Method to get the content of a singleton or a collection
+   */
   async function GET(request: Request) {
     const { searchParams } = new URL(request.url)
     try {
@@ -78,18 +84,26 @@ function makehandlers(config: Config) {
       const dataFile = await getDataFilePath(schema.path, config.basePath)
       if (input.type === 'singleton') {
         await writeDataToFile(dataFile, parsedData)
+        return NextResponse.json(
+          {
+            type: input.type,
+            id: input.id,
+            data: parsedData,
+          },
+          { status: 200 },
+        )
       } else {
         await writeElementDataToCollectionFile(dataFile, parsedData, input.elementIndex)
+        return NextResponse.json(
+          {
+            type: input.type,
+            id: input.id,
+            data: parsedData,
+            elementIndex: input.elementIndex,
+          },
+          { status: 200 },
+        )
       }
-
-      return NextResponse.json(
-        {
-          type: input.type,
-          id: input.id,
-          data: parsedData,
-        },
-        { status: 200 },
-      )
     } catch (error) {
       if (error instanceof z.ZodError) {
         return NextResponse.json(

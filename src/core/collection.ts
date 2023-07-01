@@ -14,6 +14,9 @@ export type Schema = {
   fields: { [key: string]: Field }
 }
 
+/**
+ * Collection is a collection of elements. Eg. Blog posts, products, etc.
+ */
 export type Collection<S extends Schema = Schema> = S & {
   // this key would be used to identify the element in the collection
   // in the content manager
@@ -21,8 +24,7 @@ export type Collection<S extends Schema = Schema> = S & {
 }
 
 /**
- * Singleton is a collection with only one item. Right now there is no difference between
- * collection and singleton, but in the future we might add some special behavior for singletons.
+ * Singleton is a collection with only one item. Eg. About page, Hero Section, etc.
  */
 export type Singleton = Schema
 

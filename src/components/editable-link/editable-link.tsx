@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { LuChevronRight } from 'react-icons/lu'
+import { ChevronRight } from 'lucide-react'
 import { Schema } from '~/core/collection'
 import { cn } from '~/lib/utils'
 
@@ -110,7 +110,7 @@ export default function EditableLink({ type, collectionId, collection, elementId
             onMouseLeave={handleMouseLeave}
           >
             Edit {collection.name}
-            <LuChevronRight className="ml-2 h-4 w-4" />
+            <ChevronRight className="ml-2 h-4 w-4" />
           </Link>
           {containerBBox ? (
             <div

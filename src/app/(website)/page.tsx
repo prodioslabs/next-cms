@@ -1,7 +1,6 @@
-import { FaGoogle } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
 import Image from 'next/image'
-import { LuArrowRight } from 'react-icons/lu'
+import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import cmsConfig from '~/cms.config'
 import { Button } from '~/components/ui/button'
@@ -19,10 +18,10 @@ export default function Home() {
             <div className="grid grid-cols-2 items-center gap-4">
               <div>
                 <h1 className="mb-2 text-2xl font-bold text-foreground">{title}</h1>
-                <div className="mb-4 text-muted-foreground">
+                <div className="prose-base mb-4 text-muted-foreground">
                   <ReactMarkdown>{content}</ReactMarkdown>
                 </div>
-                <Button icon={<FaGoogle />}>{callToAction}</Button>
+                <Button>{callToAction}</Button>
               </div>
               <div className="col-span-1 h-[400px]">
                 <Image
@@ -45,7 +44,7 @@ export default function Home() {
                 <div className="text-lg font-semibold text-foreground">Blogs</div>
                 <Link href="/blogs" className="flex items-center text-sm text-muted-foreground">
                   View all
-                  <LuArrowRight className="ml-1 h-5 w-5" />
+                  <ArrowRight className="ml-1 h-5 w-5" />
                 </Link>
               </div>
               <div className="grid grid-cols-6 gap-4">
@@ -60,7 +59,9 @@ export default function Home() {
                         className="mb-2 h-40 w-full rounded-md object-cover"
                       />
                       <div className="font-medium text-foreground">{blog.title}</div>
-                      <div className="text-sm text-muted-foreground">{blog.content.slice(0, 20)}</div>
+                      <div className="prose-sm line-clamp-2 text-sm text-muted-foreground">
+                        <ReactMarkdown>{blog.content}</ReactMarkdown>
+                      </div>
                     </div>
                   )
                 })}

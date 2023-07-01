@@ -27,6 +27,7 @@
     "clsx": "^1.2.1",
     "date-fns": "^2.30.0",
     "image-size": "^1.0.2",
+    "lucide-react": "^0.257.0",
     "nanoid": "^4.0.2",
     "next": "13.4.7",
     "postcss": "8.4.24",
@@ -35,7 +36,6 @@
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.45.0",
-    "react-icons": "^4.10.1",
     "react-markdown": "^8.0.7",
     "react-query": "^3.39.3",
     "tailwind-merge": "^1.13.2",
@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.4.7",
+    "@tailwindcss/typography": "^0.5.9",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
     "eslint": "^8.43.0",
     "eslint-config-standard-with-typescript": "^35.0.0",

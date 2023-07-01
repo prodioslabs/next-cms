@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { LuChevronRight, LuFile, LuFolderOpen } from 'react-icons/lu'
+import { ChevronRight, File, FolderOpen } from 'lucide-react'
 import cmsConfig from '~/cms.config'
 
 export default function AdminDashboard() {
@@ -9,7 +9,7 @@ export default function AdminDashboard() {
 
       <div className="space-y-4">
         <div className="flex items-center text-lg font-medium text-secondary-foreground">
-          <LuFolderOpen className="mr-2 h-5 w-5" />
+          <FolderOpen className="mr-2 h-5 w-5" />
           Collections
         </div>
         {Object.entries(cmsConfig.collections).map(([collectionKey, collection]) => {
@@ -25,7 +25,7 @@ export default function AdminDashboard() {
                   <div className="truncate text-xs text-muted-foreground">{collection.description as string}</div>
                 ) : null}
               </div>
-              <LuChevronRight className="h-5 w-5 text-muted-foreground" />
+              <ChevronRight className="h-5 w-5 text-muted-foreground" />
             </Link>
           )
         })}
@@ -33,7 +33,7 @@ export default function AdminDashboard() {
 
       <div className="space-y-4">
         <div className="flex items-center text-lg font-medium text-secondary-foreground">
-          <LuFile className="mr-2 h-5 w-5" />
+          <File className="mr-2 h-5 w-5" />
           Singletons
         </div>
         {Object.entries(cmsConfig.singletons).map(([singletonKey, singleton]) => {
@@ -49,7 +49,7 @@ export default function AdminDashboard() {
                   <div className="truncate text-xs text-muted-foreground">{singleton.description as string}</div>
                 ) : null}
               </div>
-              <LuChevronRight className="h-5 w-5 text-muted-foreground" />
+              <ChevronRight className="h-5 w-5 text-muted-foreground" />
             </Link>
           )
         })}

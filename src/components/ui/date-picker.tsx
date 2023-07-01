@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { LuCalendar } from 'react-icons/lu'
+import { Calendar as CalendarIcon } from 'lucide-react'
 import { format } from 'date-fns'
 import { type SelectSingleEventHandler } from 'react-day-picker'
 import { cn } from '~/lib/utils'
@@ -24,9 +24,9 @@ export function DatePicker({ date, onChange, className, style }: DatePickerProps
           variant={'outline'}
           className={cn('w-[240px] justify-start text-left font-normal', !date && 'text-muted-foreground', className)}
           style={style}
+          icon={<CalendarIcon />}
         >
-          <LuCalendar className="mr-2 h-4 w-4" />
-          {date ? format(date, 'PPP') : <span>Pick a date</span>}
+          {date ? format(date, 'PPP') : 'Pick a date'}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">

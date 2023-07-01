@@ -1,4 +1,4 @@
-import { LuFolderOpen, LuFile } from 'react-icons/lu'
+import { FolderOpen, File } from 'lucide-react'
 import cmsConfig from '~/cms.config'
 import NavLink from '~/components/nav-link/nav-link'
 import Providers from './providers'
@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="w-[240px] space-y-4 overflow-auto border-r px-2 py-4">
         <div className="space-y-2">
           <div className="flex items-center px-2 text-xs uppercase text-secondary-foreground">
-            <LuFolderOpen className="mr-1 h-4 w-4" />
+            <FolderOpen className="mr-1 h-4 w-4" />
             Collections
           </div>
           {Object.entries(cmsConfig.collections).map(([collectionKey, collection]) => {
@@ -34,7 +34,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="border-b border-border" />
         <div className="space-y-2">
           <div className="flex items-center px-2 text-xs uppercase text-secondary-foreground">
-            <LuFile className="mr-1 h-4 w-4" />
+            <File className="mr-1 h-4 w-4" />
             Singletons
           </div>
           {Object.entries(cmsConfig.singletons).map(([singletonKey, singleton]) => {

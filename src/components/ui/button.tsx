@@ -1,7 +1,7 @@
 import { cloneElement, forwardRef } from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { AiOutlineLoading } from 'react-icons/ai'
+import { Loader2 } from 'lucide-react'
 import clsx from 'clsx'
 import { cn } from '~/lib/utils'
 
@@ -58,7 +58,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} data-loading={loading} {...props}>
         {loading ? (
-          <AiOutlineLoading
+          <Loader2
             className={clsx(iconVariants({ type: children ? 'withChildren' : 'withoutChildren' }), 'animate-spin')}
           />
         ) : icon ? (

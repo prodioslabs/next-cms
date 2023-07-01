@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { LuFolderOpen } from 'react-icons/lu'
+import { FolderOpen } from 'lucide-react'
 import cmsConfig from '~/cms.config'
 import { PageHeading } from '~/components/ui/page-heading'
 
@@ -20,7 +20,7 @@ export default async function CollectionContentManager({
           title={collection.name}
           // TODO: Figure out the reason for typecasting and remove it
           description={'description' in collection ? (collection.description as string) : undefined}
-          icon={<LuFolderOpen />}
+          icon={<FolderOpen />}
         />
         {children}
       </div>
