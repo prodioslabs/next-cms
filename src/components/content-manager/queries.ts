@@ -1,5 +1,5 @@
+import { generateRouteHandlerSchemas } from '~/app/(cms)/cms/content/schema'
 import cmsConfig from '~/cms.config'
-import { generateRouteHandlerSchemas } from '~/core/route-schema'
 import { resolveUrl } from '~/lib/api'
 
 const { updateContentResponseSchema } = generateRouteHandlerSchemas(cmsConfig)

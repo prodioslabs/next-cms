@@ -2,6 +2,7 @@
 
 import { ComputePositionReturn, autoPlacement, autoUpdate, computePosition, offset } from '@floating-ui/dom'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { LuChevronRight } from 'react-icons/lu'
@@ -19,6 +20,8 @@ export default function EditableLink({ type, collectionId, collection, elementId
   const [visible, setVisible] = useState(false)
   const [computedPosition, setComputedPosition] = useState<ComputePositionReturn | undefined>(undefined)
   const [containerBBox, setContainerBBox] = useState<DOMRect | undefined>()
+
+  const pathname = usePathname()
 
   useEffect(
     function computeFloatingPositionOnVisiblityChange() {
@@ -90,7 +93,7 @@ export default function EditableLink({ type, collectionId, collection, elementId
     ? createPortal(
         <>
           <Link
-            href={`/admin/${type}/${collectionId}`}
+            href={`/admin/${type}/${collectionId}?redirect=${pathname}`}
             className={cn(
               'fixed flex w-max items-center whitespace-nowrap rounded border border-border bg-muted px-2 py-1 text-xs text-muted-foreground hover:bg-secondary hover:text-secondary-foreground',
               {

@@ -4,6 +4,19 @@ import { Collection, CollectionData } from './collection'
 import { Field } from './field'
 
 /**
+ * Generate a fake image from LoremFlickr. The image will be 1920x1080.
+ *
+ * @returns a fake image data
+ */
+function generateFakeImage() {
+  return {
+    url: faker.image.urlLoremFlickr({ width: 1920, height: 1080, category: 'nature' }),
+    width: 1920,
+    height: 1080,
+  }
+}
+
+/**
  * Generate dummy data for a field. This function will generate dummy data based on the
  * field type and the default value if present. If default value is not present, it will
  * use faker to generate the dummy data.
@@ -12,7 +25,6 @@ import { Field } from './field'
  * @returns dummy data
  */
 function generateDummyDataForField(field: Field) {
-  console.log({ field })
   if ('default' in field) {
     return field.default
   }
@@ -31,11 +43,7 @@ function generateDummyDataForField(field: Field) {
       return faker.date.past().toISOString()
 
     case 'image':
-      return {
-        url: faker.image.urlLoremFlickr({ width: 640, height: 480, category: 'nature' }),
-        width: 640,
-        height: 480,
-      }
+      return [generateFakeImage()]
 
     default:
       throw new Error('Unknown field type')

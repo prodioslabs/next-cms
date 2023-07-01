@@ -4,7 +4,7 @@ import cmsConfig from '~/cms.config'
 import { getCollectionData, getDataFilePath, getSingletonData, writeDataToFile } from '~/core/collection'
 import { Config } from '~/core/config'
 import { getValidationSchemaForCollection, getValidationSchemaForSingleton } from '~/core/collection-schema'
-import { generateRouteHandlerSchemas } from '~/core/route-schema'
+import { generateRouteHandlerSchemas } from './schema'
 
 // TODO: Move this makehandlers into the core folder
 function makehandlers(config: Config) {

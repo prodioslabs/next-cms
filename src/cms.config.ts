@@ -23,6 +23,11 @@ const cmsConfig = {
           type: 'date',
           required: true,
         },
+        coverImage: {
+          label: 'Cover Image',
+          type: 'image',
+          required: true,
+        },
       },
     },
   },

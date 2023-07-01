@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { Config } from './config'
+import { Config } from '~/core/config'
 
 export function generateRouteHandlerSchemas(config: Config) {
   const getContentQueryParamsSchema = z.union([

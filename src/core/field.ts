@@ -26,15 +26,10 @@ export type DateField = {
   default?: string
 }
 
-export type SingleImageField = {
+export type ImageField = {
   type: 'image'
-  multiple?: false
+  multiple?: boolean
 }
-export type MultipleImageField = {
-  type: 'image'
-  multiple: true
-}
-export type ImageField = SingleImageField | MultipleImageField
 export type ImageData = {
   url: string
   width: number
@@ -52,9 +47,7 @@ export type InferFieldDataType<F extends Field> = F extends TextField
   ? number
   : F extends DateField
   ? string
-  : F extends SingleImageField
-  ? ImageData
-  : F extends MultipleImageField
+  : F extends ImageField
   ? ImageData[]
   : never
 
@@ -66,9 +59,7 @@ export type InferFieldZodSchema<F extends Field> = F extends TextField
   ? z.ZodNumber
   : F extends DateField
   ? z.ZodString
-  : F extends SingleImageField
-  ? ZodImageSchema
-  : F extends MultipleImageField
+  : F extends ImageField
   ? z.ZodArray<ZodImageSchema>
   : never
 
@@ -85,11 +76,15 @@ export function getValidationSchemaForField(field: Field) {
       return z.number()
 
     case 'image':
-      return z.object({
-        url: z.string().min(1),
-        width: z.number().int(),
-        height: z.number().int(),
-      })
+      return z
+        .array(
+          z.object({
+            url: z.string().min(1),
+            width: z.number().int(),
+            height: z.number().int(),
+          }),
+        )
+        .min(1)
 
     default: {
       throw new Error('Invalid field type')

@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useMutation } from 'react-query'
 import { parseISO } from 'date-fns'
+import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import { Collection } from '~/core'
 import { type CollectionData } from '~/core/collection'
 import { cn } from '~/lib/utils'
@@ -14,10 +16,12 @@ import { Button } from '../ui/button'
 import { getValidationSchemaForCollection, getValidationSchemaForSingleton } from '~/core/collection-schema'
 import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
-import { RichTextField, TextField } from '~/core/field'
+import { ImageData, RichTextField, TextField } from '~/core/field'
 import { updateContent } from './queries'
 import { useToast } from '../ui/use-toast'
 import { DatePicker } from '../ui/date-picker'
+import { ToastAction } from '../ui/toast'
+import ImageUploader from '../image-uploader'
 
 type ContentManagerProps<C extends Collection> = {
   type: 'collection' | 'singleton'
@@ -46,13 +50,20 @@ export default function ContentManager<C extends Collection>({
     defaultValues: initialData,
   })
 
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get('redirect') ?? '/'
   const { toast } = useToast()
 
   const mutation = useMutation(updateContent, {
     onSuccess: () => {
       toast({
-        title: `${collection.name} content updated successfully`,
-        description: 'View the page where it is rendered and refresh to see the updated content',
+        title: 'Content updated successfully',
+        description: 'Refresh page to see the updated content',
+        action: (
+          <ToastAction asChild altText="View Page">
+            <Link href={redirectTo}>View Page</Link>
+          </ToastAction>
+        ),
       })
     },
     onError: (error: Error) => {
@@ -119,6 +130,19 @@ export default function ContentManager<C extends Collection>({
                                       }}
                                     />
                                   </div>
+                                )
+                              }
+
+                              case 'image': {
+                                console.log({ value })
+                                return (
+                                  <ImageUploader
+                                    uploadedImages={value as ImageData[]}
+                                    onChange={(uploadedImages) => {
+                                      console.log({ uploadedImages })
+                                      field.onChange(uploadedImages)
+                                    }}
+                                  />
                                 )
                               }
 

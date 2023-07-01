@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation'
 import { LuFile } from 'react-icons/lu'
+import { generateRouteHandlerSchemas } from '~/app/(cms)/cms/content/schema'
 import cmsConfig from '~/cms.config'
 import ContentManager from '~/components/content-manager'
 import { PageHeading } from '~/components/ui/page-heading'
-import { generateRouteHandlerSchemas } from '~/core/route-schema'
 import { resolveUrl } from '~/lib/api'
 
 const { getContentResponseSchema } = generateRouteHandlerSchemas(cmsConfig)
