@@ -4,16 +4,14 @@ import { Collection, CollectionData } from './collection'
 import { Field } from './field'
 
 /**
- * Generate a fake image from LoremFlickr. The image will be 1920x1080.
+ * Checks if the field is an array type.
  *
- * @returns a fake image data
+ * @param field field to be checked
+ * @returns true if the field is an array type, false otherwise
  */
-function generateFakeImage() {
-  return {
-    url: faker.image.urlLoremFlickr({ width: 1920, height: 1080, category: 'nature' }),
-    width: 1920,
-    height: 1080,
-  }
+function isFieldArrayType(field: Field) {
+  // right now, the only array type is the image type
+  return field.type === 'image'
 }
 
 /**
@@ -43,13 +41,25 @@ function generateDummyDataForField(field: Field) {
       return faker.date.past().toISOString()
 
     case 'image':
-      return [generateFakeImage()]
+      return {
+        url: faker.image.urlLoremFlickr({ width: 1920, height: 1080, category: 'nature' }),
+        width: 1920,
+        height: 1080,
+      }
 
     default:
       throw new Error('Unknown field type')
   }
 }
 
+/**
+ * Generate dummy data for a collection. This function will generate dummy data based on the
+ * field types and the default values if present. If default values are not present, it will
+ * use faker to generate the dummy data.
+ *
+ * @param collection collection for which the dummy data will be generated
+ * @returns data for the collection
+ */
 export function generateDummyData<C extends Collection>(collection: C) {
   const data: Record<string, any> = {}
 
@@ -78,8 +88,19 @@ export function fixData<C extends Collection>(schema: C, invalidData: Partial<Co
   function fixItemData(itemData: any, issuePath: (string | number)[]) {
     const fieldKeyWithIssue = issuePath[0]
     const field = schema.fields[fieldKeyWithIssue]
-    const dummyData = generateDummyDataForField(field)
-    itemData[fieldKeyWithIssue] = dummyData
+
+    if (isFieldArrayType(field)) {
+      const indexWithIssue = issuePath[1]
+      // if field is of type array, but there is no index, then the issue must be in the entire field
+      if (typeof indexWithIssue === 'undefined') {
+        itemData[fieldKeyWithIssue] = [generateDummyDataForField(field)]
+      } else {
+        // else the issue must be in the item of the array
+        itemData[fieldKeyWithIssue][indexWithIssue] = generateDummyDataForField(field)
+      }
+    } else {
+      itemData[fieldKeyWithIssue] = generateDummyDataForField(field)
+    }
   }
 
   const fixedData = Array.isArray(invalidData) ? [...invalidData] : { ...invalidData }
@@ -88,7 +109,9 @@ export function fixData<C extends Collection>(schema: C, invalidData: Partial<Co
     // if the first element of the path is a number, then the issue must be in an
     // item of an array
     if (typeof issuePath[0] === 'number' && Array.isArray(fixedData)) {
-      fixItemData(fixedData[issuePath[0]], issuePath.slice(1))
+      const indexOfIssueItem = issuePath[0]
+      const issuePathForItem = issuePath.slice(1)
+      fixItemData(fixedData[indexOfIssueItem], issuePathForItem)
     } else {
       fixItemData(fixedData, issuePath)
     }
