@@ -1,8 +1,8 @@
 import { z } from 'zod'
-import { Collection, Singleton } from './collection'
+import { Schema, Singleton } from './collection'
 import { InferFieldZodSchema, getValidationSchemaForField } from './field'
 
-export type ZodSchemaForCollection<C extends Collection> = z.ZodObject<{
+export type ZodSchemaForCollection<C extends Schema> = z.ZodObject<{
   [FieldKey in keyof C['fields']]: C['fields'][FieldKey]['required'] extends true
     ? InferFieldZodSchema<C['fields'][FieldKey]>
     : z.ZodOptional<InferFieldZodSchema<C['fields'][FieldKey]>>
@@ -17,7 +17,7 @@ export type ZodSchemaForCollection<C extends Collection> = z.ZodObject<{
  * @see getValidationSchemaForCollection
  * @see getValidationSchemaForSingleton
  */
-function getValidationSchemaForFields<C extends Collection>(collection: Collection): ZodSchemaForCollection<C> {
+function getValidationSchemaForFields<C extends Schema>(collection: Schema): ZodSchemaForCollection<C> {
   let schema = z.object({})
   Object.entries(collection.fields).forEach(([fieldKey, field]) => {
     const fieldSchema = getValidationSchemaForField(field)
@@ -38,7 +38,7 @@ function getValidationSchemaForFields<C extends Collection>(collection: Collecti
  * @returns zod validation schema for the collection
  * @see getValidationSchemaForFields
  */
-export function getValidationSchemaForCollection(collection: Collection) {
+export function getValidationSchemaForCollection(collection: Schema) {
   return z.array(getValidationSchemaForFields(collection))
 }
 

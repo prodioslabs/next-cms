@@ -6,12 +6,12 @@ import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { LuChevronRight } from 'react-icons/lu'
-import { Collection } from '~/core'
+import { Schema } from '~/core/collection'
 import { cn } from '~/lib/utils'
 
 type EditableLinkProps = {
   type: 'singleton' | 'collection'
-  collection: Collection
+  collection: Schema
   collectionId: string
   elementId: string
 }

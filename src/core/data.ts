@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { faker } from '@faker-js/faker'
-import { Collection, CollectionData } from './collection'
+import { Schema, ElementData } from './collection'
 import { Field } from './field'
 
 /**
@@ -60,14 +60,14 @@ function generateDummyDataForField(field: Field) {
  * @param collection collection for which the dummy data will be generated
  * @returns data for the collection
  */
-export function generateDummyData<C extends Collection>(collection: C) {
+export function generateDummyData<C extends Schema>(collection: C) {
   const data: Record<string, any> = {}
 
   Object.entries(collection.fields).forEach(([fieldKey, field]) => {
     data[fieldKey] = generateDummyDataForField(field)
   })
 
-  return data as CollectionData<C>
+  return data as ElementData<C>
 }
 
 /**
@@ -77,7 +77,7 @@ export function generateDummyData<C extends Collection>(collection: C) {
  * @param error zod error, based on which the data will be fixed
  * @returns valid data
  */
-export function fixData<C extends Collection>(schema: C, invalidData: Partial<CollectionData<C>>, error: z.ZodError) {
+export function fixData<C extends Schema>(schema: C, invalidData: Partial<ElementData<C>>, error: z.ZodError) {
   /**
    * Fix the invalid item data based on the zod error. This is the helper function for
    * fixing the error in the item.
@@ -103,7 +103,7 @@ export function fixData<C extends Collection>(schema: C, invalidData: Partial<Co
     }
   }
 
-  const fixedData = Array.isArray(invalidData) ? [...invalidData] : { ...invalidData }
+  let fixedData = Array.isArray(invalidData) ? [...invalidData] : { ...invalidData }
   error.issues.forEach((issue) => {
     const issuePath = issue.path
     // if the first element of the path is a number, then the issue must be in an
@@ -111,10 +111,18 @@ export function fixData<C extends Collection>(schema: C, invalidData: Partial<Co
     if (typeof issuePath[0] === 'number' && Array.isArray(fixedData)) {
       const indexOfIssueItem = issuePath[0]
       const issuePathForItem = issuePath.slice(1)
-      fixItemData(fixedData[indexOfIssueItem], issuePathForItem)
+      try {
+        fixItemData(fixedData[indexOfIssueItem], issuePathForItem)
+      } catch (error) {
+        fixedData[indexOfIssueItem] = generateDummyData(schema)
+      }
     } else {
-      fixItemData(fixedData, issuePath)
+      try {
+        fixItemData(fixedData, issuePath)
+      } catch (error) {
+        fixedData = generateDummyData(schema)
+      }
     }
   })
-  return fixedData as CollectionData<C>
+  return fixedData as ElementData<C>
 }

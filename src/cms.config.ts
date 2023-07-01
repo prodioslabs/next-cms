@@ -36,6 +36,7 @@ const cmsConfig = {
     blogs: {
       name: 'Blogs',
       path: 'blogs',
+      primaryKey: 'title',
       fields: {
         coverImage: {
           label: 'Cover Image',

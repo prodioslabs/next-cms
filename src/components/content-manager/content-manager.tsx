@@ -10,11 +10,11 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { LuFileWarning } from 'react-icons/lu'
 import { Collection } from '~/core'
-import { type CollectionData } from '~/core/collection'
+import { type ElementData } from '~/core/collection'
 import { cn } from '~/lib/utils'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Button } from '../ui/button'
-import { getValidationSchemaForCollection, getValidationSchemaForSingleton } from '~/core/collection-schema'
+import { getValidationSchemaForSingleton } from '~/core/collection-schema'
 import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
 import { ImageData, RichTextField, TextField } from '~/core/field'
@@ -25,27 +25,25 @@ import { ToastAction } from '../ui/toast'
 import ImageUploader from '../image-uploader'
 
 type ContentManagerProps<C extends Collection> = {
-  type: 'collection' | 'singleton'
-  initialData: CollectionData<C>
-  collection: C
-  collectionId: string
+  config: { type: 'collection'; elementIndex: number } | { type: 'singleton' }
+  initialData: ElementData<C>
+  schema: C
+  id: string
   className?: string
   style?: React.CSSProperties
 }
 
 export default function ContentManager<C extends Collection>({
-  type,
-  collectionId,
-  collection,
+  config,
+  id,
+  schema,
   initialData,
   className,
   style,
 }: ContentManagerProps<C>) {
-  const validationSchema = useMemo(
-    () =>
-      type === 'singleton' ? getValidationSchemaForSingleton(collection) : getValidationSchemaForCollection(collection),
-    [type, collection],
-  )
+  // validationSchema is always computed assuming schema as a singleton because of even for the collection
+  // each element of the collection would be having its own content manager
+  const validationSchema = useMemo(() => getValidationSchemaForSingleton(schema), [schema])
   const form = useForm<z.infer<typeof validationSchema>>({
     resolver: zodResolver(validationSchema),
     defaultValues: initialData,
@@ -82,9 +80,13 @@ export default function ContentManager<C extends Collection>({
 
   const onSubmit = useCallback(
     (values: z.infer<typeof validationSchema>) => {
-      mutation.mutate({ type, id: collectionId, data: values })
+      if (config.type === 'collection') {
+        mutation.mutate({ type: config.type, elementIndex: config.elementIndex, id, data: values })
+      } else {
+        mutation.mutate({ type: config.type, id, data: values })
+      }
     },
-    [type, collectionId, mutation],
+    [config, id, mutation],
   )
 
   return (
@@ -97,7 +99,7 @@ export default function ContentManager<C extends Collection>({
           }}
         >
           <div className="space-y-4 px-4 pb-4 pt-2">
-            {Object.entries(collection.fields).map(([fieldKey, fieldSchema]) => {
+            {Object.entries(schema.fields).map(([fieldKey, fieldSchema]) => {
               // do not render hidden fields
               if (fieldSchema.hidden) {
                 return null

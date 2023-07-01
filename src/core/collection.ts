@@ -6,7 +6,7 @@ import { fixData, generateDummyData } from './data'
 import { isErrnoException } from './utils/file'
 import { getValidationSchemaForCollection, getValidationSchemaForSingleton } from './collection-schema'
 
-export type Collection = {
+export type Schema = {
   name: string
   description?: string
   // TODO: add path validation
@@ -14,11 +14,15 @@ export type Collection = {
   fields: { [key: string]: Field }
 }
 
+export type Collection<S extends Schema = Schema> = S & {
+  primaryKey: keyof S['fields']
+}
+
 /**
  * Singleton is a collection with only one item. Right now there is no difference between
  * collection and singleton, but in the future we might add some special behavior for singletons.
  */
-export type Singleton = Collection
+export type Singleton = Schema
 
 /**
  * Get the collection folder path. If the folder is not present, it will create it.
@@ -65,7 +69,7 @@ export async function getDataFilePath(collectionPath: string, basePath: string) 
  * @param isSingleton is the data is fetched for a singleton or collection
  * @returns
  */
-async function readOrCreateDataFromFile(dataPath: string, schema: Collection, isSingleton: boolean) {
+async function readOrCreateDataFromFile(dataPath: string, schema: Schema, isSingleton: boolean) {
   try {
     const data = await fs.readFile(dataPath, 'utf-8')
     return JSON.parse(data)
@@ -94,7 +98,7 @@ export async function writeDataToFile(dataPath: string, data: any) {
 
 type Optional<T> = T | undefined
 
-export type CollectionData<C extends Collection> = {
+export type ElementData<C extends Schema> = {
   [FieldKey in keyof C['fields']]: C['fields'][FieldKey]['required'] extends true
     ? InferFieldDataType<C['fields'][FieldKey]>
     : Optional<InferFieldDataType<C['fields'][FieldKey]>>
@@ -109,7 +113,7 @@ export type CollectionData<C extends Collection> = {
  * @param basePath base path of the local storage folder
  * @returns collection data
  */
-export async function getCollectionData<C extends Collection>(collection: C, basePath: string) {
+export async function getCollectionData<C extends Schema>(collection: C, basePath: string) {
   const collectionDataFile = await getDataFilePath(collection.path, basePath)
   const collectionData = await readOrCreateDataFromFile(collectionDataFile, collection, false)
 
@@ -143,7 +147,7 @@ export async function getSingletonData<S extends Singleton>(singleton: S, basePa
   const validationSchema = getValidationSchemaForSingleton(singleton)
 
   try {
-    const parsedData = validationSchema.parse(singletonData) as CollectionData<S>
+    const parsedData = validationSchema.parse(singletonData) as ElementData<S>
     return parsedData
   } catch (error) {
     if (error instanceof z.ZodError) {

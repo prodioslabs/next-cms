@@ -27,8 +27,9 @@ export function generateRouteHandlerSchemas(config: Config) {
   const updateContentBodySchema = z.union([
     z.object({
       type: z.literal('collection'),
+      elementIndex: z.number(),
       id: z.enum(Object.keys(config.collections) as [string, ...string[]]),
-      data: z.array(z.any()),
+      data: z.any(),
     }),
     z.object({
       type: z.literal('singleton'),

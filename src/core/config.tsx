@@ -1,7 +1,9 @@
 import { Slot } from '@radix-ui/react-slot'
 import { nanoid } from 'nanoid'
-import { Collection, CollectionData, Singleton, getCollectionData, getSingletonData } from './collection'
+import { Schema, ElementData, Singleton, Collection } from './collection'
 import EditableLink from '~/components/editable-link/editable-link'
+import { resolveUrl } from '~/lib/api'
+import { generateRouteHandlerSchemas } from '~/app/(cms)/cms/content/schema'
 
 export type Config = {
   basePath: string
@@ -9,8 +11,8 @@ export type Config = {
   singletons: { [key: string]: Singleton }
 }
 
-export type CollectionProps<C extends Collection> = {
-  render: (props: { items: CollectionData<C>[] }) => React.ReactNode
+export type CollectionProps<C extends Schema> = {
+  render: (props: { items: ElementData<C>[] }) => React.ReactNode
 }
 
 /**
@@ -24,10 +26,15 @@ export function createCollectionComponentFromConfig<C extends Config, Collection
   config: C,
   collectionId: CollectionId,
 ) {
+  const { getContentResponseSchema } = generateRouteHandlerSchemas(config)
+
   async function CollectionComponent({ render }: CollectionProps<C['collections'][CollectionId]>) {
     // TODO: Figure out the reason for typecasting and remove it later on if possible
     const collection = config.collections[collectionId as string]
-    const items = await getCollectionData(collection, config.basePath)
+    const res = await fetch(resolveUrl(`/cms/content?type=collection&id=${collectionId as string}`), {
+      cache: 'no-cache',
+    })
+    const items = getContentResponseSchema.parse(await res.json()).data
 
     const containerProps = {
       'data-cms-type': 'collection',
@@ -42,7 +49,7 @@ export function createCollectionComponentFromConfig<C extends Config, Collection
       <>
         <Slot {...containerProps}>
           {render({
-            items: items as CollectionData<C['collections'][CollectionId]>[],
+            items: items as ElementData<C['collections'][CollectionId]>[],
           })}
         </Slot>
         <EditableLink
@@ -59,7 +66,7 @@ export function createCollectionComponentFromConfig<C extends Config, Collection
 }
 
 export type SingletonProps<S extends Singleton> = {
-  render: (props: { item: CollectionData<S> }) => React.ReactNode
+  render: (props: { item: ElementData<S> }) => React.ReactNode
 }
 
 /**
@@ -73,10 +80,15 @@ export function createSingletonComponentFromConfig<C extends Config, SingletonId
   config: C,
   singletonId: SingletonId,
 ) {
+  const { getContentResponseSchema } = generateRouteHandlerSchemas(config)
+
   async function SingletonComponent({ render }: SingletonProps<C['singletons'][SingletonId]>) {
     // TODO: Figure out the reason for typecasting and remove it later on if possible
     const singleton = config.singletons[singletonId as string]
-    const item = await getSingletonData(singleton, config.basePath)
+    const res = await fetch(resolveUrl(`/cms/content?type=singleton&id=${singletonId as string}`), {
+      cache: 'no-cache',
+    })
+    const item = getContentResponseSchema.parse(await res.json()).data
 
     const containerProps = {
       'data-cms-type': 'singleton',
@@ -91,7 +103,7 @@ export function createSingletonComponentFromConfig<C extends Config, SingletonId
       <>
         <Slot {...containerProps}>
           {render({
-            item: item as CollectionData<C['singletons'][SingletonId]>,
+            item: item as ElementData<C['singletons'][SingletonId]>,
           })}
         </Slot>
         <EditableLink

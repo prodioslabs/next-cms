@@ -12,7 +12,9 @@ export default async function SingletonContentManager({ params: { key } }: { par
   if (key in cmsConfig.singletons) {
     const singleton = cmsConfig.singletons[key as keyof typeof cmsConfig.singletons]
 
-    const res = await fetch(resolveUrl(`/cms/content?type=singleton&id=${key}`), { cache: 'no-cache' })
+    const res = await fetch(resolveUrl(`/cms/content?type=singleton&id=${key}`), {
+      cache: 'no-cache',
+    })
     const data = getContentResponseSchema.parse(await res.json())
 
     return (
@@ -24,7 +26,7 @@ export default async function SingletonContentManager({ params: { key } }: { par
           description={'description' in singleton ? (singleton.description as string) : undefined}
           icon={<LuFile />}
         />
-        <ContentManager type={data.type} collectionId={key} collection={singleton} initialData={data.data} />
+        <ContentManager config={{ type: 'singleton' }} id={key} schema={singleton} initialData={data.data} />
       </div>
     )
   }
