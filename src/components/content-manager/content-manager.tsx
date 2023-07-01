@@ -2,12 +2,13 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useCallback, useMemo } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
 import { useMutation } from 'react-query'
 import { parseISO } from 'date-fns'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { LuFileWarning } from 'react-icons/lu'
 import { Collection } from '~/core'
 import { type CollectionData } from '~/core/collection'
 import { cn } from '~/lib/utils'
@@ -50,8 +51,12 @@ export default function ContentManager<C extends Collection>({
     defaultValues: initialData,
   })
 
+  const values = useWatch({ control: form.control })
+  const isDataChanged = useMemo(() => JSON.stringify(values) !== JSON.stringify(initialData), [values, initialData])
+
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get('redirect') ?? '/'
+
   const { toast } = useToast()
 
   const mutation = useMutation(updateContent, {
@@ -74,6 +79,7 @@ export default function ContentManager<C extends Collection>({
       })
     },
   })
+
   const onSubmit = useCallback(
     (values: z.infer<typeof validationSchema>) => {
       mutation.mutate({ type, id: collectionId, data: values })
@@ -159,6 +165,13 @@ export default function ContentManager<C extends Collection>({
             })}
           </div>
           <div className="flex items-center justify-end space-x-4 border-t bg-muted px-4 py-2">
+            {isDataChanged ? (
+              <div className="flex items-center text-sm text-muted-foreground">
+                <LuFileWarning className="mr-1 h-5 w-5" />
+                Unsaved Changes
+              </div>
+            ) : null}
+            <div className="flex-1" />
             <Button type="reset" variant="outline">
               Reset
             </Button>

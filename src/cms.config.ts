@@ -18,10 +18,11 @@ const cmsConfig = {
           type: 'rich-text',
           required: true,
         },
-        productLaunchDate: {
-          label: 'Product Launch Date',
-          type: 'date',
+        callToAction: {
+          label: 'Call to Action',
+          type: 'text',
           required: true,
+          default: 'Learn More',
         },
         coverImage: {
           label: 'Cover Image',

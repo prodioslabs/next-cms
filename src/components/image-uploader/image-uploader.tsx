@@ -27,7 +27,7 @@ export default function ImageUploader({ uploadedImages, onChange, multiple, clas
   })
 
   return (
-    <div className={cn('relative', className)} style={style}>
+    <div className={cn('relative cursor-pointer', className)} style={style}>
       <Uploader
         description="Accept Images"
         accept={{

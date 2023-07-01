@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <div className="space-y-8 p-4">
       <HomePageHeroSectionSingleton
-        render={({ item: { title, content, coverImage } }) => {
+        render={({ item: { title, content, coverImage, callToAction } }) => {
           return (
             <div className="grid grid-cols-2 items-center gap-4">
               <div>
@@ -22,7 +22,7 @@ export default function Home() {
                 <div className="mb-4 text-muted-foreground">
                   <ReactMarkdown>{content}</ReactMarkdown>
                 </div>
-                <Button icon={<FaGoogle />}>Click Here</Button>
+                <Button icon={<FaGoogle />}>{callToAction}</Button>
               </div>
               <div className="col-span-1 h-[400px]">
                 <Image

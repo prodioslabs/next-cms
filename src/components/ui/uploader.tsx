@@ -17,7 +17,7 @@ export function Uploader({ description, className, style, ...options }: Uploader
         'h-[200px] rounded-md border p-4',
         {
           'border-dashed': !isDragActive,
-          'border-primary': isDragActive,
+          'border-border bg-muted shadow-inner': isDragActive,
           'cursor-not-allowed opacity-50': options.disabled,
         },
         className,
