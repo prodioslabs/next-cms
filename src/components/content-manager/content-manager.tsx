@@ -134,12 +134,10 @@ export default function ContentManager<C extends Collection>({
                               }
 
                               case 'image': {
-                                console.log({ value })
                                 return (
                                   <ImageUploader
                                     uploadedImages={value as ImageData[]}
                                     onChange={(uploadedImages) => {
-                                      console.log({ uploadedImages })
                                       field.onChange(uploadedImages)
                                     }}
                                   />

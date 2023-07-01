@@ -12,15 +12,17 @@ import { Button } from '../ui/button'
 
 type ImageUploaderProps = {
   uploadedImages?: ImageData[]
+  multiple?: boolean
   onChange?: (uploadImages: ImageData[]) => void
   className?: string
   style?: React.CSSProperties
 }
 
-export default function ImageUploader({ uploadedImages, onChange, className, style }: ImageUploaderProps) {
+export default function ImageUploader({ uploadedImages, onChange, multiple, className, style }: ImageUploaderProps) {
   const mutation = useMutation(uploadImage, {
     onSuccess: (uploadedImage) => {
-      onChange?.([...(uploadedImages ?? []), uploadedImage])
+      // if multiple then pass all the uploaded images, else just pass the uploaded image
+      onChange?.(multiple ? [...(uploadedImages ?? []), uploadedImage] : [uploadedImage])
     },
   })
 
