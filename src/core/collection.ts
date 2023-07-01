@@ -18,9 +18,11 @@ export type Schema = {
  * Collection is a collection of elements. Eg. Blog posts, products, etc.
  */
 export type Collection<S extends Schema = Schema> = S & {
+  // this key would be used for identify the element in the collection
+  primaryKey: keyof S['fields']
   // this key would be used to identify the element in the collection
   // in the content manager
-  identifierKey: keyof S['fields']
+  identifierKey?: keyof S['fields']
 }
 
 /**

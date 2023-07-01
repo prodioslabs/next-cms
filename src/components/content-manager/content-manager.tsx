@@ -8,6 +8,7 @@ import { useMutation } from 'react-query'
 import { parseISO } from 'date-fns'
 import Link from 'next/link'
 import { FileWarning } from 'lucide-react'
+import slugify from 'slugify'
 import { Collection } from '~/core'
 import { type ElementData } from '~/core/collection'
 import { cn } from '~/lib/utils'
@@ -22,6 +23,7 @@ import { useToast } from '../ui/use-toast'
 import { DatePicker } from '../ui/date-picker'
 import { ToastAction } from '../ui/toast'
 import ImageUploader from '../image-uploader'
+import SlugInput from '../slug-input/slug-input'
 
 type ContentManagerProps<C extends Collection> = {
   config: { type: 'collection'; elementIndex: number } | { type: 'singleton' }
@@ -121,6 +123,23 @@ export default function ContentManager<C extends Collection>({
 
                               case 'rich-text': {
                                 return <Textarea {...field} value={value as RichTextField['type']} />
+                              }
+
+                              case 'slug': {
+                                return (
+                                  <SlugInput
+                                    {...field}
+                                    value={value as string}
+                                    onGenerateSlug={() => {
+                                      // TODO: validate if the field is string or not
+                                      const fromValue = values[fieldSchema.from as string] as string
+                                      if (fromValue) {
+                                        const slug = slugify(fromValue)
+                                        field.onChange(slug)
+                                      }
+                                    }}
+                                  />
+                                )
                               }
 
                               case 'date': {

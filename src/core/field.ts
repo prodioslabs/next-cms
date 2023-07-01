@@ -37,7 +37,12 @@ export type ImageData = {
 }
 export type ZodImageSchema = z.ZodObject<{ url: z.ZodString; width: z.ZodNumber; height: z.ZodNumber }>
 
-export type Field = BaseField & (TextField | RichTextField | NumberField | DateField | ImageField)
+export type SlugField = {
+  type: 'slug'
+  from: string
+}
+
+export type Field = BaseField & (TextField | RichTextField | NumberField | DateField | ImageField | SlugField)
 
 export type InferFieldDataType<F extends Field> = F extends TextField
   ? string
@@ -49,6 +54,8 @@ export type InferFieldDataType<F extends Field> = F extends TextField
   ? string
   : F extends ImageField
   ? ImageData[]
+  : F extends SlugField
+  ? string
   : never
 
 export type InferFieldZodSchema<F extends Field> = F extends TextField
@@ -61,12 +68,15 @@ export type InferFieldZodSchema<F extends Field> = F extends TextField
   ? z.ZodString
   : F extends ImageField
   ? z.ZodArray<ZodImageSchema>
+  : F extends SlugField
+  ? z.ZodString
   : never
 
 export function getValidationSchemaForField(field: Field) {
   switch (field.type) {
     case 'text':
     case 'rich-text':
+    case 'slug':
       return z.string().min(1)
 
     case 'date':

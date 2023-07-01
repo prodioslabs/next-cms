@@ -36,6 +36,7 @@ const cmsConfig = {
     blogs: {
       name: 'Blogs',
       path: 'blogs',
+      primaryKey: 'slug',
       identifierKey: 'title',
       fields: {
         coverImage: {
@@ -46,6 +47,12 @@ const cmsConfig = {
         title: {
           label: 'Title',
           type: 'text',
+          required: true,
+        },
+        slug: {
+          label: 'Slug',
+          type: 'slug',
+          from: 'title',
           required: true,
         },
         content: {
