@@ -22,12 +22,11 @@ export default async function CollectionContentManager({ params: { key } }: { pa
           </Link>
         </div>
         {(data as ElementData<typeof collection>[]).map((item, index) => {
+          const itemId = item[collection.primaryKey]
           const itemIdentifier = item[collection.identifierKey]
+
           return (
-            <div
-              key={`${itemIdentifier}-${index}`}
-              className="flex items-center space-x-2 truncate rounded-md border px-4 py-2"
-            >
+            <div key={itemId} className="flex items-center space-x-2 truncate rounded-md border px-4 py-2">
               <Link className="flex-1 space-y-1 truncate" href={`/admin/collection/${key}/${index}`}>
                 <div className="truncate text-sm text-foreground">
                   {typeof itemIdentifier === 'string' || typeof itemIdentifier === 'number' ? itemIdentifier : index}
