@@ -37,3 +37,7 @@ next-env.d.ts
 # CMS content
 /public/uploads
 content/**/data.json
+
+# env
+.env
+.env.development

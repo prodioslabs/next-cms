@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Collection {
+  id        String              @id @default(auto()) @map("_id") @db.ObjectId
+  label     String
+  name      String              @unique
+  slugField String
+  schema    Json
+  elements  CollectionElement[]
+}
+
+model CollectionElement {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  data         Json
+  slug         String     @unique
+  collection   Collection @relation(fields: [collectionId], references: [id])
+  collectionId String     @db.ObjectId
+}
+
+model Singleton {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  label  String
+  name   String @unique
+  schema Json
+  data   Json
+}
