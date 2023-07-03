@@ -13,9 +13,11 @@ export type Collection<
   schema: Schema
 }
 
-export type CollectionData<_Collection extends Collection<Record<string, Field>>> = {
-  [Key in keyof _Collection['schema']]: FieldDataType<_Collection['schema'][Key]>
+export type SchemaData<Schema extends Record<string, Field>> = {
+  [Key in keyof Schema]: FieldDataType<Schema[Key]>
 }
+
+export type CollectionData<_Collection extends Collection<Record<string, Field>>> = SchemaData<_Collection['schema']>
 
 export type CollectionItemZodSchema<_Collection extends Collection<Record<string, Field>>> = z.ZodObject<{
   [Key in keyof _Collection['schema']]: FieldZodSchema<_Collection['schema'][Key]>
@@ -27,9 +29,7 @@ export type Singleton<Schema extends Record<string, Field>> = {
   schema: Schema
 }
 
-export type SingletonData<_Singleton extends Singleton<Record<string, Field>>> = {
-  [Key in keyof _Singleton['schema']]: FieldDataType<_Singleton['schema'][Key]>
-}
+export type SingletonData<_Singleton extends Singleton<Record<string, Field>>> = SchemaData<_Singleton['schema']>
 
 export type SingletonZodSchema<_Singleton extends Singleton<Record<string, Field>>> = z.ZodObject<{
   [Key in keyof _Singleton['schema']]: FieldZodSchema<_Singleton['schema'][Key]>

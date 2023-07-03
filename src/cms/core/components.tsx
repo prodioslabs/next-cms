@@ -6,12 +6,17 @@ import {
   CollectionListReaderProps,
   CollectionReaderProps,
   SingletonReaderProps,
-} from '../types/component'
+} from '../types/components'
 import { Config } from '../types/config'
 import { Field } from '../types/field'
-import { Collection, Singleton } from '../types/schema'
+import { Collection, CollectionData, Singleton, SingletonData } from '../types/schema'
 import EditableLink from '../components/editable-link'
-import { fetchCollectionElementData, fetchCollectionsListData, fetchSingletonData } from './data'
+import {
+  fetchCollectionElementDataById,
+  fetchCollectionElementDataBySlug,
+  fetchCollectionsListData,
+  fetchSingletonData,
+} from './data'
 
 export function createCollectionReader<
   Collections extends Record<string, Collection<Record<string, Field>>>,
@@ -32,11 +37,19 @@ export function createCollectionReader<
       id: nanoid(),
     } as const
 
-    const items = await fetchCollectionsListData(collection)
+    const items = await fetchCollectionsListData(collection, collectionName)
 
     return (
       <>
-        <Slot {...containerProps}>{renderItems({ items })}</Slot>
+        <Slot {...containerProps}>
+          {renderItems({
+            items: items.map((item) => ({
+              id: item.id,
+              elementSlug: item.slug,
+              data: item.data as CollectionData<Collections[CollectionName]>,
+            })),
+          })}
+        </Slot>
         <EditableLink
           label={collection.label}
           url={`/admin/collection/${collectionName}`}
@@ -48,9 +61,14 @@ export function createCollectionReader<
   CollectionListReader.displayName = `${camelCase(collectionName)}ListReader`
 
   async function CollectionElementReader({
+    elementId,
     elementSlug,
     renderItem,
   }: CollectionElementReaderProps<Collections[CollectionName]>) {
+    if (typeof elementId === 'undefined' && typeof elementSlug === 'undefined') {
+      throw new Error('Either elementId or elementSlug must be provided')
+    }
+
     const collection = config.collections?.[collectionName]
     if (!collection) {
       throw new Error(`Collection ${collectionName} not found`)
@@ -65,14 +83,22 @@ export function createCollectionReader<
       id: nanoid(),
     } as const
 
-    const item = await fetchCollectionElementData(collection, elementSlug)
+    const item = elementSlug
+      ? await fetchCollectionElementDataBySlug(collection, collectionName, elementSlug)
+      : await fetchCollectionElementDataById(collection, elementId!) // as we have already checked that either elementId or elementSlug is defined, we can safely assume that elementId is defined
 
     return (
       <>
-        <Slot {...containerProps}>{renderItem({ item })}</Slot>
+        <Slot {...containerProps}>
+          {renderItem({
+            data: item.data as CollectionData<Collections[CollectionName]>,
+            id: item.id,
+            elementSlug: item.slug,
+          })}
+        </Slot>
         <EditableLink
           label={collection.label}
-          url={`/admin/collection/${collectionName}/${elementSlug}`}
+          url={`/admin/collection/${collectionName}/${item.id}`}
           containerElementId={containerProps.id}
         />
       </>
@@ -122,11 +148,11 @@ export function createSingletonReader<
       id: nanoid(),
     } as const
 
-    const item = await fetchSingletonData(singleton)
+    const item = await fetchSingletonData(singleton, singletonName)
 
     return (
       <>
-        <Slot {...containerProps}>{renderItem({ item })}</Slot>
+        <Slot {...containerProps}>{renderItem({ data: item.data as SingletonData<Singletons[SingletonName]> })}</Slot>
         <EditableLink
           label={singleton.label}
           url={`/admin/singleton/${singletonName}`}

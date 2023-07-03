@@ -10,14 +10,17 @@ export type CollectionReaderProps<_Collection extends Collection<Record<string, 
     } & CollectionElementReaderProps<_Collection>)
 
 export type CollectionListReaderProps<_Collection extends Collection<Record<string, Field>>> = {
-  renderItems: (args: { items: CollectionData<_Collection>[] }) => React.ReactNode
+  renderItems: (args: {
+    items: { data: CollectionData<_Collection>; id: string; elementSlug: string }[]
+  }) => React.ReactNode
 }
 
 export type CollectionElementReaderProps<_Collection extends Collection<Record<string, Field>>> = {
-  elementSlug: string
-  renderItem: (args: { item: CollectionData<_Collection> }) => React.ReactNode
+  elementId?: string
+  elementSlug?: string
+  renderItem: (args: { data: CollectionData<_Collection>; elementSlug: string; id: string }) => React.ReactNode
 }
 
 export type SingletonReaderProps<_Singleton extends Singleton<Record<string, Field>>> = {
-  renderItem: (args: { item: SingletonData<_Singleton> }) => React.ReactNode
+  renderItem: (args: { data: SingletonData<_Singleton> }) => React.ReactNode
 }
