@@ -18,13 +18,12 @@ export default async function CollectionPage({ collection, collectionName, class
   const data = await fetchCollectionsListData(collection, collectionName)
 
   return (
-    <div className={cn('space-y-4 p-4', className)} style={style}>
+    <div className={cn('space-y-4', className)} style={style}>
       <div className="flex items-center">
         <div className="flex-1 text-base font-medium text-foreground">Items</div>
-        {/* <Link href={`/admin/collection/${collectionName}/${data.length}`}>
+        <Link href={`/cms/admin/collection/${collectionName}/new`}>
           <Button icon={<Plus />}>Create New Item</Button>
-        </Link> */}
-        <Button icon={<Plus />}>Create New Item</Button>
+        </Link>
       </div>
       {data.map((item, index) => {
         const itemId = item.id

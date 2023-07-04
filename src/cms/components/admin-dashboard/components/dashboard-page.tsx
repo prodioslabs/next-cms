@@ -5,6 +5,8 @@ import DashboardHome from './dashboard-home'
 import { Field } from '~/cms/types/field'
 import SingletonContentManager from './singleton-content-manager'
 import CollectionPage from './collection-page'
+import CollectionNewItemContentManager from './collection-new-item-content-manager'
+import CollectionPageLayout from './collection-page-layout'
 
 export default function createDashboardPage<
   Collections extends Record<string, Collection<Record<string, Field>>>,
@@ -43,7 +45,25 @@ export default function createDashboardPage<
           redirect('/404')
         }
 
-        return <CollectionPage collection={collection} collectionName={collectionName} />
+        const collectionItemSlug = slug[2]
+
+        if (typeof collectionItemSlug === 'undefined') {
+          return (
+            <CollectionPageLayout collection={collection}>
+              <CollectionPage collection={collection} collectionName={collectionName} />
+            </CollectionPageLayout>
+          )
+        }
+
+        if (collectionItemSlug === 'new') {
+          return (
+            <CollectionPageLayout collection={collection}>
+              <CollectionNewItemContentManager collection={collection} collectionName={collectionName} />
+            </CollectionPageLayout>
+          )
+        }
+
+        return null
       }
 
       default: {

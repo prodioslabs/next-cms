@@ -34,6 +34,7 @@ type ContentManagerProps<Schema extends Record<string, Field>> = {
   config:
     | { type: 'collection'; elementId: string; collectionName: string }
     | { type: 'singleton'; singletonName: string }
+  method?: 'create' | 'update'
   schema: Schema
   initialData: SchemaData<Schema>
   redirectToOnSave?: string
@@ -43,6 +44,7 @@ type ContentManagerProps<Schema extends Record<string, Field>> = {
 
 export default function ContentManager<Schema extends Record<string, Field>>({
   config,
+  method = 'update',
   schema,
   initialData,
   redirectToOnSave = '/',
