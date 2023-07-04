@@ -7,7 +7,7 @@ export type Collection<
   NameField extends keyof Schema = keyof Schema & string,
 > = {
   label: string
-  path: string
+  description?: string
   slugField: SlugField
   nameField?: NameField
   schema: Schema
@@ -17,20 +17,24 @@ export type SchemaData<Schema extends Record<string, Field>> = {
   [Key in keyof Schema]: FieldDataType<Schema[Key]>
 }
 
+export type SchemaZodSchema<Schema extends Record<string, Field>> = z.ZodObject<{
+  [Key in keyof Schema]: FieldZodSchema<Schema[Key]>
+}>
+
 export type CollectionData<_Collection extends Collection<Record<string, Field>>> = SchemaData<_Collection['schema']>
 
-export type CollectionItemZodSchema<_Collection extends Collection<Record<string, Field>>> = z.ZodObject<{
-  [Key in keyof _Collection['schema']]: FieldZodSchema<_Collection['schema'][Key]>
-}>
+export type CollectionItemZodSchema<_Collection extends Collection<Record<string, Field>>> = SchemaZodSchema<
+  _Collection['schema']
+>
 
 export type Singleton<Schema extends Record<string, Field>> = {
   label: string
-  path: string
+  description?: string
   schema: Schema
 }
 
 export type SingletonData<_Singleton extends Singleton<Record<string, Field>>> = SchemaData<_Singleton['schema']>
 
-export type SingletonZodSchema<_Singleton extends Singleton<Record<string, Field>>> = z.ZodObject<{
-  [Key in keyof _Singleton['schema']]: FieldZodSchema<_Singleton['schema'][Key]>
-}>
+export type SingletonZodSchema<_Singleton extends Singleton<Record<string, Field>>> = SchemaZodSchema<
+  _Singleton['schema']
+>

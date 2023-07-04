@@ -1,10 +1,10 @@
 import { z } from 'zod'
 import { CollectionElement } from '@prisma/client'
 import { Field } from '../types/field'
-import { Collection, Singleton, SingletonData } from '../types/schema'
+import { Collection, Singleton } from '../types/schema'
 import { prisma } from './db'
 import { getValidationForCollectionElement, getValidationSchemaForSingleton } from './validation'
-import { fixData } from './fix-data'
+import { fixData, generateDummyData } from './fix-data'
 
 /**
  * Update data of a particular collection element
@@ -21,11 +21,42 @@ export async function updateCollectionItemData<_Collection extends Collection<Re
 ) {
   const validationSchema = getValidationForCollectionElement(collection)
   const validatedData = validationSchema.parse(data)
-  return await prisma.collectionElement.update({
+  return prisma.collectionElement.update({
     where: {
       id,
     },
-    data: validatedData,
+    data: {
+      data: validatedData,
+    },
+  })
+}
+
+/**
+ * Update data of a particular collection element
+ *
+ * @param collection collection to be updated
+ * @param id id of the collection item to be updated
+ * @param data data to be updated
+ * @returns updated collection element
+ */
+export async function createCollectionItem<_Collection extends Collection<Record<string, Field>>>(
+  collection: _Collection,
+  collectionName: string,
+  data: any,
+) {
+  const validationSchema = getValidationForCollectionElement(collection)
+  const validatedData = validationSchema.parse(data)
+  const slug = validatedData[collection.slugField] as string
+  return prisma.collectionElement.create({
+    data: {
+      slug,
+      data: validatedData,
+      collection: {
+        connect: {
+          name: collectionName,
+        },
+      },
+    },
   })
 }
 
@@ -152,6 +183,31 @@ export async function fetchCollectionElementDataBySlug<_Collection extends Colle
  * @param data data to be updated
  * @returns single data
  */
+export async function createSingletonData<_Singleton extends Singleton<Record<string, Field>>>(
+  singleton: _Singleton,
+  singletonName: string,
+  data: any,
+) {
+  const validationSchema = getValidationSchemaForSingleton(singleton)
+  const validatedData = validationSchema.parse(data)
+  return prisma.singleton.create({
+    data: {
+      label: singleton.label,
+      schema: singleton.schema,
+      name: singletonName,
+      data: validatedData,
+    },
+  })
+}
+
+/**
+ * Update data of a particular singleton
+ *
+ * @param singleton singleton to be updated
+ * @param singletonName name of the singleton
+ * @param data data to be updated
+ * @returns single data
+ */
 export async function updateSingletonData<_Singleton extends Singleton<Record<string, Field>>>(
   singleton: _Singleton,
   singletonName: string,
@@ -159,13 +215,14 @@ export async function updateSingletonData<_Singleton extends Singleton<Record<st
 ) {
   const validationSchema = getValidationSchemaForSingleton(singleton)
   const validatedData = validationSchema.parse(data)
-  const updatedData = await prisma.singleton.update({
+  return prisma.singleton.update({
     where: {
       name: singletonName,
     },
-    data: validatedData,
+    data: {
+      data: validatedData,
+    },
   })
-  return updatedData.data as SingletonData<_Singleton>
 }
 
 /**
@@ -174,22 +231,29 @@ export async function updateSingletonData<_Singleton extends Singleton<Record<st
  *
  * @param singleton singleton to be fetched
  * @param singletonName singleton name
+ * @param createDummyDataIfNotPresent create dummy data if the data for singleton is not present
  * @returns singleton
  */
 export async function fetchSingletonData<_Singleton extends Singleton<Record<string, Field>>>(
   singleton: _Singleton,
   singletonName: string,
+  createDummyDataIfNotPresent: boolean = true,
 ) {
   const validationSchema = getValidationSchemaForSingleton(singleton)
 
-  const item = await prisma.singleton.findUnique({
+  let item = await prisma.singleton.findFirst({
     where: {
       name: singletonName,
     },
   })
 
   if (!item) {
-    throw new Error(`Singleton ${singleton.label} not found`)
+    if (createDummyDataIfNotPresent) {
+      const dummyData = generateDummyData(singleton.schema)
+      item = await createSingletonData(singleton, singletonName, dummyData)
+    } else {
+      throw new Error(`Singleton ${singleton.label} not found`)
+    }
   }
 
   try {

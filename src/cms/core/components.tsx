@@ -31,7 +31,7 @@ export function createCollectionReader<
 
     const containerProps = {
       'data-cms-type': 'collection',
-      'data-cms-name': collection.label,
+      'data-cms-label': collection.label,
       'data-cms-id': collectionName as string,
       className: 'group',
       id: nanoid(),
@@ -76,7 +76,7 @@ export function createCollectionReader<
 
     const containerProps = {
       'data-cms-type': 'collection',
-      'data-cms-name': collection.label,
+      'data-cms-label': collection.label,
       'data-cms-id': collectionName as string,
       'data-cms-slug': elementSlug,
       className: 'group',
@@ -142,7 +142,7 @@ export function createSingletonReader<
 
     const containerProps = {
       'data-cms-type': 'collection',
-      'data-cms-name': singleton.label,
+      'data-cms-label': singleton.label,
       'data-cms-id': singletonName as string,
       className: 'group',
       id: nanoid(),

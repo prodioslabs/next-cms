@@ -8,6 +8,6 @@ export type Config<
   // storage method
   // later on multiple storage solutions, file file storage would be added
   storage: 'database'
-  collections?: Collections
-  singletons?: Singletons
+  collections: Collections
+  singletons: Singletons
 }

@@ -1,13 +1,11 @@
-import { Config } from './core/config'
+import { createConfig } from './cms/core/config'
 
-const cmsConfig = {
-  basePath: `${process.cwd()}/content`,
+const config = createConfig({
   singletons: {
     homePageHeroSection: {
-      name: 'Home Page Hero Section',
+      label: 'Home Page Hero Section',
       description: 'Hero section on the home page',
-      path: 'home-page/hero-section',
-      fields: {
+      schema: {
         title: {
           label: 'Title',
           type: 'text',
@@ -34,11 +32,10 @@ const cmsConfig = {
   },
   collections: {
     blogs: {
-      name: 'Blogs',
-      path: 'blogs',
-      primaryKey: 'slug',
-      identifierKey: 'title',
-      fields: {
+      label: 'Blogs',
+      slugField: 'slug',
+      nameField: 'title',
+      schema: {
         coverImage: {
           label: 'Cover Image',
           type: 'image',
@@ -63,6 +60,6 @@ const cmsConfig = {
       },
     },
   },
-} as const satisfies Config
+})
 
-export default cmsConfig
+export default config

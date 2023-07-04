@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { Field } from '../types/field'
-import { Collection, CollectionItemZodSchema, Singleton, SingletonZodSchema } from '../types/schema'
+import { Collection, CollectionItemZodSchema, SchemaZodSchema, Singleton, SingletonZodSchema } from '../types/schema'
 
 /**
  * Get validation zod schema for a field
@@ -47,7 +47,7 @@ export function getValidationSchemaForField(field: Field) {
  * @see getValidationForCollectionList
  * @see getValidationSchemaForSingleton
  */
-function getValidationSchema<Schema extends Record<string, Field>>(schema: Schema) {
+export function getValidationSchemaForSchema<Schema extends Record<string, Field>>(schema: Schema) {
   let validationSchema = z.object({})
   Object.entries(schema).forEach(([fieldKey, field]) => {
     const fieldSchema = getValidationSchemaForField(field)
@@ -57,7 +57,7 @@ function getValidationSchema<Schema extends Record<string, Field>>(schema: Schem
       validationSchema = validationSchema.extend({ [fieldKey]: fieldSchema })
     }
   })
-  return validationSchema
+  return validationSchema as SchemaZodSchema<Schema>
 }
 
 /**
@@ -71,7 +71,7 @@ function getValidationSchema<Schema extends Record<string, Field>>(schema: Schem
 export function getValidationForCollectionList<_Collection extends Collection<Record<string, Field>>>(
   collection: _Collection,
 ) {
-  return z.array(getValidationSchema(collection.schema)) as z.ZodArray<CollectionItemZodSchema<_Collection>>
+  return z.array(getValidationSchemaForSchema(collection.schema)) as z.ZodArray<CollectionItemZodSchema<_Collection>>
 }
 
 /**
@@ -85,7 +85,7 @@ export function getValidationForCollectionList<_Collection extends Collection<Re
 export function getValidationForCollectionElement<_Collection extends Collection<Record<string, Field>>>(
   collection: _Collection,
 ) {
-  return getValidationSchema(collection.schema) as CollectionItemZodSchema<_Collection>
+  return getValidationSchemaForSchema(collection.schema) as CollectionItemZodSchema<_Collection>
 }
 
 /**
@@ -98,5 +98,5 @@ export function getValidationForCollectionElement<_Collection extends Collection
 export function getValidationSchemaForSingleton<_Singleton extends Singleton<Record<string, Field>>>(
   singleton: _Singleton,
 ) {
-  return getValidationSchema(singleton.schema) as SingletonZodSchema<_Singleton>
+  return getValidationSchemaForSchema(singleton.schema) as SingletonZodSchema<_Singleton>
 }
