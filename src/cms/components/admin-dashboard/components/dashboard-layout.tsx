@@ -22,7 +22,7 @@ export default function createDashboardLayout<
             {Object.entries(config.collections).map(([collectionKey, collection]) => {
               return (
                 <NavLink
-                  href={`/admin/collection/${collectionKey}`}
+                  href={`/cms/admin/collection/${collectionKey}`}
                   key={collectionKey}
                   className="block rounded-md border border-transparent p-2 text-sm text-muted-foreground hover:border-border hover:bg-muted"
                   activeClassName="text-secondary-foreground border-border bg-muted"
@@ -41,7 +41,7 @@ export default function createDashboardLayout<
             {Object.entries(config.singletons).map(([singletonName, singleton]) => {
               return (
                 <NavLink
-                  href={`/admin/singleton/${singletonName}`}
+                  href={`/cms/admin/singleton/${singletonName}`}
                   key={singletonName}
                   className="block rounded-md border border-transparent p-2 text-sm text-muted-foreground hover:border-border hover:bg-muted"
                   activeClassName="text-secondary-foreground border-border bg-muted"

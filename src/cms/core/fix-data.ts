@@ -75,7 +75,11 @@ export function generateDummyData<Schema extends Record<string, Field>>(schema: 
   const data: Record<string, any> = {}
 
   Object.entries(schema).forEach(([fieldKey, field]) => {
-    data[fieldKey] = generateDummyDataForField(field, data)
+    if (isFieldArrayType(field)) {
+      data[fieldKey] = [generateDummyDataForField(field, data)]
+    } else {
+      data[fieldKey] = generateDummyDataForField(field, data)
+    }
   })
 
   return data

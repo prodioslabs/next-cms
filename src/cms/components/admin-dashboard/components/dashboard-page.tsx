@@ -4,6 +4,7 @@ import { Collection, Singleton } from '~/cms/types/schema'
 import DashboardHome from './dashboard-home'
 import { Field } from '~/cms/types/field'
 import SingletonContentManager from './singleton-content-manager'
+import CollectionPage from './collection-page'
 
 export default function createDashboardPage<
   Collections extends Record<string, Collection<Record<string, Field>>>,
@@ -32,7 +33,17 @@ export default function createDashboardPage<
       }
 
       case 'collection': {
-        return null
+        const collectionName = slug[1]
+        if (!collectionName) {
+          redirect('/404')
+        }
+
+        const collection = config.collections[collectionName]
+        if (!collection) {
+          redirect('/404')
+        }
+
+        return <CollectionPage collection={collection} collectionName={collectionName} />
       }
 
       default: {

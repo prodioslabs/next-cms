@@ -1,12 +1,13 @@
-import { z } from 'zod'
-import { generateRouteHandlerSchemas } from '~/app/(cms)/cms/content/schema'
-import config from '~/cms.config'
-
-const { deleteContentResponseSchema, deleteContentQueryParamsSchema } = generateRouteHandlerSchemas(config)
-
-export async function deleteCollectionItem({ id, elementIndex }: z.infer<typeof deleteContentQueryParamsSchema>) {
-  const res = await fetch(`/cms/content?id=${id}&elementIndex=${elementIndex}`, {
+// TODO: Add response validation
+export async function deleteCollectionItem({
+  collectionName,
+  elementId,
+}: {
+  collectionName: string
+  elementId: string
+}) {
+  const res = await fetch(`/cms/content?id=${collectionName}&elementId=${elementId}`, {
     method: 'DELETE',
   })
-  return deleteContentResponseSchema.parse(await res.json())
+  return res.json()
 }

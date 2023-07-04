@@ -3,22 +3,22 @@
 import { Trash } from 'lucide-react'
 import { useMutation } from 'react-query'
 import { useRouter } from 'next/navigation'
-import { Button } from '../ui/button'
-import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '../ui/popover'
+import { Button } from '~/components/ui/button'
+import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '~/components/ui/popover'
 import { deleteCollectionItem } from './queries'
-import { useToast } from '../ui/use-toast'
+import { useToast } from '~/components/ui/use-toast'
 
 type DeleteCollectionItemProps = {
-  collectionId: string
-  elementIndex: number
+  collectionName: string
+  elementId: string
   onDelete?: () => void
   className?: string
   style?: React.CSSProperties
 }
 
 export default function DeleteCollectionItem({
-  collectionId,
-  elementIndex,
+  collectionName,
+  elementId,
   onDelete,
   className,
   style,
@@ -65,7 +65,7 @@ export default function DeleteCollectionItem({
             variant="outline"
             loading={mutation.isLoading}
             onClick={() => {
-              mutation.mutate({ id: collectionId, elementIndex })
+              mutation.mutate({ collectionName, elementId })
             }}
           >
             Continue
