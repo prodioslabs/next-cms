@@ -1,6 +1,6 @@
-import { camelCase } from 'lodash-es'
 import { nanoid } from 'nanoid'
 import { Slot } from '@radix-ui/react-slot'
+import camelCase from 'camelcase'
 import {
   CollectionElementReaderProps,
   CollectionListReaderProps,

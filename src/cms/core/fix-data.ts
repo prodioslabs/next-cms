@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker'
 import slugify from 'slugify'
 import { z } from 'zod'
-import { isPlainObject } from 'lodash-es'
 import { CMSField } from '../types/field'
 import { CMSSchemaData } from '../types/schema'
+import { isPlainObject } from '../utils/object'
 
 /**
  * Checks if the field is an array type.
