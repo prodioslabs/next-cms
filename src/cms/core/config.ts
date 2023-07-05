@@ -1,17 +1,17 @@
-import { Config } from '../types/config'
-import { Field } from '../types/field'
-import { Collection, Singleton } from '../types/schema'
+import { CMSConfig } from '../types/config'
+import { CMSField } from '../types/field'
+import { CMSCollection, CMSSingleton } from '../types/schema'
 
-export function createConfig<
-  Collections extends Record<string, Collection<Record<string, Field>>>,
-  Singletons extends Record<string, Singleton<Record<string, Field>>>,
+export function createCMSConfig<
+  CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
+  CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
 >({
   collections,
   singletons,
 }: {
-  collections?: Collections
-  singletons?: Singletons
-}): Config<Collections, Singletons> {
+  collections: CMSCollections
+  singletons: CMSSingletons
+}): CMSConfig<CMSCollections, CMSSingletons> {
   return {
     storage: 'database',
     collections,

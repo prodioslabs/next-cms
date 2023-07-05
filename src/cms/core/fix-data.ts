@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker'
 import slugify from 'slugify'
 import { z } from 'zod'
 import { isPlainObject } from 'lodash-es'
-import { Field } from '../types/field'
-import { SchemaData } from '../types/schema'
+import { CMSField } from '../types/field'
+import { CMSSchemaData } from '../types/schema'
 
 /**
  * Checks if the field is an array type.
@@ -11,7 +11,7 @@ import { SchemaData } from '../types/schema'
  * @param field field to be checked
  * @returns true if the field is an array type, false otherwise
  */
-function isFieldArrayType(field: Field) {
+function isFieldArrayType(field: CMSField) {
   // right now, the only array type is the image type
   return field.type === 'image'
 }
@@ -25,7 +25,7 @@ function isFieldArrayType(field: Field) {
  * @param collectionData collection data from which the some data is to be arrived
  * @returns dummy data
  */
-function generateDummyDataForField(field: Field, collectionData: any) {
+function generateDummyDataForField(field: CMSField, collectionData: any) {
   if ('default' in field) {
     return field.default
   }
@@ -71,7 +71,7 @@ function generateDummyDataForField(field: Field, collectionData: any) {
  * @param collection collection for which the dummy data will be generated
  * @returns data for the collection
  */
-export function generateDummyData<Schema extends Record<string, Field>>(schema: Schema) {
+export function generateDummyData<Schema extends Record<string, CMSField>>(schema: Schema) {
   const data: Record<string, any> = {}
 
   Object.entries(schema).forEach(([fieldKey, field]) => {
@@ -92,7 +92,7 @@ export function generateDummyData<Schema extends Record<string, Field>>(schema: 
  * @param error zod error, based on which the data will be fixed
  * @returns valid data
  */
-export function fixData<Schema extends Record<string, Field>>(schema: Schema, invalidData: any, error: z.ZodError) {
+export function fixData<Schema extends Record<string, CMSField>>(schema: Schema, invalidData: any, error: z.ZodError) {
   /**
    * Fix the invalid item data based on the zod error. This is the helper function for
    * fixing the error in the item.
@@ -132,5 +132,5 @@ export function fixData<Schema extends Record<string, Field>>(schema: Schema, in
     }
   })
 
-  return fixedData as SchemaData<Schema>
+  return fixedData as CMSSchemaData<Schema>
 }

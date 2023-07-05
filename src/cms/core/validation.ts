@@ -1,6 +1,12 @@
 import { z } from 'zod'
-import { Field } from '../types/field'
-import { Collection, CollectionItemZodSchema, SchemaZodSchema, Singleton, SingletonZodSchema } from '../types/schema'
+import { CMSField } from '../types/field'
+import {
+  CMSCollection,
+  CMSCollectionItemZodSchema,
+  CMSSchemaZodSchema,
+  CMSSingleton,
+  CMSSingletonZodSchema,
+} from '../types/schema'
 
 /**
  * Get validation zod schema for a field
@@ -8,7 +14,7 @@ import { Collection, CollectionItemZodSchema, SchemaZodSchema, Singleton, Single
  * @param field field to get validation schema for
  * @returns zod schema
  */
-export function getValidationSchemaForField(field: Field) {
+export function getValidationSchemaForField(field: CMSField) {
   switch (field.type) {
     case 'text':
     case 'rich-text':
@@ -47,7 +53,7 @@ export function getValidationSchemaForField(field: Field) {
  * @see getValidationForCollectionList
  * @see getValidationSchemaForSingleton
  */
-export function getValidationSchemaForSchema<Schema extends Record<string, Field>>(schema: Schema) {
+export function getValidationSchemaForSchema<Schema extends Record<string, CMSField>>(schema: Schema) {
   let validationSchema = z.object({})
   Object.entries(schema).forEach(([fieldKey, field]) => {
     const fieldSchema = getValidationSchemaForField(field)
@@ -57,7 +63,7 @@ export function getValidationSchemaForSchema<Schema extends Record<string, Field
       validationSchema = validationSchema.extend({ [fieldKey]: fieldSchema })
     }
   })
-  return validationSchema as SchemaZodSchema<Schema>
+  return validationSchema as CMSSchemaZodSchema<Schema>
 }
 
 /**
@@ -68,10 +74,10 @@ export function getValidationSchemaForSchema<Schema extends Record<string, Field
  * @returns zod validation schema for the collection
  * @see getValidationSchemaForFields
  */
-export function getValidationForCollectionList<_Collection extends Collection<Record<string, Field>>>(
+export function getValidationForCollectionList<_Collection extends CMSCollection<Record<string, CMSField>>>(
   collection: _Collection,
 ) {
-  return z.array(getValidationSchemaForSchema(collection.schema)) as z.ZodArray<CollectionItemZodSchema<_Collection>>
+  return z.array(getValidationSchemaForSchema(collection.schema)) as z.ZodArray<CMSCollectionItemZodSchema<_Collection>>
 }
 
 /**
@@ -82,10 +88,10 @@ export function getValidationForCollectionList<_Collection extends Collection<Re
  * @returns zod validation schema for the collection
  * @see getValidationSchemaForFields
  */
-export function getValidationForCollectionElement<_Collection extends Collection<Record<string, Field>>>(
+export function getValidationForCollectionElement<_Collection extends CMSCollection<Record<string, CMSField>>>(
   collection: _Collection,
 ) {
-  return getValidationSchemaForSchema(collection.schema) as CollectionItemZodSchema<_Collection>
+  return getValidationSchemaForSchema(collection.schema) as CMSCollectionItemZodSchema<_Collection>
 }
 
 /**
@@ -95,8 +101,8 @@ export function getValidationForCollectionElement<_Collection extends Collection
  * @param singleton singleton to get the validation schema for
  * @returns zod validation schema for the singleton
  */
-export function getValidationSchemaForSingleton<_Singleton extends Singleton<Record<string, Field>>>(
+export function getValidationSchemaForSingleton<_Singleton extends CMSSingleton<Record<string, CMSField>>>(
   singleton: _Singleton,
 ) {
-  return getValidationSchemaForSchema(singleton.schema) as SingletonZodSchema<_Singleton>
+  return getValidationSchemaForSchema(singleton.schema) as CMSSingletonZodSchema<_Singleton>
 }

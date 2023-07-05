@@ -1,13 +1,13 @@
 import { File } from 'lucide-react'
-import { Singleton, SingletonData } from '~/cms/types/schema'
+import { CMSSingleton, CMSSingletonData } from '~/cms/types/schema'
 import ContentManager from '../../content-manager'
-import { Field } from '~/cms/types/field'
+import { CMSField } from '~/cms/types/field'
 import { fetchSingletonData } from '~/cms/core/data'
 import { PageHeading } from '~/components/ui/page-heading'
 import { cn } from '~/lib/utils'
 
 type SingletonContentManagerProps = {
-  singleton: Singleton<Record<string, Field>>
+  singleton: CMSSingleton<Record<string, CMSField>>
   singletonName: string
   className?: string
   style?: React.CSSProperties
@@ -26,7 +26,7 @@ export default async function SingletonContentManager({
       <ContentManager
         schema={singleton.schema}
         config={{ type: 'singleton', singletonName }}
-        initialData={singletonData.data as SingletonData<typeof singleton>}
+        initialData={singletonData.data as CMSSingletonData<typeof singleton>}
       />
     </div>
   )

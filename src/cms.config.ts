@@ -1,6 +1,6 @@
-import { createConfig } from './cms/core/config'
+import { createCMSConfig } from './cms/core/config'
 
-const config = createConfig({
+const config = createCMSConfig({
   singletons: {
     homePageHeroSection: {
       label: 'Home Page Hero Section',

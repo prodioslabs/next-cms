@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { CollectionElement } from '@prisma/client'
-import { Field } from '../types/field'
-import { Collection, Singleton } from '../types/schema'
+import { CMSField } from '../types/field'
+import { CMSCollection, CMSSingleton } from '../types/schema'
 import { prisma } from './db'
 import { getValidationForCollectionElement, getValidationSchemaForSingleton } from './validation'
 import { fixData, generateDummyData } from './fix-data'
@@ -14,7 +14,7 @@ import { fixData, generateDummyData } from './fix-data'
  * @param data data to be updated
  * @returns updated collection element
  */
-export async function updateCollectionItemData<_Collection extends Collection<Record<string, Field>>>(
+export async function updateCollectionItemData<_Collection extends CMSCollection<Record<string, CMSField>>>(
   collection: _Collection,
   id: string,
   data: any,
@@ -39,7 +39,7 @@ export async function updateCollectionItemData<_Collection extends Collection<Re
  * @param data data to be updated
  * @returns updated collection element
  */
-export async function createCollectionItem<_Collection extends Collection<Record<string, Field>>>(
+export async function createCollectionItem<_Collection extends CMSCollection<Record<string, CMSField>>>(
   collection: _Collection,
   collectionName: string,
   data: any,
@@ -68,7 +68,7 @@ export async function createCollectionItem<_Collection extends Collection<Record
  * @param collectionName name of the collection
  * @returns list of all the elements of the collection
  */
-export async function fetchCollectionsListData<_Collection extends Collection<Record<string, Field>>>(
+export async function fetchCollectionsListData<_Collection extends CMSCollection<Record<string, CMSField>>>(
   collection: _Collection,
   collectionName: string,
 ) {
@@ -106,7 +106,7 @@ export async function fetchCollectionsListData<_Collection extends Collection<Re
  * @param elementId id of the collection item to be fetched
  * @returns collection item
  */
-export async function fetchCollectionElementDataById<_Collection extends Collection<Record<string, Field>>>(
+export async function fetchCollectionElementDataById<_Collection extends CMSCollection<Record<string, CMSField>>>(
   collection: _Collection,
   elementId: string,
 ) {
@@ -142,7 +142,7 @@ export async function fetchCollectionElementDataById<_Collection extends Collect
  * @param elementSlug slug of the collection item to be fetched
  * @returns collection element
  */
-export async function fetchCollectionElementDataBySlug<_Collection extends Collection<Record<string, Field>>>(
+export async function fetchCollectionElementDataBySlug<_Collection extends CMSCollection<Record<string, CMSField>>>(
   collection: _Collection,
   collectionName: string,
   elementSlug: string,
@@ -183,7 +183,7 @@ export async function fetchCollectionElementDataBySlug<_Collection extends Colle
  * @param data data to be updated
  * @returns single data
  */
-export async function createSingletonData<_Singleton extends Singleton<Record<string, Field>>>(
+export async function createSingletonData<_Singleton extends CMSSingleton<Record<string, CMSField>>>(
   singleton: _Singleton,
   singletonName: string,
   data: any,
@@ -208,7 +208,7 @@ export async function createSingletonData<_Singleton extends Singleton<Record<st
  * @param data data to be updated
  * @returns single data
  */
-export async function updateSingletonData<_Singleton extends Singleton<Record<string, Field>>>(
+export async function updateSingletonData<_Singleton extends CMSSingleton<Record<string, CMSField>>>(
   singleton: _Singleton,
   singletonName: string,
   data: any,
@@ -234,7 +234,7 @@ export async function updateSingletonData<_Singleton extends Singleton<Record<st
  * @param createDummyDataIfNotPresent create dummy data if the data for singleton is not present
  * @returns singleton
  */
-export async function fetchSingletonData<_Singleton extends Singleton<Record<string, Field>>>(
+export async function fetchSingletonData<_Singleton extends CMSSingleton<Record<string, CMSField>>>(
   singleton: _Singleton,
   singletonName: string,
   createDummyDataIfNotPresent: boolean = true,

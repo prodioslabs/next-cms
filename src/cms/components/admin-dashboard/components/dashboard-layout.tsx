@@ -1,15 +1,15 @@
 import { FolderOpen, File } from 'lucide-react'
-import { Config } from '~/cms/types/config'
-import { Collection, Singleton } from '~/cms/types/schema'
-import { Field } from '~/cms/types/field'
+import { CMSConfig } from '~/cms/types/config'
+import { CMSCollection, CMSSingleton } from '~/cms/types/schema'
+import { CMSField } from '~/cms/types/field'
 import NavLink from '../../nav-link'
 import Providers from './providers'
 import { Toaster } from '~/components/ui/toaster'
 
 export default function createDashboardLayout<
-  Collections extends Record<string, Collection<Record<string, Field>>>,
-  Singletons extends Record<string, Singleton<Record<string, Field>>>,
->(config: Config<Collections, Singletons>) {
+  CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
+  CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
+>(config: CMSConfig<CMSCollections, CMSSingletons>) {
   function Layout({ children }: { children: React.ReactNode }) {
     return (
       <div className="flex h-screen">

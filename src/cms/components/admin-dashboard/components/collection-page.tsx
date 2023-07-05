@@ -2,13 +2,13 @@ import Link from 'next/link'
 import { ChevronRight, Plus } from 'lucide-react'
 import { Button } from '~/components/ui/button'
 import DeleteCollectionItem from '../../delete-collection-item'
-import { Collection } from '~/cms/types/schema'
-import { Field } from '~/cms/types/field'
+import { CMSCollection } from '~/cms/types/schema'
+import { CMSField } from '~/cms/types/field'
 import { cn } from '~/lib/utils'
 import { fetchCollectionsListData } from '~/cms/core/data'
 
 type CollectionPageProps = {
-  collection: Collection<Record<string, Field>>
+  collection: CMSCollection<Record<string, CMSField>>
   collectionName: string
   className?: string
   style?: React.CSSProperties

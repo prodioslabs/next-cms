@@ -1,10 +1,10 @@
 import { FolderOpen } from 'lucide-react'
-import { Field } from '~/cms/types/field'
-import { Collection } from '~/cms/types/schema'
+import { CMSField } from '~/cms/types/field'
+import { CMSCollection } from '~/cms/types/schema'
 import { PageHeading } from '~/components/ui/page-heading'
 
 type CollectionPageLayoutProps = {
-  collection: Collection<Record<string, Field>>
+  collection: CMSCollection<Record<string, CMSField>>
   children: React.ReactNode
 }
 

@@ -1,17 +1,17 @@
 import { redirect } from 'next/navigation'
-import { Config } from '~/cms/types/config'
-import { Collection, Singleton } from '~/cms/types/schema'
+import { CMSConfig } from '~/cms/types/config'
+import { CMSCollection, CMSSingleton } from '~/cms/types/schema'
 import DashboardHome from './dashboard-home'
-import { Field } from '~/cms/types/field'
+import { CMSField } from '~/cms/types/field'
 import SingletonContentManager from './singleton-content-manager'
 import CollectionPage from './collection-page'
 import CollectionNewItemContentManager from './collection-new-item-content-manager'
 import CollectionPageLayout from './collection-page-layout'
 
 export default function createDashboardPage<
-  Collections extends Record<string, Collection<Record<string, Field>>>,
-  Singletons extends Record<string, Singleton<Record<string, Field>>>,
->(config: Config<Collections, Singletons>) {
+  CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
+  CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
+>(config: CMSConfig<CMSCollections, CMSSingletons>) {
   function Page({ params: { slug } }: { params: { slug?: string[] } }) {
     if (typeof slug === 'undefined') {
       return <DashboardHome config={config} />

@@ -1,7 +1,7 @@
-import { Field } from './field'
-import { Collection, CollectionData, Singleton, SingletonData } from './schema'
+import { CMSField } from './field'
+import { CMSCollection, CMSCollectionData, CMSSingleton, CMSSingletonData } from './schema'
 
-export type CollectionReaderProps<_Collection extends Collection<Record<string, Field>>> =
+export type CollectionReaderProps<_Collection extends CMSCollection<Record<string, CMSField>>> =
   | ({
       type: 'list'
     } & CollectionListReaderProps<_Collection>)
@@ -9,18 +9,18 @@ export type CollectionReaderProps<_Collection extends Collection<Record<string, 
       type: 'element'
     } & CollectionElementReaderProps<_Collection>)
 
-export type CollectionListReaderProps<_Collection extends Collection<Record<string, Field>>> = {
+export type CollectionListReaderProps<_Collection extends CMSCollection<Record<string, CMSField>>> = {
   renderItems: (args: {
-    items: { data: CollectionData<_Collection>; id: string; elementSlug: string }[]
+    items: { data: CMSCollectionData<_Collection>; id: string; elementSlug: string }[]
   }) => React.ReactNode
 }
 
-export type CollectionElementReaderProps<_Collection extends Collection<Record<string, Field>>> = {
+export type CollectionElementReaderProps<_Collection extends CMSCollection<Record<string, CMSField>>> = {
   elementId?: string
   elementSlug?: string
-  renderItem: (args: { data: CollectionData<_Collection>; elementSlug: string; id: string }) => React.ReactNode
+  renderItem: (args: { data: CMSCollectionData<_Collection>; elementSlug: string; id: string }) => React.ReactNode
 }
 
-export type SingletonReaderProps<_Singleton extends Singleton<Record<string, Field>>> = {
-  renderItem: (args: { data: SingletonData<_Singleton> }) => React.ReactNode
+export type SingletonReaderProps<_Singleton extends CMSSingleton<Record<string, CMSField>>> = {
+  renderItem: (args: { data: CMSSingletonData<_Singleton> }) => React.ReactNode
 }

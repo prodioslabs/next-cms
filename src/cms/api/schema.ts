@@ -1,12 +1,12 @@
 import { z } from 'zod'
-import { Config } from '../types/config'
-import { Field } from '../types/field'
-import { Collection, Singleton } from '../types/schema'
+import { CMSConfig } from '../types/config'
+import { CMSField } from '../types/field'
+import { CMSCollection, CMSSingleton } from '../types/schema'
 
 export function createRouteSchema<
-  Collections extends Record<string, Collection<Record<string, Field>>>,
-  Singletons extends Record<string, Singleton<Record<string, Field>>>,
->(config: Config<Collections, Singletons>) {
+  CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
+  CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
+>(config: CMSConfig<CMSCollections, CMSSingletons>) {
   const updateContentBodySchema = z.union([
     z.object({
       type: z.literal('collection'),

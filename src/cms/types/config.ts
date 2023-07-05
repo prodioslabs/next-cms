@@ -1,13 +1,13 @@
-import { Field } from './field'
-import { Collection, Singleton } from './schema'
+import { CMSField } from './field'
+import { CMSCollection, CMSSingleton } from './schema'
 
-export type Config<
-  Collections extends Record<string, Collection<Record<string, Field>>>,
-  Singletons extends Record<string, Singleton<Record<string, Field>>>,
+export type CMSConfig<
+  CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
+  CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
 > = {
   // storage method
   // later on multiple storage solutions, file file storage would be added
   storage: 'database'
-  collections: Collections
-  singletons: Singletons
+  collections: CMSCollections
+  singletons: CMSSingletons
 }

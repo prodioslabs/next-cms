@@ -1,73 +1,74 @@
 import { z } from 'zod'
 
-export type BaseField = {
+export type CMSBaseField = {
   label?: string
   hidden?: boolean
   required?: boolean
 }
 
-export type TextField = {
+export type CMSTextField = {
   type: 'text'
   default?: string
 }
 
-export type RichTextField = {
+export type CMSRichTextField = {
   type: 'rich-text'
   default?: string
 }
 
-export type NumberField = {
+export type CMSNumberField = {
   type: 'number'
   default?: number
 }
 
-export type DateField = {
+export type CMSDateField = {
   type: 'date'
   default?: string
 }
 
-export type ImageField = {
+export type CMSImageField = {
   type: 'image'
   multiple?: boolean
 }
-export type ImageData = {
+export type CMSImageData = {
   url: string
   width: number
   height: number
 }
 export type ZodImageSchema = z.ZodObject<{ url: z.ZodString; width: z.ZodNumber; height: z.ZodNumber }>
 
-export type SlugField = {
+export type CMSSlugField = {
   type: 'slug'
   from: string
 }
 
-export type Field = BaseField & (TextField | RichTextField | NumberField | DateField | ImageField | SlugField)
+export type CMSField = CMSBaseField &
+  (CMSTextField | CMSRichTextField | CMSNumberField | CMSDateField | CMSImageField | CMSSlugField)
 
-export type FieldDataType<F extends Field> = F extends TextField
+export type CMSFieldDataType<F extends CMSField> = F extends CMSTextField
   ? string
-  : F extends RichTextField
+  : F extends CMSRichTextField
   ? string
-  : F extends NumberField
+  : F extends CMSNumberField
   ? number
-  : F extends DateField
+  : F extends CMSDateField
   ? string
-  : F extends ImageField
-  ? ImageData[]
-  : F extends SlugField
+  : F extends CMSImageField
+  ? CMSImageData[]
+  : F extends CMSSlugField
   ? string
   : never
 
-export type FieldZodSchema<F extends Field> = F extends TextField
+export type CMSFieldZodSchema<F extends CMSField> = F extends CMSTextField
   ? z.ZodString
-  : F extends RichTextField
+  : F extends CMSRichTextField
   ? z.ZodString
-  : F extends NumberField
+  : F extends CMSNumberField
   ? z.ZodNumber
-  : F extends DateField
+  : F extends CMSDateField
   ? z.ZodString
-  : F extends ImageField
+  : F extends CMSImageField
   ? z.ZodArray<ZodImageSchema>
-  : F extends SlugField
+  : F extends CMSSlugField
   ? z.ZodString
   : never

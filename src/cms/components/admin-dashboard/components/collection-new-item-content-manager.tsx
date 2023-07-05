@@ -1,8 +1,8 @@
-import { Field } from '~/cms/types/field'
-import { Collection } from '~/cms/types/schema'
+import { CMSField } from '~/cms/types/field'
+import { CMSCollection } from '~/cms/types/schema'
 
 type CollectionNewItemContentManagerProps = {
-  collection: Collection<Record<string, Field>>
+  collection: CMSCollection<Record<string, CMSField>>
   collectionName: string
   className?: string
   style?: React.CSSProperties

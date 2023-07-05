@@ -1,20 +1,20 @@
 import { ChevronRight, FolderOpen, File } from 'lucide-react'
 import Link from 'next/link'
-import { Config } from '~/cms/types/config'
-import { Field } from '~/cms/types/field'
-import { Collection, Singleton } from '~/cms/types/schema'
+import { CMSConfig } from '~/cms/types/config'
+import { CMSField } from '~/cms/types/field'
+import { CMSCollection, CMSSingleton } from '~/cms/types/schema'
 
 type DashboardHomeProps<
-  Collections extends Record<string, Collection<Record<string, Field>>>,
-  Singletons extends Record<string, Singleton<Record<string, Field>>>,
+  CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
+  CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
 > = {
-  config: Config<Collections, Singletons>
+  config: CMSConfig<CMSCollections, CMSSingletons>
 }
 
 export default function DashboardHome<
-  Collections extends Record<string, Collection<Record<string, Field>>>,
-  Singletons extends Record<string, Singleton<Record<string, Field>>>,
->({ config }: DashboardHomeProps<Collections, Singletons>) {
+  CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
+  CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
+>({ config }: DashboardHomeProps<CMSCollections, CMSSingletons>) {
   return (
     <div className="h-full space-y-8 overflow-auto p-4">
       <div className="text-2xl font-medium text-secondary-foreground">Dashboard</div>

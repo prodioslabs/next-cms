@@ -4,18 +4,18 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import imageSize from 'image-size'
 import { format } from 'date-fns'
-import { Config } from '../types/config'
-import { Field } from '../types/field'
-import { Collection, Singleton } from '../types/schema'
+import { CMSConfig } from '../types/config'
+import { CMSField } from '../types/field'
+import { CMSCollection, CMSSingleton } from '../types/schema'
 import { createRouteSchema } from './schema'
 import { prisma } from '../core/db'
 import { isErrnoException } from '../core/utils/file'
 import { updateCollectionItemData, updateSingletonData } from '../core/data'
 
 export function createRoute<
-  Collections extends Record<string, Collection<Record<string, Field>>>,
-  Singletons extends Record<string, Singleton<Record<string, Field>>>,
->(config: Config<Collections, Singletons>) {
+  CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
+  CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
+>(config: CMSConfig<CMSCollections, CMSSingletons>) {
   const { updateContentBodySchema, deleteCollectionElementQuerySchema } = createRouteSchema(config)
 
   /**

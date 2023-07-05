@@ -7,9 +7,9 @@ import {
   CollectionReaderProps,
   SingletonReaderProps,
 } from '../types/components'
-import { Config } from '../types/config'
-import { Field } from '../types/field'
-import { Collection, CollectionData, Singleton, SingletonData } from '../types/schema'
+import { CMSConfig } from '../types/config'
+import { CMSField } from '../types/field'
+import { CMSCollection, CMSCollectionData, CMSSingleton, CMSSingletonData } from '../types/schema'
 import EditableLink from '../components/editable-link'
 import {
   fetchCollectionElementDataById,
@@ -19,11 +19,11 @@ import {
 } from './data'
 
 export function createCollectionReader<
-  Collections extends Record<string, Collection<Record<string, Field>>>,
-  Singletons extends Record<string, Singleton<Record<string, Field>>>,
-  CollectionName extends keyof Collections = keyof Collections,
->(config: Config<Collections, Singletons>, collectionName: CollectionName & string) {
-  async function CollectionListReader({ renderItems }: CollectionListReaderProps<Collections[CollectionName]>) {
+  CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
+  CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
+  CollectionName extends keyof CMSCollections = keyof CMSCollections,
+>(config: CMSConfig<CMSCollections, CMSSingletons>, collectionName: CollectionName & string) {
+  async function CollectionListReader({ renderItems }: CollectionListReaderProps<CMSCollections[CollectionName]>) {
     const collection = config.collections?.[collectionName]
     if (!collection) {
       throw new Error(`Collection ${collectionName} not found`)
@@ -46,7 +46,7 @@ export function createCollectionReader<
             items: items.map((item) => ({
               id: item.id,
               elementSlug: item.slug,
-              data: item.data as CollectionData<Collections[CollectionName]>,
+              data: item.data as CMSCollectionData<CMSCollections[CollectionName]>,
             })),
           })}
         </Slot>
@@ -64,7 +64,7 @@ export function createCollectionReader<
     elementId,
     elementSlug,
     renderItem,
-  }: CollectionElementReaderProps<Collections[CollectionName]>) {
+  }: CollectionElementReaderProps<CMSCollections[CollectionName]>) {
     if (typeof elementId === 'undefined' && typeof elementSlug === 'undefined') {
       throw new Error('Either elementId or elementSlug must be provided')
     }
@@ -91,7 +91,7 @@ export function createCollectionReader<
       <>
         <Slot {...containerProps}>
           {renderItem({
-            data: item.data as CollectionData<Collections[CollectionName]>,
+            data: item.data as CMSCollectionData<CMSCollections[CollectionName]>,
             id: item.id,
             elementSlug: item.slug,
           })}
@@ -106,7 +106,7 @@ export function createCollectionReader<
   }
   CollectionElementReader.displayName = `${camelCase(collectionName)}ElementReader`
 
-  function CollectionReader(props: CollectionReaderProps<Collections[CollectionName]>) {
+  function CollectionReader(props: CollectionReaderProps<CMSCollections[CollectionName]>) {
     switch (props.type) {
       case 'list': {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -130,11 +130,11 @@ export function createCollectionReader<
 }
 
 export function createSingletonReader<
-  Collections extends Record<string, Collection<Record<string, Field>>>,
-  Singletons extends Record<string, Singleton<Record<string, Field>>>,
-  SingletonName extends keyof Singletons = keyof Singletons,
->(config: Config<Collections, Singletons>, singletonName: SingletonName & string) {
-  async function SingletonReader({ renderItem }: SingletonReaderProps<Singletons[SingletonName]>) {
+  CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
+  CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
+  SingletonName extends keyof CMSSingletons = keyof CMSSingletons,
+>(config: CMSConfig<CMSCollections, CMSSingletons>, singletonName: SingletonName & string) {
+  async function SingletonReader({ renderItem }: SingletonReaderProps<CMSSingletons[SingletonName]>) {
     const singleton = config.singletons?.[singletonName]
     if (!singleton) {
       throw new Error(`Singleton ${singletonName} not found`)
@@ -152,7 +152,9 @@ export function createSingletonReader<
 
     return (
       <>
-        <Slot {...containerProps}>{renderItem({ data: item.data as SingletonData<Singletons[SingletonName]> })}</Slot>
+        <Slot {...containerProps}>
+          {renderItem({ data: item.data as CMSSingletonData<CMSSingletons[SingletonName]> })}
+        </Slot>
         <EditableLink
           label={singleton.label}
           url={`/admin/singleton/${singletonName}`}

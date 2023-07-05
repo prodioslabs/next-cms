@@ -3,16 +3,16 @@
 import { useMutation } from 'react-query'
 import Image from 'next/image'
 import { X, Loader2 } from 'lucide-react'
-import { ImageData } from '~/cms/types/field'
+import { CMSImageData } from '~/cms/types/field'
 import { Uploader } from '~/components/ui/uploader'
 import { cn } from '~/lib/utils'
 import { Button } from '~/components/ui/button'
 import { uploadImage } from './queries'
 
 type ImageUploaderProps = {
-  uploadedImages?: ImageData[]
+  uploadedImages?: CMSImageData[]
   multiple?: boolean
-  onChange?: (uploadImages: ImageData[]) => void
+  onChange?: (uploadImages: CMSImageData[]) => void
   className?: string
   style?: React.CSSProperties
 }

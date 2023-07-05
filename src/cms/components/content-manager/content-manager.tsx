@@ -26,23 +26,23 @@ import { ToastAction } from '~/components/ui/toast'
 import { DatePicker } from '~/components/ui/date-picker'
 import ImageUploader from '../image-uploader'
 import SlugInput from '../slug-input/slug-input'
-import { Field, RichTextField, TextField, ImageData } from '~/cms/types/field'
+import { CMSField, CMSRichTextField, CMSTextField, CMSImageData } from '~/cms/types/field'
 import { getValidationSchemaForSchema } from '~/cms/core/validation'
-import { SchemaData } from '~/cms/types/schema'
+import { CMSSchemaData } from '~/cms/types/schema'
 
-type ContentManagerProps<Schema extends Record<string, Field>> = {
+type ContentManagerProps<Schema extends Record<string, CMSField>> = {
   config:
     | { type: 'collection'; elementId: string; collectionName: string }
     | { type: 'singleton'; singletonName: string }
   method?: 'create' | 'update'
   schema: Schema
-  initialData: SchemaData<Schema>
+  initialData: CMSSchemaData<Schema>
   redirectToOnSave?: string
   className?: string
   style?: React.CSSProperties
 }
 
-export default function ContentManager<Schema extends Record<string, Field>>({
+export default function ContentManager<Schema extends Record<string, CMSField>>({
   config,
   method = 'update',
   schema,
@@ -133,11 +133,11 @@ export default function ContentManager<Schema extends Record<string, Field>>({
                           {(() => {
                             switch (fieldSchema.type) {
                               case 'text': {
-                                return <Input {...field} value={value as TextField['type']} />
+                                return <Input {...field} value={value as CMSTextField['type']} />
                               }
 
                               case 'rich-text': {
-                                return <Textarea {...field} value={value as RichTextField['type']} />
+                                return <Textarea {...field} value={value as CMSRichTextField['type']} />
                               }
 
                               case 'slug': {
@@ -178,7 +178,7 @@ export default function ContentManager<Schema extends Record<string, Field>>({
                               case 'image': {
                                 return (
                                   <ImageUploader
-                                    uploadedImages={value as ImageData[]}
+                                    uploadedImages={value as CMSImageData[]}
                                     onChange={(uploadedImages) => {
                                       // @ts-expect-error
                                       field.onChange(uploadedImages)
