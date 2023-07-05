@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { CMSSingleton } from '~/cms/types/schema'
-import { updateSingletonBodySchema } from './schema'
+import { UpdateSingletonBodySchema } from './schema'
 import { CMSField } from '~/cms/types/field'
 import { handleError } from '~/cms/utils/api'
 import { updateSingletonData } from '~/cms/core/data'
@@ -8,9 +9,9 @@ import { updateSingletonData } from '~/cms/core/data'
 export function createUpdateSingletonAPI<CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>>(
   singletons: CMSSingletons,
 ) {
-  return async function updateSingletonAPI(request: Request) {
+  return async function updateSingletonAPI(input: UpdateSingletonBodySchema) {
     try {
-      const { singletonName, data } = updateSingletonBodySchema.parse(await request.json())
+      const { singletonName, data } = input
 
       if (!(singletonName in singletons)) {
         return NextResponse.json({ message: `Singleton ${singletonName} not found` }, { status: 404 })
@@ -18,6 +19,10 @@ export function createUpdateSingletonAPI<CMSSingletons extends Record<string, CM
 
       const singleton = singletons[singletonName]
       await updateSingletonData(singleton, singletonName, data)
+
+      // revalidate path
+      revalidatePath('/cms/admin/[[...slug]]')
+
       return NextResponse.json({ type: 'singleton', singletonName, data })
     } catch (error) {
       return handleError(error)

@@ -7,6 +7,7 @@ import SingletonContentManager from './singleton-content-manager'
 import CollectionPage from './collection-page'
 import CollectionNewItemContentManager from './collection-new-item-content-manager'
 import CollectionPageLayout from './collection-page-layout'
+import { CollectionElementPage } from './collection-element-page'
 
 export default function createDashboardPage<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
@@ -45,9 +46,9 @@ export default function createDashboardPage<
           redirect('/404')
         }
 
-        const collectionItemSlug = slug[2]
+        const collectionElementId = slug[2]
 
-        if (typeof collectionItemSlug === 'undefined') {
+        if (typeof collectionElementId === 'undefined') {
           return (
             <CollectionPageLayout collection={collection}>
               <CollectionPage collection={collection} collectionName={collectionName} />
@@ -55,7 +56,7 @@ export default function createDashboardPage<
           )
         }
 
-        if (collectionItemSlug === 'new') {
+        if (collectionElementId === 'new') {
           return (
             <CollectionPageLayout collection={collection}>
               <CollectionNewItemContentManager collection={collection} collectionName={collectionName} />
@@ -63,7 +64,15 @@ export default function createDashboardPage<
           )
         }
 
-        return null
+        return (
+          <CollectionPageLayout collection={collection}>
+            <CollectionElementPage
+              collection={collection}
+              collectionName={collectionName}
+              elementId={collectionElementId}
+            />
+          </CollectionPageLayout>
+        )
       }
 
       default: {

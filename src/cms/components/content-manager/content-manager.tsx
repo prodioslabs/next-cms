@@ -15,6 +15,7 @@ import Link from 'next/link'
 import { FileWarning } from 'lucide-react'
 import { parseISO } from 'date-fns'
 import slugify from 'slugify'
+import { useRouter } from 'next/navigation'
 import { cn } from '~/lib/utils'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
 import { Button } from '~/components/ui/button'
@@ -63,6 +64,8 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
 
   const { toast } = useToast()
 
+  const router = useRouter()
+
   const mutation = useMutation(updateContent, {
     onSuccess: () => {
       toast({
@@ -74,6 +77,7 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
           </ToastAction>
         ),
       })
+      router.refresh()
     },
     onError: (error: Error) => {
       toast({

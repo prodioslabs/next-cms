@@ -13,7 +13,8 @@ export async function deleteCollectionItem(request: Request) {
 
   try {
     const { elementId } = deleteCollectionItemParamSchema.parse({
-      id: Number.parseInt(searchParams.get('id') as string),
+      elementId: searchParams.get('elementId'),
+      type: searchParams.get('type'),
     })
 
     await prisma.collectionElement.delete({
@@ -24,6 +25,6 @@ export async function deleteCollectionItem(request: Request) {
 
     return NextResponse.json({ elementId, type: 'collection' })
   } catch (error) {
-    handleError(error)
+    return handleError(error)
   }
 }

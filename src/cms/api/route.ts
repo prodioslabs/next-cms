@@ -24,13 +24,13 @@ export function createRoute<
 
       if (input.type === 'collection') {
         if (input.method === 'update') {
-          return createUpdateCollectionItemAPI(config.collections)(request)
+          return createUpdateCollectionItemAPI(config.collections)(input)
         }
         if (input.method === 'create') {
-          return createCreateCollectionItemAPI(config.collections)(request)
+          return createCreateCollectionItemAPI(config.collections)(input)
         }
       } else if (input.type === 'singleton') {
-        return createUpdateSingletonAPI(config.singletons)(request)
+        return createUpdateSingletonAPI(config.singletons)(input)
       }
     } catch (error) {
       return handleError(error)

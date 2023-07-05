@@ -34,7 +34,7 @@ export default async function CollectionPage({ collection, collectionName, class
 
         return (
           <div key={itemId} className="flex items-center space-x-2 truncate rounded-md border px-4 py-2">
-            <Link className="flex-1 space-y-1 truncate" href={`/admin/collection/${collectionName}/${itemId}`}>
+            <Link className="flex-1 space-y-1 truncate" href={`/cms/admin/collection/${collectionName}/${itemId}`}>
               <div className="truncate text-sm text-foreground">
                 {typeof itemIdentifier === 'string' || typeof itemIdentifier === 'number' ? itemIdentifier : index}
               </div>
@@ -43,7 +43,7 @@ export default async function CollectionPage({ collection, collectionName, class
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
               </div>
             </Link>
-            <DeleteCollectionItem collectionName={collectionName} elementId={itemId} />
+            <DeleteCollectionItem elementId={itemId} />
           </div>
         )
       })}

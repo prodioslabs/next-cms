@@ -9,20 +9,13 @@ import { deleteCollectionItem } from './queries'
 import { useToast } from '~/components/ui/use-toast'
 
 type DeleteCollectionItemProps = {
-  collectionName: string
   elementId: string
   onDelete?: () => void
   className?: string
   style?: React.CSSProperties
 }
 
-export default function DeleteCollectionItem({
-  collectionName,
-  elementId,
-  onDelete,
-  className,
-  style,
-}: DeleteCollectionItemProps) {
+export default function DeleteCollectionItem({ elementId, onDelete, className, style }: DeleteCollectionItemProps) {
   const router = useRouter()
 
   const { toast } = useToast()
@@ -65,7 +58,7 @@ export default function DeleteCollectionItem({
             variant="outline"
             loading={mutation.isLoading}
             onClick={() => {
-              mutation.mutate({ collectionName, elementId })
+              mutation.mutate({ elementId })
             }}
           >
             Continue

@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 
-import colors from 'colors'
 import { CMSField } from '../types/field'
 import { CMSCollection, CMSSingleton } from '../types/schema'
 import { CMSConfig } from '../types/config'
@@ -18,7 +17,7 @@ export async function bootstrap<
       },
     })
     if (!collectionPresent) {
-      console.warn(colors.yellow(`⚠️ Collection - ${collectionName} not created. Creating ...`))
+      console.warn(`⚠️ Collection - ${collectionName} not created. Creating ...`)
       await prisma.collection.create({
         data: {
           label: collection.label,
@@ -27,9 +26,9 @@ export async function bootstrap<
           slugField: collection.slugField,
         },
       })
-      console.log(colors.green(`✅ Collection - ${collectionName} created`))
+      console.log(`✅ Collection - ${collectionName} created`)
     } else {
-      console.log(colors.blue(`⏱️ Syncing singleton ${collectionName} schema...`))
+      console.log(`⏱️ Syncing singleton ${collectionName} schema...`)
       await prisma.collection.update({
         where: {
           id: collectionPresent.id,
@@ -41,7 +40,7 @@ export async function bootstrap<
           slugField: collection.slugField,
         },
       })
-      console.log(colors.green(`✅ Collection - ${collectionName} synced`))
+      console.log(`✅ Collection - ${collectionName} synced`)
     }
   }
 
@@ -52,7 +51,7 @@ export async function bootstrap<
       },
     })
     if (!singletonPresent) {
-      console.warn(colors.yellow(`⚠️ Singleton - ${singletonName} not created. Creating ...`))
+      console.warn(`⚠️ Singleton - ${singletonName} not created. Creating ...`)
       await prisma.singleton.create({
         data: {
           label: singleton.label,
@@ -61,9 +60,9 @@ export async function bootstrap<
           data: generateDummyData(singleton.schema),
         },
       })
-      console.log(colors.green(`✅ Singleton - ${singletonName} created`))
+      console.log(`✅ Singleton - ${singletonName} created`)
     } else {
-      console.log(colors.blue(`⏱️ Syncing singletong ${singletonName} schema...`))
+      console.log(`⏱️ Syncing singletong ${singletonName} schema...`)
       await prisma.singleton.update({
         where: {
           id: singletonPresent.id,
@@ -74,7 +73,7 @@ export async function bootstrap<
           schema: singleton.schema,
         },
       })
-      console.log(colors.green(`✅ Singleton - ${singletonName} synced`))
+      console.log(`✅ Singleton - ${singletonName} synced`)
     }
   }
 }

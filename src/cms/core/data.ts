@@ -21,12 +21,14 @@ export async function updateCollectionElementData<_Collection extends CMSCollect
 ) {
   const validationSchema = getValidationSchemaForCollectionElement(collection)
   const validatedData = validationSchema.parse(data)
+  const slug = validatedData[collection.slugField] as string
   return prisma.collectionElement.update({
     where: {
       id: elementId,
     },
     data: {
       data: validatedData,
+      slug,
     },
   })
 }
