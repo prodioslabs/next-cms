@@ -6,11 +6,23 @@ import { CMSConfig } from '../types/config'
 import { prisma } from './db'
 import { generateDummyData } from './fix-data'
 
+function validateCollection(collection: CMSCollection<Record<string, CMSField>>, collectionName: string) {
+  if (collection.schema[collection.slugField]?.type !== 'text') {
+    throw new Error(`Collection - ${collectionName}: slugField ${collection.slugField} is not of type "text"`)
+  }
+  if (collection.nameField && collection.schema[collection.nameField]?.type !== 'text') {
+    throw new Error(`Collection - ${collectionName}: nameField ${collection.nameField} is not of type "text"`)
+  }
+}
+
 export async function bootstrap<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
 >(config: CMSConfig<CMSCollections, CMSSingletons>) {
   for (const [collectionName, collection] of Object.entries(config.collections)) {
+    // validate the collection
+    validateCollection(collection, collectionName)
+
     const collectionPresent = await prisma.collection.findFirst({
       where: {
         name: collectionName,
