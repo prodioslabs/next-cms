@@ -6,11 +6,15 @@ import { CMSConfig } from '../types/config'
 import { prisma } from './db'
 import { generateDummyData } from './fix-data'
 
+function isTextField(field?: CMSField) {
+  return field?.type === 'text' || field?.type === 'rich-text' || field?.type === 'slug'
+}
+
 function validateCollection(collection: CMSCollection<Record<string, CMSField>>, collectionName: string) {
-  if (collection.schema[collection.slugField]?.type !== 'text') {
+  if (!isTextField(collection.schema[collection.slugField])) {
     throw new Error(`Collection - ${collectionName}: slugField ${collection.slugField} is not of type "text"`)
   }
-  if (collection.nameField && collection.schema[collection.nameField]?.type !== 'text') {
+  if (collection.nameField && !isTextField(collection.schema[collection.nameField])) {
     throw new Error(`Collection - ${collectionName}: nameField ${collection.nameField} is not of type "text"`)
   }
 }
