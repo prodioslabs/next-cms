@@ -29,12 +29,10 @@ import SlugInput from '../slug-input/slug-input'
 import { CMSField, CMSRichTextField, CMSTextField, CMSImageData } from '~/cms/types/field'
 import { getValidationSchemaForSchema } from '~/cms/core/validation'
 import { CMSSchemaData } from '~/cms/types/schema'
+import { CreateOrUpdateContentBodySchema } from '~/cms/api/schema'
 
 type ContentManagerProps<Schema extends Record<string, CMSField>> = {
-  config:
-    | { type: 'collection'; elementId: string; collectionName: string }
-    | { type: 'singleton'; singletonName: string }
-  method?: 'create' | 'update'
+  config: CreateOrUpdateContentBodySchema
   schema: Schema
   initialData: CMSSchemaData<Schema>
   redirectToOnSave?: string
@@ -44,7 +42,6 @@ type ContentManagerProps<Schema extends Record<string, CMSField>> = {
 
 export default function ContentManager<Schema extends Record<string, CMSField>>({
   config,
-  method = 'update',
   schema,
   initialData,
   redirectToOnSave = '/',
@@ -89,16 +86,7 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
 
   const onSubmit = useCallback(
     (values: z.infer<typeof validationSchema>) => {
-      if (config.type === 'collection') {
-        mutation.mutate({
-          type: config.type,
-          elementId: config.elementId,
-          collectionName: config.collectionName,
-          data: values,
-        })
-      } else {
-        mutation.mutate({ type: config.type, singletonName: config.singletonName, data: values })
-      }
+      mutation.mutate({ ...config, data: values })
     },
     [config, mutation],
   )

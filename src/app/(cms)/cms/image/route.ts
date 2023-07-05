@@ -1,3 +1,3 @@
-import { imageUploader } from '../cms'
+import { imageUploader } from '../../cms'
 
 export const { POST } = imageUploader

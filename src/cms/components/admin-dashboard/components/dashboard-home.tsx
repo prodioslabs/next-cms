@@ -27,7 +27,7 @@ export default function DashboardHome<
         {Object.entries(config.collections).map(([collectionName, collection]) => {
           return (
             <Link
-              href={`/admin/collection/${collectionName}`}
+              href={`/cms/admin/collection/${collectionName}`}
               key={collectionName}
               className="flex items-center space-x-2 rounded-md border border-border px-4 py-2 hover:bg-secondary"
             >
@@ -51,7 +51,7 @@ export default function DashboardHome<
         {Object.entries(config.singletons).map(([singletonName, singleton]) => {
           return (
             <Link
-              href={`/admin/singleton/${singletonName}`}
+              href={`/cms/admin/singleton/${singletonName}`}
               key={singletonName}
               className="flex items-center space-x-2 rounded-md border border-border px-4 py-2 hover:bg-secondary"
             >

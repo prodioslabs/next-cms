@@ -3,27 +3,27 @@ import { CollectionElement } from '@prisma/client'
 import { CMSField } from '../types/field'
 import { CMSCollection, CMSSingleton } from '../types/schema'
 import { prisma } from './db'
-import { getValidationForCollectionElement, getValidationSchemaForSingleton } from './validation'
+import { getValidationSchemaForCollectionElement, getValidationSchemaForSingleton } from './validation'
 import { fixData, generateDummyData } from './fix-data'
 
 /**
  * Update data of a particular collection element
  *
  * @param collection collection to be updated
- * @param id id of the collection item to be updated
+ * @param elementId id of the collection item to be updated
  * @param data data to be updated
  * @returns updated collection element
  */
-export async function updateCollectionItemData<_Collection extends CMSCollection<Record<string, CMSField>>>(
+export async function updateCollectionElementData<_Collection extends CMSCollection<Record<string, CMSField>>>(
   collection: _Collection,
-  id: string,
+  elementId: string,
   data: any,
 ) {
-  const validationSchema = getValidationForCollectionElement(collection)
+  const validationSchema = getValidationSchemaForCollectionElement(collection)
   const validatedData = validationSchema.parse(data)
   return prisma.collectionElement.update({
     where: {
-      id,
+      id: elementId,
     },
     data: {
       data: validatedData,
@@ -39,12 +39,12 @@ export async function updateCollectionItemData<_Collection extends CMSCollection
  * @param data data to be updated
  * @returns updated collection element
  */
-export async function createCollectionItem<_Collection extends CMSCollection<Record<string, CMSField>>>(
+export async function createCollectionElement<_Collection extends CMSCollection<Record<string, CMSField>>>(
   collection: _Collection,
   collectionName: string,
   data: any,
 ) {
-  const validationSchema = getValidationForCollectionElement(collection)
+  const validationSchema = getValidationSchemaForCollectionElement(collection)
   const validatedData = validationSchema.parse(data)
   const slug = validatedData[collection.slugField] as string
   return prisma.collectionElement.create({
@@ -72,7 +72,7 @@ export async function fetchCollectionsListData<_Collection extends CMSCollection
   collection: _Collection,
   collectionName: string,
 ) {
-  const validationSchema = getValidationForCollectionElement(collection)
+  const validationSchema = getValidationSchemaForCollectionElement(collection)
   const data = await prisma.collectionElement.findMany({
     where: {
       collection: {
@@ -88,7 +88,7 @@ export async function fetchCollectionsListData<_Collection extends CMSCollection
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fixedData = fixData(collection.schema, item.data, error)
-        await updateCollectionItemData(collection, item.id, fixedData)
+        await updateCollectionElementData(collection, item.id, fixedData)
         finalData.push({ ...item, data: fixedData })
       } else {
         throw error
@@ -110,7 +110,7 @@ export async function fetchCollectionElementDataById<_Collection extends CMSColl
   collection: _Collection,
   elementId: string,
 ) {
-  const validationSchema = getValidationForCollectionElement(collection)
+  const validationSchema = getValidationSchemaForCollectionElement(collection)
   const item = await prisma.collectionElement.findFirst({
     where: {
       id: elementId,
@@ -125,7 +125,7 @@ export async function fetchCollectionElementDataById<_Collection extends CMSColl
   } catch (error) {
     if (error instanceof z.ZodError) {
       const fixedData = fixData(collection.schema, item.data, error)
-      await updateCollectionItemData(collection, item.id, fixedData)
+      await updateCollectionElementData(collection, item.id, fixedData)
       return { ...item, data: fixedData }
     } else {
       throw error
@@ -147,7 +147,7 @@ export async function fetchCollectionElementDataBySlug<_Collection extends CMSCo
   collectionName: string,
   elementSlug: string,
 ) {
-  const validationSchema = getValidationForCollectionElement(collection)
+  const validationSchema = getValidationSchemaForCollectionElement(collection)
   const item = await prisma.collectionElement.findFirst({
     where: {
       slug: elementSlug,
@@ -167,7 +167,7 @@ export async function fetchCollectionElementDataBySlug<_Collection extends CMSCo
   } catch (error) {
     if (error instanceof z.ZodError) {
       const fixedData = fixData(collection.schema, item.data, error)
-      await updateCollectionItemData(collection, item.id, fixedData)
+      await updateCollectionElementData(collection, item.id, fixedData)
       return { ...item, data: fixedData }
     } else {
       throw error

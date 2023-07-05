@@ -50,7 +50,7 @@ export function getValidationSchemaForField(field: CMSField) {
  *
  * @param schema collection to get the validation schema for
  * @returns zod validation schema for the collection
- * @see getValidationForCollectionList
+ * @see getValidationSchemaForCollectionList
  * @see getValidationSchemaForSingleton
  */
 export function getValidationSchemaForSchema<Schema extends Record<string, CMSField>>(schema: Schema) {
@@ -74,7 +74,7 @@ export function getValidationSchemaForSchema<Schema extends Record<string, CMSFi
  * @returns zod validation schema for the collection
  * @see getValidationSchemaForFields
  */
-export function getValidationForCollectionList<_Collection extends CMSCollection<Record<string, CMSField>>>(
+export function getValidationSchemaForCollectionList<_Collection extends CMSCollection<Record<string, CMSField>>>(
   collection: _Collection,
 ) {
   return z.array(getValidationSchemaForSchema(collection.schema)) as z.ZodArray<CMSCollectionItemZodSchema<_Collection>>
@@ -88,7 +88,7 @@ export function getValidationForCollectionList<_Collection extends CMSCollection
  * @returns zod validation schema for the collection
  * @see getValidationSchemaForFields
  */
-export function getValidationForCollectionElement<_Collection extends CMSCollection<Record<string, CMSField>>>(
+export function getValidationSchemaForCollectionElement<_Collection extends CMSCollection<Record<string, CMSField>>>(
   collection: _Collection,
 ) {
   return getValidationSchemaForSchema(collection.schema) as CMSCollectionItemZodSchema<_Collection>

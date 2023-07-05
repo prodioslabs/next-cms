@@ -25,7 +25,7 @@ export default async function SingletonContentManager({
       <PageHeading title={singleton.label} icon={<File />} />
       <ContentManager
         schema={singleton.schema}
-        config={{ type: 'singleton', singletonName }}
+        config={{ type: 'singleton', singletonName, method: 'update' }}
         initialData={singletonData.data as CMSSingletonData<typeof singleton>}
       />
     </div>
