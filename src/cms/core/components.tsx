@@ -52,7 +52,7 @@ export function createCollectionReader<
         </Slot>
         <EditableLink
           label={collection.label}
-          url={`/admin/collection/${collectionName}`}
+          url={`/cms/admin/collection/${collectionName}`}
           containerElementId={containerProps.id}
         />
       </>
@@ -98,7 +98,7 @@ export function createCollectionReader<
         </Slot>
         <EditableLink
           label={collection.label}
-          url={`/admin/collection/${collectionName}/${item.id}`}
+          url={`/cms/admin/collection/${collectionName}/${item.id}`}
           containerElementId={containerProps.id}
         />
       </>
@@ -157,7 +157,7 @@ export function createSingletonReader<
         </Slot>
         <EditableLink
           label={singleton.label}
-          url={`/admin/singleton/${singletonName}`}
+          url={`/cms/admin/singleton/${singletonName}`}
           containerElementId={containerProps.id}
         />
       </>
