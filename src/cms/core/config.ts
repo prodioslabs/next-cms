@@ -1,5 +1,6 @@
 import { CMSConfig } from '../types/config'
 import { CMSField } from '../types/field'
+import { CMSPlugin } from '../types/plugin'
 import { CMSCollection, CMSSingleton } from '../types/schema'
 
 export function createCMSConfig<
@@ -8,13 +9,16 @@ export function createCMSConfig<
 >({
   collections,
   singletons,
+  plugins,
 }: {
   collections: CMSCollections
   singletons: CMSSingletons
+  plugins?: CMSPlugin[]
 }): CMSConfig<CMSCollections, CMSSingletons> {
   return {
     storage: 'database',
     collections,
     singletons,
+    plugins: plugins ?? [],
   }
 }

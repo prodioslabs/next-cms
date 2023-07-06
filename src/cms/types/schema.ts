@@ -3,8 +3,8 @@ import { CMSField, CMSFieldDataType, CMSFieldZodSchema } from './field'
 
 export type CMSCollection<
   Schema extends Record<string, CMSField>,
-  SlugField extends keyof Schema & string = keyof Schema & string,
-  NameField extends keyof Schema = keyof Schema & string,
+  SlugField extends keyof Schema = keyof Schema,
+  NameField extends keyof Schema = keyof Schema,
 > = {
   label: string
   description?: string

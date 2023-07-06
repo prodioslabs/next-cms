@@ -1,4 +1,5 @@
 import { CMSField } from './field'
+import { CMSPlugin } from './plugin'
 import { CMSCollection, CMSSingleton } from './schema'
 
 export type CMSConfig<
@@ -10,4 +11,5 @@ export type CMSConfig<
   storage: 'database'
   collections: CMSCollections
   singletons: CMSSingletons
+  plugins: CMSPlugin[]
 }

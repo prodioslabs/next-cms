@@ -6,27 +6,32 @@ export type CMSBaseField = {
   required?: boolean
 }
 
-export type CMSTextField = {
+export type CMSTextField = CMSBaseField & {
   type: 'text'
   default?: string
 }
 
-export type CMSRichTextField = {
+export type CMSRichTextField = CMSBaseField & {
   type: 'rich-text'
   default?: string
 }
 
-export type CMSNumberField = {
+export type CMSNumberField = CMSBaseField & {
   type: 'number'
   default?: number
 }
 
-export type CMSDateField = {
+export type CMSDateField = CMSBaseField & {
   type: 'date'
   default?: string
 }
 
-export type CMSImageField = {
+export type CMSSlugField = CMSBaseField & {
+  type: 'slug'
+  from: string
+}
+
+export type CMSImageField = CMSBaseField & {
   type: 'image'
   multiple?: boolean
 }
@@ -37,13 +42,7 @@ export type CMSImageData = {
 }
 export type ZodImageSchema = z.ZodObject<{ url: z.ZodString; width: z.ZodNumber; height: z.ZodNumber }>
 
-export type CMSSlugField = {
-  type: 'slug'
-  from: string
-}
-
-export type CMSField = CMSBaseField &
-  (CMSTextField | CMSRichTextField | CMSNumberField | CMSDateField | CMSImageField | CMSSlugField)
+export type CMSField = CMSTextField | CMSRichTextField | CMSNumberField | CMSDateField | CMSImageField | CMSSlugField
 
 export type CMSFieldDataType<F extends CMSField> = F extends CMSTextField
   ? string
