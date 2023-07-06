@@ -1,14 +1,13 @@
 /* eslint-disable no-console */
 
+import { z } from 'zod'
 import { CMSField } from '../types/field'
 import { CMSCollection, CMSSingleton } from '../types/schema'
 import { CMSConfig } from '../types/config'
 import { prisma } from './db'
-import { generateDummyData } from './fix-data'
-
-function isTextField(field?: CMSField) {
-  return field?.type === 'text' || field?.type === 'rich-text' || field?.type === 'slug'
-}
+import { fixData, generateDummyData } from './fix-data'
+import { isTextField } from './field'
+import { getValidationSchemaForCollectionElement, getValidationSchemaForSingleton } from './validation'
 
 function validateCollection(collection: CMSCollection<Record<string, CMSField>>, collectionName: string) {
   if (!isTextField(collection.schema[collection.slugField])) {
@@ -58,6 +57,42 @@ export async function bootstrap<
       })
       console.log(`✅ Collection - ${collectionName} synced`)
     }
+
+    const validationSchema = getValidationSchemaForCollectionElement(collection)
+
+    // Fix the collection elements data
+    const collectionElements = await prisma.collectionElement.findMany({
+      where: {
+        collection: {
+          name: collectionName,
+        },
+      },
+    })
+    for (const collectionElement of collectionElements) {
+      try {
+        // check if the collection data is valid or not
+        validationSchema.parse(collectionElement.data)
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          console.log(
+            `⚠️ Invalid collection element ${collectionElement.id} for collection - ${collectionName} data found`,
+          )
+          console.log(`⏱️ Fixing collection element ${collectionElement.id} for collection - ${collectionName} data...`)
+          const fixedData = fixData(collection.schema, collectionElement.data, error)
+          await prisma.collectionElement.update({
+            where: {
+              id: collectionElement.id,
+            },
+            data: {
+              data: fixedData,
+            },
+          })
+          console.log(`✅ Collection element ${collectionElement.id} for collection - ${collectionName} data fixed`)
+        } else {
+          throw error
+        }
+      }
+    }
   }
 
   for (const [singletonName, singleton] of Object.entries(config.singletons)) {
@@ -90,6 +125,28 @@ export async function bootstrap<
         },
       })
       console.log(`✅ Singleton - ${singletonName} synced`)
+
+      const validationSchema = getValidationSchemaForSingleton(singleton)
+      try {
+        validationSchema.parse(singletonPresent.data)
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          console.log(`⚠️ Invalid singleton ${singletonName} data found`)
+          console.log(`⏱️ Fixing singleton ${singletonName} data...`)
+          const fixedData = fixData(singleton.schema, singletonPresent.data, error)
+          await prisma.singleton.update({
+            where: {
+              name: singletonName,
+            },
+            data: {
+              data: fixedData,
+            },
+          })
+          console.log(`✅ Singleton ${singletonName} data fixed`)
+        } else {
+          throw error
+        }
+      }
     }
   }
 }

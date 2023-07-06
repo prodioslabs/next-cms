@@ -4,17 +4,7 @@ import { z } from 'zod'
 import { CMSField } from '../types/field'
 import { CMSSchemaData } from '../types/schema'
 import { isPlainObject } from '../utils/object'
-
-/**
- * Checks if the field is an array type.
- *
- * @param field field to be checked
- * @returns true if the field is an array type, false otherwise
- */
-function isFieldArrayType(field: CMSField) {
-  // right now, the only array type is the image type
-  return field.type === 'image'
-}
+import { isFieldArrayType } from './field'
 
 /**
  * Generate dummy data for a field. This function will generate dummy data based on the
