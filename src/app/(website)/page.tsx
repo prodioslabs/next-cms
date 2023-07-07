@@ -1,7 +1,6 @@
 import ReactMarkdown from 'react-markdown'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
 import config from '~/cms.config'
 import { createSingletonReader, createCollectionReader } from '~/cms/core/components'
 import { Button } from '~/components/ui/button'

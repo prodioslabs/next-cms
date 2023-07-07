@@ -1,4 +1,5 @@
 import { createCMSConfig } from './cms/core/config'
+import { createAIContentPlugin } from './cms/plugins/ai-content/plugin'
 import { env } from './env'
 
 const config = createCMSConfig({
@@ -62,12 +63,9 @@ const config = createCMSConfig({
     },
   },
   plugins: [
-    {
-      name: 'ai-content',
-      config: {
-        OPEN_AI_API_KEY: env.OPENAI_API_KEY,
-      },
-    },
+    createAIContentPlugin({
+      OPENAI_API_KEY: env.OPENAI_API_KEY,
+    }),
   ],
 })
 

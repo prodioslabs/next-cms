@@ -1,8 +1,9 @@
-export type AIContentPlugin = {
-  name: 'ai-content'
-  config: {
-    OPEN_AI_API_KEY: string
-  }
-}
+import { UseFormReturn } from 'react-hook-form'
+import { CMSField } from './field'
 
-export type CMSPlugin = AIContentPlugin
+export type CMSPlugin = {
+  name: string
+  enabledForFields: CMSField['type'][]
+  component: React.ComponentType<{ form: UseFormReturn<any, any, any>; fieldKey: string; field: CMSField }>
+  config: any
+}

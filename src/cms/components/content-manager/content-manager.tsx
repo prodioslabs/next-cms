@@ -7,7 +7,7 @@
  */
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useCallback, useMemo } from 'react'
+import { createElement, useCallback, useMemo } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
 import { useMutation } from 'react-query'
@@ -32,7 +32,6 @@ import { getValidationSchemaForSchema } from '~/cms/core/validation'
 import { CMSSchemaData } from '~/cms/types/schema'
 import { CreateOrUpdateContentBodySchema } from '~/cms/api/schema'
 import { CMSPlugin } from '~/cms/types/plugin'
-import AIContent from '~/cms/plugins/ai-content/components/ai-content'
 
 type ContentManagerProps<Schema extends Record<string, CMSField>> = {
   config: CreateOrUpdateContentBodySchema
@@ -115,9 +114,9 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                 return null
               }
 
-              const renderAIContentPlugin =
-                plugins.find((plugin) => plugin.name === 'ai-content') &&
-                (fieldSchema.type === 'text' || fieldSchema.type === 'rich-text')
+              const pluginsToRender = plugins.filter((plugin) => {
+                return plugin.enabledForFields.includes(fieldSchema.type)
+              })
 
               return (
                 <FormField
@@ -130,7 +129,7 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                       <FormItem>
                         <FormLabel className="flex items-center space-x-4 truncate">
                           <span className="flex-1 truncate">{fieldSchema.label}</span>
-                          {renderAIContentPlugin ? (
+                          {/* {renderAIContentPlugin ? (
                             <AIContent
                               fieldType={fieldSchema.type}
                               onUseContent={(content) => {
@@ -138,7 +137,10 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                                 form.setValue(fieldKey, content)
                               }}
                             />
-                          ) : null}
+                          ) : null} */}
+                          {pluginsToRender.map((plugin) => {
+                            return createElement(plugin.component, { fieldKey, field: fieldSchema, form })
+                          })}
                         </FormLabel>
                         <FormControl>
                           {(() => {

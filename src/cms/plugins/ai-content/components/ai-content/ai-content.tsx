@@ -2,11 +2,11 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FileEdit, Trash2 } from 'lucide-react'
-import { useForm } from 'react-hook-form'
+import { UseFormReturn, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useMutation } from 'react-query'
 import { useState } from 'react'
-import { CMSRichTextField, CMSTextField } from '~/cms/types/field'
+import { CMSField } from '~/cms/types/field'
 import { Button } from '~/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
 import {
@@ -28,15 +28,19 @@ const validationSchema = z.object({
 })
 
 type AIContentProps = {
-  fieldType: CMSTextField['type'] | CMSRichTextField['type']
-  onUseContent: (content: string) => void
+  field: CMSField
+  fieldKey: string
+  form: UseFormReturn
 }
 
-export default function AIContent({ fieldType, onUseContent }: AIContentProps) {
-  const { toast } = useToast()
+export default function AIContent({ field, fieldKey, form: contentManagerForm }: AIContentProps) {
+  const fieldType = z.union([z.literal('text'), z.literal('rich-text')]).parse(field.type)
+
+  const [open, setOpen] = useState(false)
 
   const [messages, setMessages] = useState<string[]>([])
 
+  const { toast } = useToast()
   const mutation = useMutation(generateContent, {
     onSuccess: ({ content }) => {
       setMessages((prevState) => [...prevState, content])
@@ -60,7 +64,7 @@ export default function AIContent({ fieldType, onUseContent }: AIContentProps) {
   return (
     <TooltipProvider>
       <Tooltip>
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen}>
           <TooltipTrigger asChild>
             <SheetTrigger asChild>
               <Button icon={<FileEdit />} variant="outline" size="icon" />
@@ -127,7 +131,8 @@ export default function AIContent({ fieldType, onUseContent }: AIContentProps) {
                           <Button
                             variant="secondary"
                             onClick={() => {
-                              onUseContent(message)
+                              contentManagerForm.setValue(fieldKey, message)
+                              setOpen(false)
                             }}
                           >
                             Use Content
