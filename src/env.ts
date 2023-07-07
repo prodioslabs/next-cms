@@ -10,7 +10,7 @@ const clientEnvSchema = z.object({})
 
 const envSchema = serverEnvSchema.merge(clientEnvSchema)
 
-const isServer = typeof window !== 'undefined'
+const isServer = typeof window === 'undefined'
 
 const parsed = (isServer ? envSchema.parse(process.env) : clientEnvSchema.parse(process.env)) as z.infer<
   typeof envSchema

@@ -5,10 +5,12 @@ import { CMSField } from '~/cms/types/field'
 import { fetchSingletonData } from '~/cms/core/data'
 import { PageHeading } from '~/components/ui/page-heading'
 import { cn } from '~/lib/utils'
+import { CMSPlugin } from '~/cms/types/plugin'
 
 type SingletonContentManagerProps = {
   singleton: CMSSingleton<Record<string, CMSField>>
   singletonName: string
+  plugins?: CMSPlugin[]
   className?: string
   style?: React.CSSProperties
 }
@@ -16,6 +18,7 @@ type SingletonContentManagerProps = {
 export default async function SingletonContentManager({
   singleton,
   singletonName,
+  plugins,
   className,
   style,
 }: SingletonContentManagerProps) {
@@ -27,6 +30,7 @@ export default async function SingletonContentManager({
         schema={singleton.schema}
         config={{ type: 'singleton', singletonName, method: 'update' }}
         initialData={singletonData.data as CMSSingletonData<typeof singleton>}
+        plugins={plugins}
       />
     </div>
   )

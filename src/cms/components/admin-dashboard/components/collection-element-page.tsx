@@ -5,11 +5,13 @@ import ContentManager from '../../content-manager'
 import { CMSCollection } from '~/cms/types/schema'
 import { CMSField } from '~/cms/types/field'
 import { fetchCollectionElementDataById } from '~/cms/core/data'
+import { CMSPlugin } from '~/cms/types/plugin'
 
 type CollectionElementPageProps = {
   collection: CMSCollection<Record<string, CMSField>>
   collectionName: string
   elementId: string
+  plugins?: CMSPlugin[]
   className?: string
   style?: React.CSSProperties
 }
@@ -18,6 +20,7 @@ export async function CollectionElementPage({
   collection,
   collectionName,
   elementId,
+  plugins,
   className,
   style,
 }: CollectionElementPageProps) {
@@ -38,6 +41,7 @@ export async function CollectionElementPage({
         schema={collection.schema}
         config={{ type: 'collection', collectionName, elementId, method: 'update' }}
         initialData={collectionElement.data}
+        plugins={plugins}
       />
     </div>
   )

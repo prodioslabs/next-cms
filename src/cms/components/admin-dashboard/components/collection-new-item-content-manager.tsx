@@ -5,10 +5,12 @@ import { CMSCollection } from '~/cms/types/schema'
 import ContentManager from '../../content-manager'
 import { cn } from '~/lib/utils'
 import { generateDummyData } from '~/cms/core/fix-data'
+import { CMSPlugin } from '~/cms/types/plugin'
 
 type CollectionNewItemContentManagerProps = {
   collection: CMSCollection<Record<string, CMSField>>
   collectionName: string
+  plugins?: CMSPlugin[]
   className?: string
   style?: React.CSSProperties
 }
@@ -16,6 +18,7 @@ type CollectionNewItemContentManagerProps = {
 export default function CollectionNewItemContentManager({
   collection,
   collectionName,
+  plugins,
   className,
   style,
 }: CollectionNewItemContentManagerProps) {
@@ -36,6 +39,7 @@ export default function CollectionNewItemContentManager({
         schema={collection.schema}
         config={{ type: 'collection', collectionName, method: 'create' }}
         initialData={initialData}
+        plugins={plugins}
       />
     </div>
   )

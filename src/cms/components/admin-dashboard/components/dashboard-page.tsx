@@ -32,7 +32,7 @@ export default function createDashboardPage<
           redirect('/404')
         }
 
-        return <SingletonContentManager singleton={singleton} singletonName={singletonName} />
+        return <SingletonContentManager singleton={singleton} singletonName={singletonName} plugins={config.plugins} />
       }
 
       case 'collection': {
@@ -59,7 +59,11 @@ export default function createDashboardPage<
         if (collectionElementId === 'new') {
           return (
             <CollectionPageLayout collection={collection}>
-              <CollectionNewItemContentManager collection={collection} collectionName={collectionName} />
+              <CollectionNewItemContentManager
+                collection={collection}
+                collectionName={collectionName}
+                plugins={config.plugins}
+              />
             </CollectionPageLayout>
           )
         }
@@ -70,6 +74,7 @@ export default function createDashboardPage<
               collection={collection}
               collectionName={collectionName}
               elementId={collectionElementId}
+              plugins={config.plugins}
             />
           </CollectionPageLayout>
         )

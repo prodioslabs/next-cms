@@ -1,4 +1,5 @@
 import { createCMSConfig } from './cms/core/config'
+import { env } from './env'
 
 const config = createCMSConfig({
   singletons: {
@@ -60,6 +61,14 @@ const config = createCMSConfig({
       },
     },
   },
+  plugins: [
+    {
+      name: 'ai-content',
+      config: {
+        OPEN_AI_API_KEY: env.OPENAI_API_KEY,
+      },
+    },
+  ],
 })
 
 export default config

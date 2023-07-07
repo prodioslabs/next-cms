@@ -31,11 +31,14 @@ import { CMSField, CMSRichTextField, CMSTextField, CMSImageData } from '~/cms/ty
 import { getValidationSchemaForSchema } from '~/cms/core/validation'
 import { CMSSchemaData } from '~/cms/types/schema'
 import { CreateOrUpdateContentBodySchema } from '~/cms/api/schema'
+import { CMSPlugin } from '~/cms/types/plugin'
+import AIContent from '~/cms/plugins/ai-content/components/ai-content'
 
 type ContentManagerProps<Schema extends Record<string, CMSField>> = {
   config: CreateOrUpdateContentBodySchema
   schema: Schema
   initialData: CMSSchemaData<Schema>
+  plugins?: CMSPlugin[]
   redirectToOnSave?: string
   className?: string
   style?: React.CSSProperties
@@ -46,6 +49,7 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
   schema,
   initialData,
   redirectToOnSave = '/',
+  plugins = [],
   className,
   style,
 }: ContentManagerProps<Schema>) {
@@ -111,6 +115,10 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                 return null
               }
 
+              const renderAIContentPlugin =
+                plugins.find((plugin) => plugin.name === 'ai-content') &&
+                (fieldSchema.type === 'text' || fieldSchema.type === 'rich-text')
+
               return (
                 <FormField
                   key={fieldKey}
@@ -120,7 +128,18 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                   render={({ field: { value, ...field } }) => {
                     return (
                       <FormItem>
-                        <FormLabel>{fieldSchema.label}</FormLabel>
+                        <FormLabel className="flex items-center space-x-4 truncate">
+                          <span className="flex-1 truncate">{fieldSchema.label}</span>
+                          {renderAIContentPlugin ? (
+                            <AIContent
+                              fieldType={fieldSchema.type}
+                              onUseContent={(content) => {
+                                // @ts-expect-error
+                                form.setValue(fieldKey, content)
+                              }}
+                            />
+                          ) : null}
+                        </FormLabel>
                         <FormControl>
                           {(() => {
                             switch (fieldSchema.type) {
