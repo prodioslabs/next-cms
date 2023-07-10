@@ -1,3 +1,4 @@
+import { createUnsplashPlugin } from './cms/plugins/unsplash-image/plugin'
 import { createCMSConfig } from './cms/core/config'
 import { createAIContentPlugin } from './cms/plugins/ai-content/plugin'
 import { env } from './env'
@@ -64,7 +65,10 @@ const config = createCMSConfig({
   },
   plugins: [
     createAIContentPlugin({
-      OPENAI_API_KEY: env.OPENAI_API_KEY,
+      OPENAI_API_KEY: env.OPENAI_API_KEY!,
+    }),
+    createUnsplashPlugin({
+      UNSPLASH_ACCESS_KEY: env.UNSPLASH_ACCESS_KEY!,
     }),
   ],
 })

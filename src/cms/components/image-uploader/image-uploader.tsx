@@ -51,7 +51,7 @@ export default function ImageUploader({ uploadedImages, onChange, multiple, clas
                   className="h-10 w-10 rounded-md object-cover"
                 />
                 <div className="flex-1 truncate text-xs text-muted-foreground">
-                  <div className="truncate">{uploadedImage.url}</div>
+                  <div className="line-clamp-1 truncate whitespace-break-spaces">{uploadedImage.url}</div>
                   <div className="truncate">
                     {uploadedImage.width}x{uploadedImage.height}
                   </div>

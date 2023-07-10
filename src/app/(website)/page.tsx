@@ -10,25 +10,32 @@ const BlogsCollection = createCollectionReader(config, 'blogs')
 
 export default function Home() {
   return (
-    <div className="space-y-8 p-4">
+    <div className="space-y-8">
       <HomePageHeroSectionSingleton
         renderItem={({ data: { title, content, coverImage, callToAction } }) => {
           return (
-            <div className="mx-auto grid grid-cols-2 items-center gap-4">
+            <div className="mx-auto grid grid-cols-2 items-center gap-12 bg-primary">
               <div className="ml-auto max-w-xl">
-                <h1 className="mb-8 text-5xl font-medium text-foreground">{title}</h1>
-                <div className="prose-base mb-4 text-muted-foreground">
+                <h1 className="mb-8 text-5xl font-medium text-primary-foreground">{title}</h1>
+                <div className="prose-base mb-8 text-muted-foreground">
                   <ReactMarkdown>{content}</ReactMarkdown>
                 </div>
-                <Button>{callToAction}</Button>
+                <Button variant="secondary">{callToAction}</Button>
               </div>
-              <div className="col-span-1 min-h-[400px]">
+              <div className="relative col-span-1 min-h-[400px]">
+                <svg
+                  viewBox="0 0 10 10"
+                  preserveAspectRatio="none"
+                  className="absolute bottom-0 left-0 top-0 h-full w-20"
+                >
+                  <path d="M0 0 L10 0 L0 10 Z" className="fill-primary" />
+                </svg>
                 <Image
                   alt=""
                   src={coverImage[0].url}
                   height={coverImage[0].height}
                   width={coverImage[0].width}
-                  className="h-full w-full rounded-md object-contain"
+                  className="h-full w-full object-contain"
                 />
               </div>
             </div>
@@ -41,7 +48,7 @@ export default function Home() {
           return (
             <div className="mx-auto max-w-screen-xl">
               <div className="mb-2 text-center text-2xl font-semibold text-foreground">Blogs</div>
-              <div className="flex items-center justify-center">
+              <div className="mb-4 flex items-center justify-center">
                 <Link href="/blogs" className="mx-auto flex items-center text-sm text-muted-foreground">
                   Read more blogs...
                 </Link>

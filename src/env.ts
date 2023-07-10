@@ -2,8 +2,10 @@ import { z } from 'zod'
 
 const serverEnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'production']),
-  OPENAI_API_KEY: z.string().min(1),
+  OPENAI_API_KEY: z.string().min(1).optional(),
   DATABASE_URL: z.string().min(1),
+  UNSPLASH_ACCESS_KEY: z.string().min(1).optional(),
+  UNSPLASH_SECRET_KEY: z.string().min(1).optional(),
 })
 
 const clientEnvSchema = z.object({})

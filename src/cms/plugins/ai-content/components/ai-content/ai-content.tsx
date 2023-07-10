@@ -2,11 +2,10 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FileEdit, Trash2 } from 'lucide-react'
-import { UseFormReturn, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useMutation } from 'react-query'
 import { useState } from 'react'
-import { CMSField } from '~/cms/types/field'
 import { Button } from '~/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
 import {
@@ -22,18 +21,13 @@ import { Textarea } from '~/components/ui/textarea'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip'
 import { generateContent } from './queries'
 import { useToast } from '~/components/ui/use-toast'
+import { CMSPluginComponentProps } from '~/cms/types/plugin'
 
 const validationSchema = z.object({
   message: z.string(),
 })
 
-type AIContentProps = {
-  field: CMSField
-  fieldKey: string
-  form: UseFormReturn
-}
-
-export default function AIContent({ field, fieldKey, form: contentManagerForm }: AIContentProps) {
+export default function AIContent({ field, fieldKey, form: contentManagerForm }: CMSPluginComponentProps) {
   const fieldType = z.union([z.literal('text'), z.literal('rich-text')]).parse(field.type)
 
   const [open, setOpen] = useState(false)
@@ -54,7 +48,7 @@ export default function AIContent({ field, fieldKey, form: contentManagerForm }:
     },
   })
 
-  const form = useForm({
+  const form = useForm<z.infer<typeof validationSchema>>({
     resolver: zodResolver(validationSchema),
     defaultValues: {
       message: '',

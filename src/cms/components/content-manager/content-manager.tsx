@@ -129,17 +129,13 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                       <FormItem>
                         <FormLabel className="flex items-center space-x-4 truncate">
                           <span className="flex-1 truncate">{fieldSchema.label}</span>
-                          {/* {renderAIContentPlugin ? (
-                            <AIContent
-                              fieldType={fieldSchema.type}
-                              onUseContent={(content) => {
-                                // @ts-expect-error
-                                form.setValue(fieldKey, content)
-                              }}
-                            />
-                          ) : null} */}
                           {pluginsToRender.map((plugin) => {
-                            return createElement(plugin.component, { fieldKey, field: fieldSchema, form })
+                            return createElement(plugin.component, {
+                              fieldKey,
+                              field: fieldSchema,
+                              form,
+                              key: plugin.name,
+                            })
                           })}
                         </FormLabel>
                         <FormControl>
