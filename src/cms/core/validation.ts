@@ -38,6 +38,14 @@ export function getValidationSchemaForField(field: CMSField) {
         )
         .min(1)
 
+    case 'icon': {
+      return z.object({
+        name: z.string().min(1),
+        // update the list based on the icons list in future
+        iconLib: z.enum(['lucide']),
+      })
+    }
+
     default: {
       throw new Error('Invalid field type')
     }

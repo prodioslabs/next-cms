@@ -19,6 +19,11 @@ const config = createCMSConfig({
           type: 'rich-text',
           required: true,
         },
+        callToActionIcon: {
+          label: 'Call to Action Icon',
+          type: 'icon',
+          required: true,
+        },
         callToAction: {
           label: 'Call to Action',
           type: 'text',

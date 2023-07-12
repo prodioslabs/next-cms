@@ -27,11 +27,12 @@ import { ToastAction } from '~/components/ui/toast'
 import { DatePicker } from '~/components/ui/date-picker'
 import ImageUploader from '../image-uploader'
 import SlugInput from '../slug-input/slug-input'
-import { CMSField, CMSRichTextField, CMSTextField, CMSImageData } from '~/cms/types/field'
+import { CMSField, CMSRichTextField, CMSTextField, CMSImageData, CMSIconData } from '~/cms/types/field'
 import { getValidationSchemaForSchema } from '~/cms/core/validation'
 import { CMSSchemaData } from '~/cms/types/schema'
 import { CreateOrUpdateContentBodySchema } from '~/cms/api/schema'
 import { CMSPlugin } from '~/cms/types/plugin'
+import IconSelector from '../icon-selector'
 
 type ContentManagerProps<Schema extends Record<string, CMSField>> = {
   config: CreateOrUpdateContentBodySchema
@@ -191,6 +192,18 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                                     onChange={(uploadedImages) => {
                                       // @ts-expect-error
                                       field.onChange(uploadedImages)
+                                    }}
+                                  />
+                                )
+                              }
+
+                              case 'icon': {
+                                return (
+                                  <IconSelector
+                                    icon={value as CMSIconData}
+                                    onChange={(selectedIcon) => {
+                                      // @ts-expect-error
+                                      field.onChange(selectedIcon)
                                     }}
                                   />
                                 )
