@@ -52,28 +52,38 @@ export const config = {
 
 `Singleton` component provides a way to create a singleton content type. These are one-of-a-kind content types that are not meant to be repeated. For example, a hero section on a home page.
 
-These components can be created using `createSingletonComponentFromConfig` function. It would return the `Singleton` component that can be used for rendering the content.
+These components can be created using `createSingletonReader` function. It would return the `Singleton` component that can be used for rendering the content.
 
 | Parameter | Type   | Description           |
 | --------- | ------ | --------------------- |
 | config    | Config | Configuration object  |
 | name      | string | Name of the singleton |
 
+### Single Reader Component
+
+`SingletonReader` component is used to read the content of a singleton. It accepts a `renderItem` prop that is called with the content of the singleton.
+
+| Prop       | Type                                         | Description     |
+| ---------- | -------------------------------------------- | --------------- |
+| renderItem | (args: { data: SingletonData }) => ReactNode | Render function |
+
+The `data` object contains the content of the singleton. As this library is fully typed, you can use the intellisense to see the type of the content. This is the same type that is used in the configuration file.
+
 ```tsx
 import cmsConfig from '~/cms.config'
-import { createSingletonComponentFromConfig } from '~/cms/core'
+import { createSingletonReader } from '~/cms/core'
 
-const HomePageHeroSectionSingleton = createSingletonComponentFromConfig(cmsConfig, 'homePageHeroSection')
+const HomePageHeroSectionSingleton = createSingletonReader(cmsConfig, 'homePageHeroSection')
 
 export default function HeroSection() {
   return (
     <HomePageHeroSectionSingleton
-      render={({ item: { title, content } }) => {
+      renderItem={({ item: { title, content } }) => {
         return (
           <div className="grid grid-cols-2">
             <div>
-              <h1 className="text-foreground mb-2 text-2xl font-bold">{title}</h1>
-              <div className="text-muted-foreground mb-4">
+              <h1 className="mb-2 text-2xl font-bold text-foreground">{title}</h1>
+              <div className="mb-4 text-muted-foreground">
                 <ReactMarkdown>{content}</ReactMarkdown>
               </div>
               <Button icon={<FaGoogle />}>Click Here</Button>
@@ -90,28 +100,41 @@ export default function HeroSection() {
 
 `Collection` component provides a way to create a collection content type. These are content types that are meant to be repeated. For example, a list of blog posts.
 
-These components can be created using `createCollectionComponentFromConfig` function. It would return the `Singleton` component that can be used for rendering the content.
+These components can be created using `createCollectionReader` function. It would return the `Singleton` component that can be used for rendering the content.
 
 | Parameter | Type   | Description            |
 | --------- | ------ | ---------------------- |
 | config    | Config | Configuration object   |
 | name      | string | Name of the collection |
 
+### Collection Reader Component
+
+`CollectionReader` component is used to read the content of a collection. It either accepts `renderItems` prop that is called with the content of the collection or it accepts `renderItem` prop that can be used to a particular item of the collection.
+
+| Prop        | Type                                                                                       | Description                                                                                       |
+| ----------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| type        | `element` or `list`                                                                        | Type specifies whether you want to read the entire list or a particular element of the collection |
+| renderItems | `(args: { items: { data: CollectionData, id: string, slug: string } }) => React.ReactNode` | Render function for the entire list                                                               |
+| renderItem  | `(args: { item: { data: CollectionData, id: string, slug: string } }) => React.ReactNode`  | Render function for a particular item                                                             |
+| elementId   | string                                                                                     | Id of the element to read. This is only used when `type` is `element`                             |
+| elementSlug | string                                                                                     | Slug of the element to read. This is only used when `type` is `element`                           |
+
 ```tsx
 import cmsConfig from '~/cms.config'
-import { createCollectionComponentFromConfig } from '~/cms/core'
+import { createCollectionReader } from '~/cms/core'
 
-const BlogsCollection = createCollectionComponentFromConfig(cmsConfig, 'blogs')
+const BlogsCollection = createCollectionReader(cmsConfig, 'blogs')
 
 export default function Blogs() {
   return (
     <BlogsCollection
-      render={({ items: blogs }) => {
+      type="list"
+      renderItems={({ items: blogs }) => {
         return (
           <div className="grid grid-cols-6 gap-4">
-            {blogs.map((blog, index) => {
+            {blogs.map(({ data: blog }, index) => {
               return (
-                <div key={index} className="border-border rounded-md border p-4">
+                <div key={index} className="rounded-md border border-border p-4">
                   <Image
                     width={blog.coverImage.width}
                     height={blog.coverImage.height}
@@ -119,8 +142,8 @@ export default function Blogs() {
                     alt={blog.title}
                     className="mb-2 h-40 w-full rounded-md object-cover"
                   />
-                  <div className="text-foreground font-medium">{blog.title}</div>
-                  <div className="text-muted-foreground text-sm">{blog.content.slice(0, 20)}</div>
+                  <div className="font-medium text-foreground">{blog.title}</div>
+                  <div className="text-sm text-muted-foreground">{blog.content.slice(0, 20)}</div>
                 </div>
               )
             })}
