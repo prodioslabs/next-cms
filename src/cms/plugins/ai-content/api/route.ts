@@ -11,32 +11,23 @@ export async function generateContentPOST(request: Request) {
     const { fieldType, message } = generateContentBodyValidationSchema.parse(await request.json())
 
     const llm = new ChatOpenAI({
-      streaming: true,
       openAIApiKey: env.OPENAI_API_KEY,
+      temperature: 0.9,
     })
 
-    const prompt =
+    const promptTemplate =
       fieldType === 'text'
-        ? new PromptTemplate({
-            template:
-              'Generate content for a CMS based on the following message. Limit the content to no more than 1 paragraph.\n\nMessage: {message}\n\nContent:',
-            inputVariables: ['message'],
-          })
-        : new PromptTemplate({
-            template:
-              'Generate content for a CMS based on the following message.Generate the content in markdown.\n\nMessage: {message}\n\nContent:',
-            inputVariables: ['message'],
-          })
+        ? 'You are a professional chatbot meant to help the user of a CMS generate content for their website. Generate the content based on Message. Limit the content to no more than 1 paragraph.\n\nMessage: {message}\n\nContent:'
+        : 'You are a professional chatbot meant to help the user of a CMS generate content for their website. Generate the content in markdown based on the Message. Limit the content to no more than 2 paragraphs.\n\nMessage: {message}\n\nContent:'
 
+    const prompt = new PromptTemplate({ template: promptTemplate, inputVariables: ['message'] })
     const chain = new LLMChain({ llm, prompt })
 
-    const chainRes = await chain.call({
+    const { text } = await chain.call({
       message,
     })
-    return NextResponse.json({
-      fieldType,
-      content: chainRes.text,
-    })
+
+    return NextResponse.json({ fieldType, content: text })
   } catch (error) {
     return handleError(error)
   }

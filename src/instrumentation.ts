@@ -2,9 +2,12 @@
 
 import config from '~/cms.config'
 import { bootstrap } from '~/cms/core/bootstrap'
+import { env } from './env'
 
 export async function register() {
   console.log('🛫 Bootstrapping CMS')
-  await bootstrap(config)
+  if (env.NEXT_RUNTIME === 'nodejs') {
+    await bootstrap(config)
+  }
   console.log('🛬 Bootstrapping completed')
 }

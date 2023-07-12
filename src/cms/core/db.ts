@@ -5,10 +5,18 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    log: env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-  })
+let prisma: PrismaClient
 
-if (env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+if (typeof window === 'undefined' && env.NEXT_RUNTIME === 'nodejs') {
+  prisma =
+    globalForPrisma.prisma ??
+    new PrismaClient({
+      log: env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+    })
+
+  if (env.NODE_ENV !== 'production') {
+    globalForPrisma.prisma = prisma
+  }
+}
+
+export { prisma }

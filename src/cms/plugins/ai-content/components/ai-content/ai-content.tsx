@@ -70,7 +70,15 @@ export default function AIContent({ field, fieldKey, form: contentManagerForm }:
               <SheetDescription>Generate content with GPT</SheetDescription>
             </SheetHeader>
             <Form {...form}>
-              <div className="space-y-4">
+              <form
+                className="space-y-4"
+                onSubmit={(event) => {
+                  event.stopPropagation()
+                  return form.handleSubmit(() => {
+                    mutation.mutate({ fieldType, message: form.getValues().message })
+                  })(event)
+                }}
+              >
                 <FormField
                   name="message"
                   control={form.control}
@@ -99,18 +107,18 @@ export default function AIContent({ field, fieldKey, form: contentManagerForm }:
                     </Button>
                   </SheetClose>
                   <Button
-                    type="button"
-                    onClick={() => {
-                      form.handleSubmit(() => {
-                        mutation.mutate({ fieldType, message: form.getValues().message })
-                      })()
-                    }}
-                    loading={mutation.isLoading}
+                    type="submit"
+                    // onClick={() => {
+                    //   form.handleSubmit(() => {
+                    //     mutation.mutate({ fieldType, message: form.getValues().message })
+                    //   })()
+                    // }}
+                    // loading={mutation.isLoading}
                   >
                     {messages.length ? 'Regenerate' : 'Generate Content'}
                   </Button>
                 </div>
-              </div>
+              </form>
             </Form>
             {messages.length ? (
               <>
