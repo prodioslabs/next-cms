@@ -42,7 +42,23 @@ export type CMSImageData = {
 }
 export type ZodImageSchema = z.ZodObject<{ url: z.ZodString; width: z.ZodNumber; height: z.ZodNumber }>
 
-export type CMSField = CMSTextField | CMSRichTextField | CMSNumberField | CMSDateField | CMSImageField | CMSSlugField
+export type CMSIconField = CMSBaseField & {
+  type: 'icon'
+}
+
+export type CMSIconData = {
+  name: string
+  iconLib: string
+}
+
+export type CMSField =
+  | CMSTextField
+  | CMSRichTextField
+  | CMSNumberField
+  | CMSDateField
+  | CMSImageField
+  | CMSSlugField
+  | CMSIconField
 
 export type CMSFieldDataType<F extends CMSField> = F extends CMSTextField
   ? string
@@ -56,6 +72,8 @@ export type CMSFieldDataType<F extends CMSField> = F extends CMSTextField
   ? CMSImageData[]
   : F extends CMSSlugField
   ? string
+  : F extends CMSIconField
+  ? CMSIconData
   : never
 
 export type CMSFieldZodSchema<F extends CMSField> = F extends CMSTextField

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import config from '~/cms.config'
 import { createSingletonReader, createCollectionReader } from '~/cms/core/components'
 import { Button } from '~/components/ui/button'
+import { LucideIcon } from '~/components/ui/lucide-icon'
 
 const HomePageHeroSectionSingleton = createSingletonReader(config, 'homePageHeroSection')
 const BlogsCollection = createCollectionReader(config, 'blogs')
@@ -12,7 +13,7 @@ export default function Home() {
   return (
     <div className="space-y-8">
       <HomePageHeroSectionSingleton
-        renderItem={({ data: { title, content, coverImage, callToAction } }) => {
+        renderItem={({ data: { title, content, coverImage, callToAction, callToActionIcon } }) => {
           return (
             <div className="mx-auto grid grid-cols-2 items-center gap-12 bg-primary">
               <div className="ml-auto max-w-xl">
@@ -20,7 +21,16 @@ export default function Home() {
                 <div className="prose-base mb-8 text-muted-foreground">
                   <ReactMarkdown>{content}</ReactMarkdown>
                 </div>
-                <Button variant="secondary">{callToAction}</Button>
+                <Button
+                  variant="secondary"
+                  icon={
+                    callToActionIcon && callToActionIcon.iconLib === 'lucide' ? (
+                      <LucideIcon name={callToActionIcon.name} />
+                    ) : undefined
+                  }
+                >
+                  {callToAction}
+                </Button>
               </div>
               <div className="relative col-span-1 min-h-[400px]">
                 <svg

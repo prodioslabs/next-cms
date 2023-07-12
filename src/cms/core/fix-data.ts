@@ -48,6 +48,13 @@ function generateDummyDataForField(field: CMSField, collectionData: any) {
         height: 1080,
       }
 
+    case 'icon': {
+      return {
+        name: 'ShieldQuestion',
+        iconLib: 'lucide',
+      }
+    }
+
     default:
       throw new Error('Unknown field type')
   }
