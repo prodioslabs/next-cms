@@ -20,19 +20,19 @@ import { cn } from '~/lib/utils'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
-import { Textarea } from '~/components/ui/textarea'
 import { updateContent } from './queries'
 import { useToast } from '~/components/ui/use-toast'
 import { ToastAction } from '~/components/ui/toast'
 import { DatePicker } from '~/components/ui/date-picker'
 import ImageUploader from '../image-uploader'
 import SlugInput from '../slug-input/slug-input'
-import { CMSField, CMSRichTextField, CMSTextField, CMSImageData, CMSIconData } from '~/cms/types/field'
+import { CMSField, CMSImageData, CMSIconData } from '~/cms/types/field'
 import { getValidationSchemaForSchema } from '~/cms/core/validation'
 import { CMSSchemaData } from '~/cms/types/schema'
 import { CreateOrUpdateContentBodySchema } from '~/cms/api/schema'
 import { CMSPlugin } from '~/cms/types/plugin'
 import IconSelector from '../icon-selector'
+import Editor from '../editor/editor'
 
 type ContentManagerProps<Schema extends Record<string, CMSField>> = {
   config: CreateOrUpdateContentBodySchema
@@ -143,11 +143,20 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                           {(() => {
                             switch (fieldSchema.type) {
                               case 'text': {
-                                return <Input {...field} value={value as CMSTextField['type']} />
+                                return <Input {...field} value={value as string} />
                               }
 
                               case 'rich-text': {
-                                return <Textarea {...field} value={value as CMSRichTextField['type']} />
+                                return (
+                                  <Editor
+                                    value={value as string}
+                                    onChange={(markdownContent) => {
+                                      console.log(markdownContent)
+                                      // @ts-expect-error
+                                      field.onChange(markdownContent)
+                                    }}
+                                  />
+                                )
                               }
 
                               case 'slug': {
