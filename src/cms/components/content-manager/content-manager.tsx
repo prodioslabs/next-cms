@@ -7,7 +7,7 @@
  */
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { createElement, useCallback, useMemo } from 'react'
+import { createElement, useCallback, useMemo, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
 import { useMutation } from 'react-query'
@@ -99,6 +99,15 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
     [config, mutation],
   )
 
+  /**
+   * resetEditorState is a state that is used to reset the Editor component
+   * The Editor component is not a controlled component, so when the form is reset to the previous
+   * state it won't be reflected automatically. So this state can be used as a key to the
+   * Editor component and would be toggled when the form is updated, this would re-render the component
+   * and the previous state would be automatically restored
+   */
+  const [resetEditorState, setResetEditorState] = useState(false)
+
   return (
     <div className={cn('rounded-md border', className)} style={style}>
       <Form {...form}>
@@ -106,6 +115,7 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
           onSubmit={form.handleSubmit(onSubmit)}
           onReset={() => {
             form.reset()
+            setResetEditorState((prevState) => !prevState)
           }}
         >
           <div className="space-y-4 px-4 pb-4 pt-2">
@@ -149,9 +159,9 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                               case 'rich-text': {
                                 return (
                                   <Editor
+                                    key={`${resetEditorState}`}
                                     value={value as string}
                                     onChange={(markdownContent) => {
-                                      console.log(markdownContent)
                                       // @ts-expect-error
                                       field.onChange(markdownContent)
                                     }}
