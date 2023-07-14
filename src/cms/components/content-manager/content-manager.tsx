@@ -141,12 +141,16 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                         <FormLabel className="flex items-center space-x-4 truncate">
                           <span className="flex-1 truncate">{fieldSchema.label}</span>
                           {pluginsToRender.map((plugin) => {
-                            return createElement(plugin.component, {
-                              fieldKey,
-                              field: fieldSchema,
-                              form,
-                              key: plugin.name,
-                            })
+                            if (plugin.component) {
+                              return createElement(plugin.component, {
+                                fieldKey,
+                                field: fieldSchema,
+                                form,
+                                key: plugin.name,
+                              })
+                            }
+
+                            return null
                           })}
                         </FormLabel>
                         <FormControl>

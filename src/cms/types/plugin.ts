@@ -5,7 +5,7 @@ export type CMSPluginComponentProps = { form: UseFormReturn<any, any, any>; fiel
 
 export type CMSPlugin = {
   name: string
-  enabledForFields: CMSField['type'][]
-  component: React.ComponentType<CMSPluginComponentProps>
   config: any
+  enabledForFields: CMSField['type'][]
+  component?: React.ComponentType<CMSPluginComponentProps>
 }
