@@ -29,3 +29,79 @@ const HeroSection = createSingletonBlock({
   },
 })
 ```
+
+## De-coupled Blocks
+
+The idea of creating blocks is to have the block config coupled tightly with the block component. But sometimes we don't want that behaviour. For example there could be a feature section that might be used in the home page as a product features page. In that case we don't want the feature section to be coupled with the home page. We can create a de-coupled block in that case.
+
+```tsx
+const ProductsCollection = createCollection('products', {
+  title: {
+    type: 'text',
+    label: 'Text',
+    required: true,
+  },
+  description: {
+    type: 'rich-text',
+    label: 'Description',
+    required: true,
+  },
+  price: {
+    type: 'number',
+    label: 'Price in $',
+    required: true,
+  },
+  productImage: {
+    type: 'image',
+    label: 'Product Image',
+    required: true,
+  },
+})
+
+type HomePageProductCollectionProps = {
+  redirectProductOnClick: boolean
+}
+
+const HomePageProductCollection = createCollectionBlock<
+  InferCollectionSchema<typeof ProductsCollection>,
+  HomePageProductsCollectionProps
+>(ProductsCollection, ({ redirectProductOnClick, collectionsData }) => {
+  return (
+    <div>
+      {collectionsData.map((collectionItem) => {
+        return (
+          <div className={collectionItem.id}>
+            <div>{collectionItem.title}</div>
+            <div>{collectionItem.description}</div>
+            <div>$ {collectionItem.price}</div>
+            <div>Buy Now</div>
+          </div>
+        )
+      })}
+    </div>
+  )
+})
+```
+
+```ts
+export const HeroSectionSingleton = new Singleton('heroSection', {
+  title: { type: 'text', label: 'Title', required: true },
+  description: { type: 'rich-text', label: 'Description' },
+})
+
+type HeroSectionProps = {
+  className?: string
+  style?: React.CSSProperties
+}
+
+export const HeroSection = createSingletonBlock<InferCollectionSchema<typeof HeroSectionSingleton, HeroSectionProps>>(
+  HeroSectionSingleton,
+  ({ cmsData: { title } }) => {
+    return (
+      <div>
+        <h1>{title}</h1>
+      </div>
+    )
+  },
+)
+```

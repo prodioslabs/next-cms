@@ -7,12 +7,12 @@ export function createCMSConfig<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
 >({
-  collections,
-  singletons,
-  plugins,
+  collections = {} as CMSCollections,
+  singletons = {} as CMSSingletons,
+  plugins = [],
 }: {
-  collections: CMSCollections
-  singletons: CMSSingletons
+  collections?: CMSCollections
+  singletons?: CMSSingletons
   plugins?: CMSPlugin[]
 }): CMSConfig<CMSCollections, CMSSingletons> {
   return {
