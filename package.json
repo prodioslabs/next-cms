@@ -35,7 +35,7 @@
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
     "cmdk": "^0.2.0",
-    "colors": "^1.4.0",
+    "colorette": "^2.0.20",
     "date-fns": "^2.30.0",
     "image-size": "^1.0.2",
     "langchain": "^0.0.104",

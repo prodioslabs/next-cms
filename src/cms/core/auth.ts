@@ -32,7 +32,6 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        console.log({ credentials })
         if (credentials?.email === env.ADMIN_EMAIL && credentials?.password === env.ADMIN_PASSWORD) {
           return { id: credentials.email, email: credentials!.email }
         }

@@ -8,6 +8,7 @@ import { prisma } from './db'
 import { fixData, generateDummyData } from './fix-data'
 import { isTextField } from './field'
 import { getValidationSchemaForCollectionElement, getValidationSchemaForSingleton } from './validation'
+import config from '~/cms.config'
 
 function validateCollection(collection: CMSCollection<Record<string, CMSField>>, collectionName: string) {
   if (!isTextField(collection.schema[collection.slugField])) {
@@ -18,10 +19,12 @@ function validateCollection(collection: CMSCollection<Record<string, CMSField>>,
   }
 }
 
-export async function bootstrap<
+async function bootstrap<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
 >(config: CMSConfig<CMSCollections, CMSSingletons>) {
+  console.log('🚀 Bootstrapping CMS...')
+
   for (const [collectionName, collection] of Object.entries(config.collections)) {
     // validate the collection
     validateCollection(collection, collectionName)
@@ -149,4 +152,7 @@ export async function bootstrap<
       }
     }
   }
+  console.log('✅ CMS Bootstrapped')
 }
+
+bootstrap(config)
