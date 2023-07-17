@@ -8,6 +8,7 @@ import CollectionPage from './collection-page'
 import CollectionNewItemContentManager from './collection-new-item-content-manager'
 import CollectionPageLayout from './collection-page-layout'
 import { CollectionElementPage } from './collection-element-page'
+import LoginPage from './login-page'
 
 export default function createDashboardPage<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
@@ -21,6 +22,10 @@ export default function createDashboardPage<
     const pageType = slug[0]
 
     switch (pageType) {
+      case 'login': {
+        return <LoginPage />
+      }
+
       case 'singleton': {
         const singletonName = slug[1]
         if (!singletonName) {

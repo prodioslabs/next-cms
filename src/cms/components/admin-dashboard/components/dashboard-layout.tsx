@@ -10,7 +10,17 @@ export default function createDashboardLayout<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
 >(config: CMSConfig<CMSCollections, CMSSingletons>) {
-  function Layout({ children }: { children: React.ReactNode }) {
+  function Layout({ children, params: { slug } }: { children: React.ReactNode; params: { slug?: string } }) {
+    /**
+     * 1. Check for authentication
+     * 2. If the user is not authenticated, the redirect the user to /admin/login
+     */
+
+    // For the login page, we don't need any kind of appshell
+    if (slug?.[0] === 'login') {
+      return <>{children}</>
+    }
+
     return (
       <div className="flex h-screen">
         <div className="w-[240px] space-y-4 overflow-auto border-r px-2 py-4">
