@@ -1,6 +1,7 @@
 'use client'
 
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { Toaster } from '~/components/ui/toaster'
 
 const queryClient = new QueryClient()
 
@@ -8,5 +9,10 @@ const queryClient = new QueryClient()
 // ideally it should go into somewhere ~/components/admin-providers/
 // but for now for the sake of collocation, I have added it here
 export default function Providers({ children }: { children: React.ReactNode }) {
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  return (
+    <>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <Toaster />
+    </>
+  )
 }

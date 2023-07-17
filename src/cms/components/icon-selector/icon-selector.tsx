@@ -11,7 +11,9 @@ import { LucideIcon } from '~/components/ui/lucide-icon'
 import { Popover, PopoverContent, PopoverTrigger } from '~/components/ui/popover'
 import { cn } from '~/lib/utils'
 
-const iconNames = Object.keys(LucideIcons).filter((key) => key !== 'createLucideIcon' && key !== 'icons')
+const iconNames = Object.keys(LucideIcons)
+  .filter((key) => key !== 'createLucideIcon' && key !== 'icons')
+  .filter((key) => !key.startsWith('Lucide') && !key.endsWith('Icon'))
 
 type IconSelectorProps = {
   icon?: CMSIconData
