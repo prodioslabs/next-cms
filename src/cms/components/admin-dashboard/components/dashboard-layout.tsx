@@ -1,24 +1,36 @@
 import { FolderOpen, File } from 'lucide-react'
+import { getServerSession } from 'next-auth'
+import { redirect } from 'next/navigation'
 import { CMSConfig } from '~/cms/types/config'
 import { CMSCollection, CMSSingleton } from '~/cms/types/schema'
 import { CMSField } from '~/cms/types/field'
 import NavLink from '../../nav-link'
 import Providers from './providers'
 import { Toaster } from '~/components/ui/toaster'
+import { authOptions } from '~/cms/core/auth'
 
 export default function createDashboardLayout<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
 >(config: CMSConfig<CMSCollections, CMSSingletons>) {
-  function Layout({ children, params: { slug } }: { children: React.ReactNode; params: { slug?: string } }) {
+  async function Layout({ children, params: { slug } }: { children: React.ReactNode; params: { slug?: string } }) {
+    // For the login page, we don't need any kind of appshell
+    if (slug?.[0] === 'login') {
+      return (
+        <>
+          <Providers>{children}</Providers>
+          <Toaster />
+        </>
+      )
+    }
+
     /**
      * 1. Check for authentication
      * 2. If the user is not authenticated, the redirect the user to /admin/login
      */
-
-    // For the login page, we don't need any kind of appshell
-    if (slug?.[0] === 'login') {
-      return <>{children}</>
+    const session = await getServerSession(authOptions)
+    if (!session) {
+      redirect('/cms/admin/login')
     }
 
     return (

@@ -7,6 +7,9 @@ const serverEnvSchema = z.object({
   DATABASE_URL: z.string().min(1),
   UNSPLASH_ACCESS_KEY: z.string().min(1).optional(),
   UNSPLASH_SECRET_KEY: z.string().min(1).optional(),
+  JWT_SECRET: z.string().min(1),
+  ADMIN_EMAIL: z.string().email(),
+  ADMIN_PASSWORD: z.string(),
 })
 
 const clientEnvSchema = z.object({})

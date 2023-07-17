@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { ChevronRight } from 'lucide-react'
+import { Session } from 'next-auth'
 import { cn } from '~/lib/utils'
 
 type EditableLinkProps = {
@@ -14,7 +15,7 @@ type EditableLinkProps = {
   containerElementId: string
 }
 
-export default function EditableLink({ url, label, containerElementId }: EditableLinkProps) {
+function EditableLinkComponent({ url, label, containerElementId }: EditableLinkProps) {
   const [visible, setVisible] = useState(false)
   const [computedPosition, setComputedPosition] = useState<ComputePositionReturn | undefined>(undefined)
   const [containerBBox, setContainerBBox] = useState<DOMRect | undefined>()
@@ -125,4 +126,36 @@ export default function EditableLink({ url, label, containerElementId }: Editabl
         document.getElementById('editable-element-portal')!,
       )
     : null
+}
+
+/**
+ * Create the promise outside the component, so as to prevent multiple requets to the session api
+ * when multiple EditableLink components are rendered.
+ * As the promise objects are cached, so it would be resolved only once for all the editable elements.
+ */
+const fetchSessionPromise = new Promise<Session>((resolve, reject) => {
+  fetch('/api/auth/session')
+    .then((response) => response.json())
+    .then((data) => {
+      resolve(data)
+    })
+    .catch((error) => {
+      reject(error)
+    })
+})
+
+export default function EditableLink(props: EditableLinkProps) {
+  const [adminAuthenticated, setAdminAuthenticated] = useState(false)
+
+  useEffect(function fetchUserSession() {
+    fetchSessionPromise.then((session) => {
+      setAdminAuthenticated(!!session?.user)
+    })
+  }, [])
+
+  if (adminAuthenticated) {
+    return <EditableLinkComponent {...props} />
+  }
+
+  return null
 }
