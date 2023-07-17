@@ -12,10 +12,11 @@ import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
 import { useMutation } from 'react-query'
 import Link from 'next/link'
-import { FileWarning } from 'lucide-react'
+import { FileWarning, Loader2 } from 'lucide-react'
 import { parseISO } from 'date-fns'
 import slugify from 'slugify'
 import { useRouter } from 'next/navigation'
+import dynamic from 'next/dynamic'
 import { cn } from '~/lib/utils'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
 import { Button } from '~/components/ui/button'
@@ -32,7 +33,16 @@ import { CMSSchemaData } from '~/cms/types/schema'
 import { CreateOrUpdateContentBodySchema } from '~/cms/api/schema'
 import { CMSPlugin } from '~/cms/types/plugin'
 import IconSelector from '../icon-selector'
-import Editor from '../editor/editor'
+
+const Editor = dynamic(() => import('../editor'), {
+  ssr: false,
+  loading: () => (
+    <div className="flex animate-pulse items-center justify-center gap-2 rounded-md border bg-muted p-4 text-xs text-muted-foreground">
+      <Loader2 className="h-4 w-4 animate-spin" />
+      <span>Loading Editor...</span>
+    </div>
+  ),
+})
 
 type ContentManagerProps<Schema extends Record<string, CMSField>> = {
   config: CreateOrUpdateContentBodySchema
