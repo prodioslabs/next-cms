@@ -116,7 +116,7 @@ export function ColorPicker({ value, onChange, className, style }: ColorPickerPr
         <Button
           type="button"
           variant="outline"
-          icon={<div style={{ backgroundColor: value }} className="rounded border" />}
+          icon={value ? <div style={{ backgroundColor: value }} className="rounded border" /> : undefined}
           className={cn('font-mono', className)}
           style={style}
         >

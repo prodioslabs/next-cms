@@ -1,7 +1,21 @@
-import { useActive, useCommands } from '@remirror/react'
-import { Italic, Underline, Bold, Strikethrough, Undo, Redo, List, ListOrdered, Quote } from 'lucide-react'
+import { useActive, useCommands, useAttrs } from '@remirror/react'
+import {
+  Italic,
+  Underline,
+  Bold,
+  Strikethrough,
+  Undo,
+  Redo,
+  List,
+  ListOrdered,
+  Quote,
+  RemoveFormatting,
+} from 'lucide-react'
+import { CMSColorData } from '~/cms/types/field'
+import { ColorPicker } from '~/components/ui/color-picker'
 import { Select, SelectValue, SelectTrigger, SelectContent, SelectItem } from '~/components/ui/select'
 import { Toggle } from '~/components/ui/toggle'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip'
 import { cn } from '~/lib/utils'
 
 const HEADING_LEVELS = [1, 2, 3, 4, 5]
@@ -24,8 +38,11 @@ export default function EditorToolbar({ className, style }: EditorToolbarProps) 
     undo,
     redo,
     toggleHeading,
+    setTextColor,
+    removeTextColor,
   } = useCommands()
   const { bold, italic, underline, strike, bulletList, orderedList, blockquote, heading } = useActive()
+  const { textColor } = useAttrs()
 
   return (
     <div className={cn('flex items-center space-x-2', className)} style={style}>
@@ -139,6 +156,30 @@ export default function EditorToolbar({ className, style }: EditorToolbarProps) 
           })}
         </SelectContent>
       </Select>
+      <div className="h-6 border-r" />
+      <ColorPicker
+        value={textColor()?.color as CMSColorData | undefined}
+        onChange={(value) => {
+          setTextColor(value)
+        }}
+      />
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Toggle
+              onPressedChange={() => {
+                removeTextColor()
+              }}
+              pressed={false}
+              size="sm"
+              variant="outline"
+            >
+              <RemoveFormatting className="h-4 w-4" />
+            </Toggle>
+          </TooltipTrigger>
+          <TooltipContent>Remove Color</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
       <div className="flex-1" />
       <Toggle
         onPressedChange={() => {
