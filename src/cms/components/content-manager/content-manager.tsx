@@ -155,7 +155,12 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                             return createElement(plugin.component, {
                               fieldKey,
                               field: fieldSchema,
-                              form,
+                              form: {
+                                ...form,
+                                resetEditorState: () => {
+                                  setResetEditorState((prevState) => !prevState)
+                                },
+                              },
                               key: plugin.name,
                             })
                           })}

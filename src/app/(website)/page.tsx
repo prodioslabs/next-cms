@@ -1,10 +1,9 @@
-import ReactMarkdown from 'react-markdown'
 import Image from 'next/image'
 import Link from 'next/link'
 import config from '~/cms.config'
 import { createSingletonReader, createCollectionReader } from '~/cms/core/components'
-import { Button } from '~/components/ui/button'
-import { LucideIcon } from '~/components/ui/lucide-icon'
+import Markdown from '~/cms/components/markdown'
+import HeroSection from '~/blocks/hero-section'
 
 const HomePageHeroSectionSingleton = createSingletonReader(config, 'homePageHeroSection')
 const BlogsCollection = createCollectionReader(config, 'blogs')
@@ -13,64 +12,16 @@ export default function Home() {
   return (
     <div className="space-y-8">
       <HomePageHeroSectionSingleton
-        renderItem={({
-          data: {
-            title,
-            content,
-            coverImage,
-            callToAction,
-            callToActionIcon,
-            backgroundColor,
-            headingTextColor,
-            contentTextColor,
-          },
-        }) => {
+        renderItem={({ data: { title, content, coverImage, callToAction, callToActionIcon } }) => {
           return (
-            <div
-              className="mx-auto grid grid-cols-2 items-center gap-12"
-              style={{
-                backgroundColor,
-              }}
-            >
-              <div className="ml-auto max-w-xl">
-                <h1 className="mb-8 text-5xl font-medium" style={{ color: headingTextColor }}>
-                  {title}
-                </h1>
-                <div className="prose-base mb-8" style={{ color: contentTextColor }}>
-                  <ReactMarkdown>{content}</ReactMarkdown>
-                </div>
-                <Button
-                  variant="secondary"
-                  icon={
-                    callToActionIcon && callToActionIcon.iconLib === 'lucide' ? (
-                      <LucideIcon name={callToActionIcon.name} />
-                    ) : undefined
-                  }
-                >
-                  {callToAction}
-                </Button>
-              </div>
-              <div className="relative col-span-1 min-h-[400px]">
-                <svg
-                  viewBox="0 0 10 10"
-                  preserveAspectRatio="none"
-                  className="absolute bottom-0 left-0 top-0 h-full w-20"
-                >
-                  <path
-                    d="M0 0 L10 0 L0 10 Z"
-                    style={{
-                      fill: backgroundColor,
-                    }}
-                  />
-                </svg>
-                <Image
-                  alt=""
-                  src={coverImage[0].url}
-                  height={coverImage[0].height}
-                  width={coverImage[0].width}
-                  className="h-full w-full object-contain"
-                />
-              </div>
+            <div>
+              <HeroSection
+                title={title}
+                description={content}
+                image={coverImage[0]}
+                callToAction={callToAction}
+                callToActionIcon={callToActionIcon.name}
+              />
             </div>
           )
         }}
@@ -103,7 +54,7 @@ export default function Home() {
                       />
                       <div className="line-clamp-2 font-medium text-foreground">{blog.data.title}</div>
                       <div className="line-clamp-2 text-sm text-muted-foreground">
-                        <ReactMarkdown>{blog.data.content}</ReactMarkdown>
+                        <Markdown>{blog.data.content}</Markdown>
                       </div>
                     </Link>
                   )

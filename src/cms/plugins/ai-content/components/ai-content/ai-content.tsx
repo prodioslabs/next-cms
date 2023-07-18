@@ -106,15 +106,7 @@ export default function AIContent({ field, fieldKey, form: contentManagerForm }:
                       Cancel
                     </Button>
                   </SheetClose>
-                  <Button
-                    type="submit"
-                    // onClick={() => {
-                    //   form.handleSubmit(() => {
-                    //     mutation.mutate({ fieldType, message: form.getValues().message })
-                    //   })()
-                    // }}
-                    // loading={mutation.isLoading}
-                  >
+                  <Button type="submit" loading={mutation.isLoading}>
                     {messages.length ? 'Regenerate' : 'Generate Content'}
                   </Button>
                 </div>
@@ -134,8 +126,10 @@ export default function AIContent({ field, fieldKey, form: contentManagerForm }:
                             variant="secondary"
                             onClick={() => {
                               contentManagerForm.setValue(fieldKey, message)
+                              contentManagerForm.resetEditorState()
                               setOpen(false)
                             }}
+                            type="button"
                           >
                             Use Content
                           </Button>

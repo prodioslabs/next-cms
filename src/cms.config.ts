@@ -11,7 +11,7 @@ const config = createCMSConfig({
       schema: {
         title: {
           label: 'Title',
-          type: 'text',
+          type: 'rich-text',
           required: true,
         },
         content: {
@@ -33,23 +33,6 @@ const config = createCMSConfig({
         coverImage: {
           label: 'Cover Image',
           type: 'image',
-          required: true,
-        },
-        backgroundColor: {
-          label: 'Background Color',
-          type: 'color',
-          required: true,
-        },
-        headingTextColor: {
-          label: 'Heading Text Color',
-          type: 'color',
-          default: '#ffffff',
-          required: true,
-        },
-        contentTextColor: {
-          label: 'Content Text Color',
-          type: 'color',
-          default: '#e0e0e0',
           required: true,
         },
       },

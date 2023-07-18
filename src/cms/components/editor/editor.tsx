@@ -20,6 +20,7 @@ import { forwardRef, useImperativeHandle } from 'react'
 import { cn } from '~/lib/utils'
 import MarkdownUpdater from './components/markdown-updater'
 import EditorToolbar from './components/editor-toolbar'
+import { htmlToMarkdown } from './utils/html-to-md'
 
 type EditorRef = {
   setContent: (markdownContent: string) => void
@@ -35,7 +36,7 @@ type EditorProps = {
 const Editor = forwardRef<EditorRef, EditorProps>(({ value, onChange, className, style }, ref) => {
   const editor = useRemirror({
     extensions: () => [
-      new MarkdownExtension({ copyAsMarkdown: false }),
+      new MarkdownExtension({ copyAsMarkdown: false, htmlToMarkdown }),
       new LinkExtension({ autoLink: true }),
       new BoldExtension(),
       new StrikeExtension(),
