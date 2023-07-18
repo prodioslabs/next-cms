@@ -30,7 +30,7 @@ export default function createDashboardLayout<
 
     return (
       <Providers>
-        <div className="flex h-screen">
+        <div className="flex h-screen overflow-hidden">
           <div className="flex w-[240px] flex-col border-r">
             <div className="flex-1 space-y-4 overflow-auto px-2 py-4">
               <div className="space-y-2">
@@ -73,7 +73,7 @@ export default function createDashboardLayout<
             </div>
             <LogoutButton className="mx-2 mb-2" />
           </div>
-          <div className="flex-1">{children}</div>
+          <div className="flex-1 overflow-auto">{children}</div>
         </div>
       </Providers>
     )

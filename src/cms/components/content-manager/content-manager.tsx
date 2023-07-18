@@ -27,12 +27,13 @@ import { ToastAction } from '~/components/ui/toast'
 import { DatePicker } from '~/components/ui/date-picker'
 import ImageUploader from '../image-uploader'
 import SlugInput from '../slug-input/slug-input'
-import { CMSField, CMSImageData, CMSIconData } from '~/cms/types/field'
+import { CMSField, CMSImageData, CMSIconData, CMSColorData } from '~/cms/types/field'
 import { getValidationSchemaForSchema } from '~/cms/core/validation'
 import { CMSSchemaData } from '~/cms/types/schema'
 import { CreateOrUpdateContentBodySchema } from '~/cms/api/schema'
 import { CMSPlugin } from '~/cms/types/plugin'
 import IconSelector from '../icon-selector'
+import { ColorPicker } from '~/components/ui/color-picker'
 
 const Editor = dynamic(() => import('../editor'), {
   ssr: false,
@@ -233,6 +234,18 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                                     onChange={(selectedIcon) => {
                                       // @ts-expect-error
                                       field.onChange(selectedIcon)
+                                    }}
+                                  />
+                                )
+                              }
+
+                              case 'color': {
+                                return (
+                                  <ColorPicker
+                                    value={value as CMSColorData}
+                                    onChange={(selectColor) => {
+                                      // @ts-expect-error
+                                      field.onChange(selectColor)
                                     }}
                                   />
                                 )

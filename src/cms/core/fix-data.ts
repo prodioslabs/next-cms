@@ -55,6 +55,10 @@ function generateDummyDataForField(field: CMSField, collectionData: any) {
       }
     }
 
+    case 'color': {
+      return '#000000'
+    }
+
     default:
       throw new Error('Unknown field type')
   }

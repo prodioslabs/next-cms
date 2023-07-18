@@ -13,12 +13,30 @@ export default function Home() {
   return (
     <div className="space-y-8">
       <HomePageHeroSectionSingleton
-        renderItem={({ data: { title, content, coverImage, callToAction, callToActionIcon } }) => {
+        renderItem={({
+          data: {
+            title,
+            content,
+            coverImage,
+            callToAction,
+            callToActionIcon,
+            backgroundColor,
+            headingTextColor,
+            contentTextColor,
+          },
+        }) => {
           return (
-            <div className="mx-auto grid grid-cols-2 items-center gap-12 bg-primary">
+            <div
+              className="mx-auto grid grid-cols-2 items-center gap-12"
+              style={{
+                backgroundColor,
+              }}
+            >
               <div className="ml-auto max-w-xl">
-                <h1 className="mb-8 text-5xl font-medium text-primary-foreground">{title}</h1>
-                <div className="prose-base mb-8 text-muted-foreground">
+                <h1 className="mb-8 text-5xl font-medium" style={{ color: headingTextColor }}>
+                  {title}
+                </h1>
+                <div className="prose-base mb-8" style={{ color: contentTextColor }}>
                   <ReactMarkdown>{content}</ReactMarkdown>
                 </div>
                 <Button
@@ -38,7 +56,12 @@ export default function Home() {
                   preserveAspectRatio="none"
                   className="absolute bottom-0 left-0 top-0 h-full w-20"
                 >
-                  <path d="M0 0 L10 0 L0 10 Z" className="fill-primary" />
+                  <path
+                    d="M0 0 L10 0 L0 10 Z"
+                    style={{
+                      fill: backgroundColor,
+                    }}
+                  />
                 </svg>
                 <Image
                   alt=""

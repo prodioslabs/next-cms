@@ -51,6 +51,13 @@ export type CMSIconData = {
   iconLib: string
 }
 
+export type CMSColorField = CMSBaseField & {
+  type: 'color'
+  default?: CMSColorData
+}
+
+export type CMSColorData = `#${string}`
+
 export type CMSField =
   | CMSTextField
   | CMSRichTextField
@@ -59,6 +66,7 @@ export type CMSField =
   | CMSImageField
   | CMSSlugField
   | CMSIconField
+  | CMSColorField
 
 export type CMSFieldDataType<F extends CMSField> = F extends CMSTextField
   ? string
@@ -74,6 +82,8 @@ export type CMSFieldDataType<F extends CMSField> = F extends CMSTextField
   ? string
   : F extends CMSIconField
   ? CMSIconData
+  : F extends CMSColorField
+  ? CMSColorData
   : never
 
 export type CMSFieldZodSchema<F extends CMSField> = F extends CMSTextField

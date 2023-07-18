@@ -46,6 +46,10 @@ export function getValidationSchemaForField(field: CMSField) {
       })
     }
 
+    case 'color': {
+      return z.string().startsWith('#')
+    }
+
     default: {
       throw new Error('Invalid field type')
     }
