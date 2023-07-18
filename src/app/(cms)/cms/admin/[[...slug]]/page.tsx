@@ -1,1 +1,1 @@
-export { Page as default } from '../../../cms'
+export { Page as default, generateMetadata } from '../../../cms'

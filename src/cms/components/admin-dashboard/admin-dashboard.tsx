@@ -8,5 +8,7 @@ export function createAdminPanelPages<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
 >(config: CMSConfig<CMSCollections, CMSSingletons>) {
-  return { Layout: createDashboardLayout(config), Page: createDashboardPage(config) }
+  const Layout = createDashboardLayout(config)
+  const { Page, generateMetadata } = createDashboardPage(config)
+  return { Layout, Page, generateMetadata }
 }

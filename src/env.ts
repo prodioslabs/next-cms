@@ -1,15 +1,31 @@
 import { z } from 'zod'
 
 const serverEnvSchema = z.object({
+  /**
+   * Next.js environment variables
+   */
   NODE_ENV: z.enum(['development', 'production']),
   NEXT_RUNTIME: z.enum(['nodejs', 'edge']).optional(),
-  OPENAI_API_KEY: z.string().min(1).optional(),
+
+  /**
+   * NextCMS configuration
+   */
   DATABASE_URL: z.string().min(1),
-  UNSPLASH_ACCESS_KEY: z.string().min(1).optional(),
-  UNSPLASH_SECRET_KEY: z.string().min(1).optional(),
-  JWT_SECRET: z.string().min(1),
+  NEXTAUTH_URL: z.string().min(1),
+  NEXTAUTH_SECRET: z.string().min(1),
   ADMIN_EMAIL: z.string().email(),
   ADMIN_PASSWORD: z.string(),
+
+  /**
+   * AI-Content Plugin
+   */
+  OPENAI_API_KEY: z.string().min(1).optional(),
+
+  /**
+   * Unsplash Plugin
+   */
+  UNSPLASH_ACCESS_KEY: z.string().min(1).optional(),
+  UNSPLASH_SECRET_KEY: z.string().min(1).optional(),
 })
 
 const clientEnvSchema = z.object({})
