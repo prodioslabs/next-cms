@@ -107,7 +107,7 @@ export default function AIContent({ field, fieldKey, form: contentManagerForm }:
                     </Button>
                   </SheetClose>
                   <Button type="submit" loading={mutation.isLoading}>
-                    {messages.length ? 'Regenerate' : 'Generate Content'}
+                    Generate Content
                   </Button>
                 </div>
               </form>
@@ -140,6 +140,7 @@ export default function AIContent({ field, fieldKey, form: contentManagerForm }:
                             onClick={() => {
                               setMessages((prevState) => prevState.filter((_, i) => i !== index))
                             }}
+                            type="button"
                           />
                         </div>
                       </div>
