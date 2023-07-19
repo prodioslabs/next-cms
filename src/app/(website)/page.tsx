@@ -14,15 +14,13 @@ export default function Home() {
       <HomePageHeroSectionSingleton
         renderItem={({ data: { title, content, coverImage, callToAction, callToActionIcon } }) => {
           return (
-            <div>
-              <HeroSection
-                title={title}
-                description={content}
-                image={coverImage[0]}
-                callToAction={callToAction}
-                callToActionIcon={callToActionIcon.name}
-              />
-            </div>
+            <HeroSection
+              title={title}
+              description={content}
+              image={coverImage[0]}
+              callToAction={callToAction}
+              callToActionIcon={callToActionIcon.name}
+            />
           )
         }}
       />

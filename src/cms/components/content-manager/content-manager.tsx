@@ -27,13 +27,14 @@ import { ToastAction } from '~/components/ui/toast'
 import { DatePicker } from '~/components/ui/date-picker'
 import ImageUploader from '../image-uploader'
 import SlugInput from '../slug-input/slug-input'
-import { CMSField, CMSImageData, CMSIconData, CMSColorData } from '~/cms/types/field'
+import { CMSField, CMSImageData, CMSIconData, CMSColorData, CMSSelectOption } from '~/cms/types/field'
 import { getValidationSchemaForSchema } from '~/cms/core/validation'
 import { CMSSchemaData } from '~/cms/types/schema'
 import { CreateOrUpdateContentBodySchema } from '~/cms/api/schema'
 import { CMSPlugin } from '~/cms/types/plugin'
 import IconSelector from '../icon-selector'
 import { ColorPicker } from '~/components/ui/color-picker'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
 
 const Editor = dynamic(() => import('../editor'), {
   ssr: false,
@@ -69,12 +70,10 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
   const validationSchema = useMemo(() => getValidationSchemaForSchema(schema), [schema])
   const form = useForm<z.infer<typeof validationSchema>>({
     resolver: zodResolver(validationSchema),
-    // TODO: Remove ts-expect-error
-    // @ts-expect-error
     defaultValues: initialData,
   })
 
-  const values = useWatch({ control: form.control })
+  const values = useWatch({ control: form.control }) as Record<string, any>
   const isDataChanged = useMemo(() => JSON.stringify(values) !== JSON.stringify(initialData), [values, initialData])
 
   const { toast } = useToast()
@@ -178,8 +177,7 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                                     key={`${resetEditorState}`}
                                     value={value as string}
                                     onChange={(markdownContent) => {
-                                      // @ts-expect-error
-                                      field.onChange(markdownContent)
+                                      field.onChange(markdownContent as any)
                                     }}
                                   />
                                 )
@@ -195,8 +193,7 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                                       const fromValue = values[fieldSchema.from as string] as string
                                       if (fromValue) {
                                         const slug = slugify(fromValue)
-                                        // @ts-expect-error
-                                        field.onChange(slug)
+                                        field.onChange(slug as any)
                                       }
                                     }}
                                   />
@@ -212,8 +209,7 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                                     <DatePicker
                                       date={dateValue}
                                       onChange={(dateSelected) => {
-                                        // @ts-expect-error
-                                        field.onChange(dateSelected?.toISOString())
+                                        field.onChange(dateSelected?.toISOString() as any)
                                       }}
                                     />
                                   </div>
@@ -225,8 +221,7 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                                   <ImageUploader
                                     uploadedImages={value as CMSImageData[]}
                                     onChange={(uploadedImages) => {
-                                      // @ts-expect-error
-                                      field.onChange(uploadedImages)
+                                      field.onChange(uploadedImages as any)
                                     }}
                                   />
                                 )
@@ -237,8 +232,7 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                                   <IconSelector
                                     icon={value as CMSIconData}
                                     onChange={(selectedIcon) => {
-                                      // @ts-expect-error
-                                      field.onChange(selectedIcon)
+                                      field.onChange(selectedIcon as any)
                                     }}
                                   />
                                 )
@@ -249,10 +243,33 @@ export default function ContentManager<Schema extends Record<string, CMSField>>(
                                   <ColorPicker
                                     value={value as CMSColorData}
                                     onChange={(selectColor) => {
-                                      // @ts-expect-error
-                                      field.onChange(selectColor)
+                                      field.onChange(selectColor as any)
                                     }}
                                   />
+                                )
+                              }
+
+                              case 'select': {
+                                return (
+                                  <Select
+                                    value={(value as CMSSelectOption | undefined)?.value}
+                                    onValueChange={(valueSelected) => {
+                                      field.onChange(
+                                        fieldSchema.options.find((option) => option.value === valueSelected) as any,
+                                      )
+                                    }}
+                                  >
+                                    <SelectTrigger>
+                                      <SelectValue placeholder={`Select ${fieldSchema.label}`} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      {fieldSchema.options.map((option) => (
+                                        <SelectItem key={option.value} value={option.value}>
+                                          {option.label}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
                                 )
                               }
 

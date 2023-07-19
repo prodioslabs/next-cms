@@ -41,8 +41,8 @@ export default function EditorToolbar({ className, style }: EditorToolbarProps) 
     setTextColor,
     removeTextColor,
   } = useCommands()
-  const { bold, italic, underline, strike, bulletList, orderedList, blockquote, heading } = useActive()
-  const { textColor } = useAttrs()
+  const { bold, italic, underline, strike, bulletList, orderedList, blockquote } = useActive()
+  const { textColor, heading } = useAttrs()
 
   return (
     <div className={cn('flex items-center space-x-2', className)} style={style}>
@@ -128,16 +128,16 @@ export default function EditorToolbar({ className, style }: EditorToolbarProps) 
       </Toggle>
       <div className="h-6 border-r" />
       <Select
-        value={(() => {
-          const headingLevelSelected = HEADING_LEVELS.find((level) => heading({ level }))
-          return headingLevelSelected ? `${headingLevelSelected}` : 'normal'
-        })()}
+        value={`${heading()?.level ?? 'normal'}`}
         onValueChange={(args) => {
           if (args === 'normal') {
             toggleHeading()
           } else {
             toggleHeading({ level: Number.parseInt(args, 10) })
           }
+          requestAnimationFrame(() => {
+            focus()
+          })
         }}
       >
         <SelectTrigger className="w-[210px]">

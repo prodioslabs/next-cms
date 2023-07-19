@@ -58,6 +58,17 @@ export type CMSColorField = CMSBaseField & {
 
 export type CMSColorData = `#${string}`
 
+export type CMSSelectOption = {
+  value: string
+  label: string
+}
+
+export type CMSSelectField = CMSBaseField & {
+  type: 'select'
+  options: CMSSelectOption[]
+  defaultValue?: CMSSelectOption
+}
+
 export type CMSField =
   | CMSTextField
   | CMSRichTextField
@@ -67,6 +78,7 @@ export type CMSField =
   | CMSSlugField
   | CMSIconField
   | CMSColorField
+  | CMSSelectField
 
 export type CMSFieldDataType<F extends CMSField> = F extends CMSTextField
   ? string
@@ -84,18 +96,6 @@ export type CMSFieldDataType<F extends CMSField> = F extends CMSTextField
   ? CMSIconData
   : F extends CMSColorField
   ? CMSColorData
-  : never
-
-export type CMSFieldZodSchema<F extends CMSField> = F extends CMSTextField
-  ? z.ZodString
-  : F extends CMSRichTextField
-  ? z.ZodString
-  : F extends CMSNumberField
-  ? z.ZodNumber
-  : F extends CMSDateField
-  ? z.ZodString
-  : F extends CMSImageField
-  ? z.ZodArray<ZodImageSchema>
-  : F extends CMSSlugField
-  ? z.ZodString
+  : F extends CMSSelectField
+  ? CMSSelectOption
   : never

@@ -1,12 +1,6 @@
 import { z } from 'zod'
 import { CMSField } from '../types/field'
-import {
-  CMSCollection,
-  CMSCollectionItemZodSchema,
-  CMSSchemaZodSchema,
-  CMSSingleton,
-  CMSSingletonZodSchema,
-} from '../types/schema'
+import { CMSCollection, CMSSingleton } from '../types/schema'
 
 /**
  * Get validation zod schema for a field
@@ -50,6 +44,13 @@ export function getValidationSchemaForField(field: CMSField) {
       return z.string().startsWith('#')
     }
 
+    case 'select': {
+      return z.object({
+        value: z.string(),
+        label: z.string(),
+      })
+    }
+
     default: {
       throw new Error('Invalid field type')
     }
@@ -75,7 +76,7 @@ export function getValidationSchemaForSchema<Schema extends Record<string, CMSFi
       validationSchema = validationSchema.extend({ [fieldKey]: fieldSchema })
     }
   })
-  return validationSchema as CMSSchemaZodSchema<Schema>
+  return validationSchema
 }
 
 /**
@@ -89,7 +90,7 @@ export function getValidationSchemaForSchema<Schema extends Record<string, CMSFi
 export function getValidationSchemaForCollectionList<_Collection extends CMSCollection<Record<string, CMSField>>>(
   collection: _Collection,
 ) {
-  return z.array(getValidationSchemaForSchema(collection.schema)) as z.ZodArray<CMSCollectionItemZodSchema<_Collection>>
+  return z.array(getValidationSchemaForSchema(collection.schema))
 }
 
 /**
@@ -103,7 +104,7 @@ export function getValidationSchemaForCollectionList<_Collection extends CMSColl
 export function getValidationSchemaForCollectionElement<_Collection extends CMSCollection<Record<string, CMSField>>>(
   collection: _Collection,
 ) {
-  return getValidationSchemaForSchema(collection.schema) as CMSCollectionItemZodSchema<_Collection>
+  return getValidationSchemaForSchema(collection.schema)
 }
 
 /**
@@ -116,5 +117,5 @@ export function getValidationSchemaForCollectionElement<_Collection extends CMSC
 export function getValidationSchemaForSingleton<_Singleton extends CMSSingleton<Record<string, CMSField>>>(
   singleton: _Singleton,
 ) {
-  return getValidationSchemaForSchema(singleton.schema) as CMSSingletonZodSchema<_Singleton>
+  return getValidationSchemaForSchema(singleton.schema)
 }

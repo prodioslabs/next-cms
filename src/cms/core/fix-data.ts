@@ -59,6 +59,10 @@ function generateDummyDataForField(field: CMSField, collectionData: any) {
       return '#000000'
     }
 
+    case 'select': {
+      return field.options[0]
+    }
+
     default:
       throw new Error('Unknown field type')
   }

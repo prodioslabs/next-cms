@@ -20,7 +20,7 @@ export async function updateCollectionElementData<_Collection extends CMSCollect
   data: any,
 ) {
   const validationSchema = getValidationSchemaForCollectionElement(collection)
-  const validatedData = validationSchema.parse(data)
+  const validatedData = validationSchema.parse(data) as Record<string, any>
   const slug = validatedData[collection.slugField] as string
   return prisma.collectionElement.update({
     where: {
@@ -47,7 +47,7 @@ export async function createCollectionElement<_Collection extends CMSCollection<
   data: any,
 ) {
   const validationSchema = getValidationSchemaForCollectionElement(collection)
-  const validatedData = validationSchema.parse(data)
+  const validatedData = validationSchema.parse(data) as Record<string, any>
   const slug = validatedData[collection.slugField] as string
   return prisma.collectionElement.create({
     data: {
