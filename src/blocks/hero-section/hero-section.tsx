@@ -28,10 +28,12 @@ export default function HeroSection({
       {/** Grid */}
       <div className="grid gap-4 md:grid-cols-2 md:items-center md:gap-8 xl:gap-20">
         <div>
-          <Markdown className="block text-3xl font-bold text-gray-800 dark:text-white sm:text-4xl lg:text-6xl lg:leading-tight">
-            {title}
-          </Markdown>
-          <Markdown className="mt-3 text-lg text-gray-800 dark:text-gray-400">{description}</Markdown>
+          <h1 className="block text-3xl font-bold text-gray-800 dark:text-white sm:text-4xl lg:text-6xl lg:leading-tight">
+            <Markdown>{title}</Markdown>
+          </h1>
+          <div className="mt-3 text-lg text-gray-800 dark:text-gray-400">
+            <Markdown>{description}</Markdown>
+          </div>
 
           {/** Buttons */}
           <div className="mt-7 grid w-full gap-3 sm:inline-flex">
