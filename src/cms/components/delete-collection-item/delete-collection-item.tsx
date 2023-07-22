@@ -1,12 +1,11 @@
 'use client'
 
 import { Trash } from 'lucide-react'
-import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { Button } from '~/components/ui/button'
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '~/components/ui/popover'
-import { deleteCollectionItem } from './queries'
 import { useToast } from '~/components/ui/use-toast'
+import { api } from '~/cms/server/api'
 
 type DeleteCollectionItemProps = {
   elementId: string
@@ -20,18 +19,19 @@ export default function DeleteCollectionItem({ elementId, onDelete, className, s
 
   const { toast } = useToast()
 
-  const mutation = useMutation(deleteCollectionItem, {
-    onSuccess: () => {
+  const mutation = api.collection.deleteCollectionElement.useMutation({
+    onSuccess: (element) => {
       router.refresh()
       onDelete?.()
       toast({
         title: 'Item deleted successfully',
+        description: `Item ${element.id} has been deleted successfully`,
       })
     },
     onError: (error) => {
       toast({
         title: 'Something went wrong',
-        description: (error as Error).message,
+        description: error.message,
         variant: 'destructive',
       })
     },

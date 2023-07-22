@@ -1,10 +1,10 @@
-import { z } from 'zod'
-import { trpc } from '../trpc'
+import { createRouter } from '../trpc'
+import { collectionRouter } from './collection/collection.router'
+import { singletonRouter } from './singleton/singleton.router'
 
-export const router = trpc.router({
-  test: trpc.router({
-    hello: trpc.procedure.input(z.object({})).query(() => ({ text: 'hello world' })),
-  }),
+export const router = createRouter({
+  singleton: singletonRouter,
+  collection: collectionRouter,
 })
 
 export type AppRouter = typeof router

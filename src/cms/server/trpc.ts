@@ -1,4 +1,4 @@
-import { initTRPC } from '@trpc/server'
+import { TRPCError, initTRPC } from '@trpc/server'
 import superjson from 'superjson'
 import { ZodError } from 'zod'
 import { type Session } from 'next-auth'
@@ -24,3 +24,19 @@ export const trpc = initTRPC.context<CreateContext>().create({
     }
   },
 })
+
+export const createRouter = trpc.router
+
+export const publicProcedure = trpc.procedure
+
+const enforceUserIsAuthenticated = trpc.middleware(({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' })
+  }
+  return next({
+    ctx: {
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  })
+})
+export const protectedProcedure = trpc.procedure.use(enforceUserIsAuthenticated)
