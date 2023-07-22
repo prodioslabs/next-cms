@@ -1,6 +1,6 @@
 'use client'
 
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import Image from 'next/image'
 import { X, Loader2 } from 'lucide-react'
 import { CMSImageData } from '~/cms/types/field'

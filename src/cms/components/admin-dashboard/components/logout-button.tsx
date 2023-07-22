@@ -2,7 +2,7 @@
 
 import { LogOut } from 'lucide-react'
 import { signOut } from 'next-auth/react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { Button } from '~/components/ui/button'
 
 type LogoutButtonProps = {

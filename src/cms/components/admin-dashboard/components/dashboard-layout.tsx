@@ -30,8 +30,8 @@ export default function createDashboardLayout<
 
     return (
       <Providers>
-        <div className="flex h-screen overflow-hidden">
-          <div className="flex w-[240px] flex-col border-r">
+        <div className="flex">
+          <div className="sticky top-0 flex h-screen w-[240px] flex-col border-r">
             <div className="flex-1 space-y-4 overflow-auto px-2 py-4">
               <div className="space-y-2">
                 <div className="flex items-center px-2 text-xs uppercase text-secondary-foreground">

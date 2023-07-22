@@ -1,7 +1,7 @@
 'use client'
 
 import { Trash } from 'lucide-react'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { Button } from '~/components/ui/button'
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '~/components/ui/popover'

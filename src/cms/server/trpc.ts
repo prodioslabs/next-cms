@@ -1,42 +1,26 @@
-import { CreateNextContextOptions, createNextApiHandler } from '@trpc/server/adapters/next'
 import { initTRPC } from '@trpc/server'
 import superjson from 'superjson'
 import { ZodError } from 'zod'
-import { getServerSession } from 'next-auth'
-import { CMSConfig } from '../types/config'
-import { prisma } from '../core/db'
-import { authOptions } from '../core/auth'
+import { type Session } from 'next-auth'
+import { type PrismaClient } from '@prisma/client'
+import { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch'
+import { type CMSConfig } from '../types/config'
 
-// TODO: Check if any, any can work or not
-export function createTRPCHandler(config: CMSConfig<any, any>) {
-  async function createContext(opts: CreateNextContextOptions) {
-    const { req, res } = opts
+export type CreateContext = (opts: FetchCreateContextFnOptions) => Promise<{
+  config: CMSConfig<any, any>
+  prisma: PrismaClient
+  session: Session | null
+}>
 
-    // get auth session
-    const session = await getServerSession(req, res, authOptions)
-
+export const trpc = initTRPC.context<CreateContext>().create({
+  transformer: superjson,
+  errorFormatter({ shape, error }) {
     return {
-      config,
-      prisma,
-      session,
+      ...shape,
+      data: {
+        ...shape.data,
+        zodError: error.cause instanceof ZodError ? error.cause.flatten() : null,
+      },
     }
-  }
-
-  const trpc = initTRPC.context<typeof createContext>().create({
-    transformer: superjson,
-    errorFormatter({ shape, error }) {
-      return {
-        ...shape,
-        data: {
-          ...shape.data,
-          zodError: error.cause instanceof ZodError ? error.cause.flatten() : null,
-        },
-      }
-    },
-  })
-
-  return createNextApiHandler({
-    router: trpc.router({}),
-    createContext,
-  })
-}
+  },
+})
