@@ -4,7 +4,7 @@ import { CMSSingleton } from '~/cms/types/schema'
 import { UpdateSingletonBodySchema } from './schema'
 import { CMSField } from '~/cms/types/field'
 import { handleError } from '~/cms/utils/api'
-import { updateSingletonData } from '~/cms/core/data'
+import { updateSingleton } from '~/cms/core/data'
 
 export function createUpdateSingletonAPI<CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>>(
   singletons: CMSSingletons,
@@ -18,7 +18,7 @@ export function createUpdateSingletonAPI<CMSSingletons extends Record<string, CM
       }
 
       const singleton = singletons[singletonName]
-      await updateSingletonData(singleton, singletonName, data)
+      await updateSingleton(singleton, singletonName, data)
 
       // revalidate path
       revalidatePath('/cms/admin/[[...slug]]')

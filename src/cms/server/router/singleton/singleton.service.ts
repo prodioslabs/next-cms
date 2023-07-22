@@ -3,7 +3,7 @@ import { TRPCError } from '@trpc/server'
 import { PrismaClient } from '@prisma/client'
 import { updateSingletonSchema } from './singleton.schema'
 import { CMSConfig } from '~/cms/types/config'
-import { getValidationSchemaForSingleton } from '~/cms/core/validation'
+import { updateSingleton as _updateSingleton } from '~/cms/core/data'
 
 export function updateSingleton(
   input: z.infer<typeof updateSingletonSchema>,
@@ -19,14 +19,5 @@ export function updateSingleton(
   }
 
   const singleton = config.singletons[singletonName]
-  const validationSchema = getValidationSchemaForSingleton(singleton)
-  const validatedData = validationSchema.parse(data)
-  return prisma.singleton.update({
-    where: {
-      name: singletonName,
-    },
-    data: {
-      data: validatedData,
-    },
-  })
+  return _updateSingleton(singleton, singletonName, data, prisma)
 }

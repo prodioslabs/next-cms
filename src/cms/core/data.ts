@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { CollectionElement } from '@prisma/client'
+import { CollectionElement, PrismaClient } from '@prisma/client'
 import { CMSField } from '../types/field'
 import { CMSCollection, CMSSingleton } from '../types/schema'
 import { prisma } from './db'
@@ -18,11 +18,12 @@ export async function updateCollectionElementData<_Collection extends CMSCollect
   collection: _Collection,
   elementId: string,
   data: any,
+  db: PrismaClient = prisma,
 ) {
   const validationSchema = getValidationSchemaForCollectionElement(collection)
   const validatedData = validationSchema.parse(data) as Record<string, any>
   const slug = validatedData[collection.slugField] as string
-  return prisma.collectionElement.update({
+  return db.collectionElement.update({
     where: {
       id: elementId,
     },
@@ -45,11 +46,12 @@ export async function createCollectionElement<_Collection extends CMSCollection<
   collection: _Collection,
   collectionName: string,
   data: any,
+  db: PrismaClient = prisma,
 ) {
   const validationSchema = getValidationSchemaForCollectionElement(collection)
   const validatedData = validationSchema.parse(data) as Record<string, any>
   const slug = validatedData[collection.slugField] as string
-  return prisma.collectionElement.create({
+  return db.collectionElement.create({
     data: {
       slug,
       data: validatedData,
@@ -73,9 +75,10 @@ export async function createCollectionElement<_Collection extends CMSCollection<
 export async function fetchCollectionsListData<_Collection extends CMSCollection<Record<string, CMSField>>>(
   collection: _Collection,
   collectionName: string,
+  db: PrismaClient = prisma,
 ) {
   const validationSchema = getValidationSchemaForCollectionElement(collection)
-  const data = await prisma.collectionElement.findMany({
+  const data = await db.collectionElement.findMany({
     where: {
       collection: {
         name: collectionName,
@@ -90,7 +93,7 @@ export async function fetchCollectionsListData<_Collection extends CMSCollection
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fixedData = fixData(collection.schema, item.data, error)
-        await updateCollectionElementData(collection, item.id, fixedData)
+        await updateCollectionElementData(collection, item.id, fixedData, db)
         finalData.push({ ...item, data: fixedData })
       } else {
         throw error
@@ -111,9 +114,10 @@ export async function fetchCollectionsListData<_Collection extends CMSCollection
 export async function fetchCollectionElementDataById<_Collection extends CMSCollection<Record<string, CMSField>>>(
   collection: _Collection,
   elementId: string,
+  db: PrismaClient = prisma,
 ) {
   const validationSchema = getValidationSchemaForCollectionElement(collection)
-  const item = await prisma.collectionElement.findFirst({
+  const item = await db.collectionElement.findFirst({
     where: {
       id: elementId,
     },
@@ -127,7 +131,7 @@ export async function fetchCollectionElementDataById<_Collection extends CMSColl
   } catch (error) {
     if (error instanceof z.ZodError) {
       const fixedData = fixData(collection.schema, item.data, error)
-      await updateCollectionElementData(collection, item.id, fixedData)
+      await updateCollectionElementData(collection, item.id, fixedData, db)
       return { ...item, data: fixedData }
     } else {
       throw error
@@ -148,9 +152,10 @@ export async function fetchCollectionElementDataBySlug<_Collection extends CMSCo
   collection: _Collection,
   collectionName: string,
   elementSlug: string,
+  db: PrismaClient = prisma,
 ) {
   const validationSchema = getValidationSchemaForCollectionElement(collection)
-  const item = await prisma.collectionElement.findFirst({
+  const item = await db.collectionElement.findFirst({
     where: {
       slug: elementSlug,
       collection: {
@@ -169,7 +174,7 @@ export async function fetchCollectionElementDataBySlug<_Collection extends CMSCo
   } catch (error) {
     if (error instanceof z.ZodError) {
       const fixedData = fixData(collection.schema, item.data, error)
-      await updateCollectionElementData(collection, item.id, fixedData)
+      await updateCollectionElementData(collection, item.id, fixedData, db)
       return { ...item, data: fixedData }
     } else {
       throw error
@@ -185,14 +190,15 @@ export async function fetchCollectionElementDataBySlug<_Collection extends CMSCo
  * @param data data to be updated
  * @returns single data
  */
-export async function createSingletonData<_Singleton extends CMSSingleton<Record<string, CMSField>>>(
+export async function createSingleton<_Singleton extends CMSSingleton<Record<string, CMSField>>>(
   singleton: _Singleton,
   singletonName: string,
   data: any,
+  db: PrismaClient = prisma,
 ) {
   const validationSchema = getValidationSchemaForSingleton(singleton)
   const validatedData = validationSchema.parse(data)
-  return prisma.singleton.create({
+  return db.singleton.create({
     data: {
       label: singleton.label,
       schema: singleton.schema,
@@ -210,14 +216,15 @@ export async function createSingletonData<_Singleton extends CMSSingleton<Record
  * @param data data to be updated
  * @returns single data
  */
-export async function updateSingletonData<_Singleton extends CMSSingleton<Record<string, CMSField>>>(
+export async function updateSingleton<_Singleton extends CMSSingleton<Record<string, CMSField>>>(
   singleton: _Singleton,
   singletonName: string,
   data: any,
+  db: PrismaClient = prisma,
 ) {
   const validationSchema = getValidationSchemaForSingleton(singleton)
   const validatedData = validationSchema.parse(data)
-  return prisma.singleton.update({
+  return db.singleton.update({
     where: {
       name: singletonName,
     },
@@ -240,10 +247,11 @@ export async function fetchSingletonData<_Singleton extends CMSSingleton<Record<
   singleton: _Singleton,
   singletonName: string,
   createDummyDataIfNotPresent: boolean = true,
+  db: PrismaClient = prisma,
 ) {
   const validationSchema = getValidationSchemaForSingleton(singleton)
 
-  let item = await prisma.singleton.findFirst({
+  let item = await db.singleton.findFirst({
     where: {
       name: singletonName,
     },
@@ -252,7 +260,7 @@ export async function fetchSingletonData<_Singleton extends CMSSingleton<Record<
   if (!item) {
     if (createDummyDataIfNotPresent) {
       const dummyData = generateDummyData(singleton.schema)
-      item = await createSingletonData(singleton, singletonName, dummyData)
+      item = await createSingleton(singleton, singletonName, dummyData)
     } else {
       throw new Error(`Singleton ${singleton.label} not found`)
     }
@@ -264,10 +272,18 @@ export async function fetchSingletonData<_Singleton extends CMSSingleton<Record<
   } catch (error) {
     if (error instanceof z.ZodError) {
       const fixedData = fixData(singleton.schema, item.data, error)
-      await updateSingletonData(singleton, singletonName, fixedData)
+      await updateSingleton(singleton, singletonName, fixedData, db)
       return { ...item, data: fixedData }
     } else {
       throw error
     }
   }
+}
+
+export function deleteCollectionElement(elementId: string, db: PrismaClient = prisma) {
+  return db.collectionElement.delete({
+    where: {
+      id: elementId,
+    },
+  })
 }
