@@ -1,6 +1,8 @@
 'use client'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Session } from 'next-auth'
+import { SessionProvider } from 'next-auth/react'
 import { api, trpcClient } from '~/cms/server/api'
 import { Toaster } from '~/components/ui/toaster'
 
@@ -9,11 +11,13 @@ const queryClient = new QueryClient()
 // TODO: Figure out a correct place to move these files
 // ideally it should go into somewhere ~/components/admin-providers/
 // but for now for the sake of collocation, I have added it here
-export default function Providers({ children }: { children: React.ReactNode }) {
+export default function Providers({ children, session }: { children: React.ReactNode; session: Session | null }) {
   return (
-    <api.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-      <Toaster />
-    </api.Provider>
+    <SessionProvider session={session} basePath="/cms/api/auth">
+      <api.Provider client={trpcClient} queryClient={queryClient}>
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+        <Toaster />
+      </api.Provider>
+    </SessionProvider>
   )
 }

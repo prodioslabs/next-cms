@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
 import { CMSField } from '~/cms/types/field'

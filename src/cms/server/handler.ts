@@ -19,7 +19,7 @@ export function createTRPCHandler(config: CMSConfig<any, any>) {
 
   return function handler(request: Request) {
     return fetchRequestHandler({
-      endpoint: '/api/trpc',
+      endpoint: '/cms/api/trpc',
       req: request,
       router,
       createContext,

@@ -12,10 +12,10 @@ import { CMSField } from '../types/field'
 import { CMSCollection, CMSCollectionData, CMSSingleton, CMSSingletonData } from '../types/schema'
 import EditableLink from '../components/editable-link'
 import {
-  fetchCollectionElementDataById,
-  fetchCollectionElementDataBySlug,
-  fetchCollectionsListData,
-  fetchSingletonData,
+  fetchCollectionElementById,
+  fetchCollectionElementBySlug,
+  fetchCollectionElements,
+  fetchSingleton,
 } from './data'
 
 export function createCollectionReader<
@@ -37,7 +37,7 @@ export function createCollectionReader<
       id: nanoid(),
     } as const
 
-    const items = await fetchCollectionsListData(collection, collectionName)
+    const items = await fetchCollectionElements(collection, collectionName)
 
     return (
       <>
@@ -84,8 +84,8 @@ export function createCollectionReader<
     } as const
 
     const item = elementSlug
-      ? await fetchCollectionElementDataBySlug(collection, collectionName, elementSlug)
-      : await fetchCollectionElementDataById(collection, elementId!) // as we have already checked that either elementId or elementSlug is defined, we can safely assume that elementId is defined
+      ? await fetchCollectionElementBySlug(collection, collectionName, elementSlug)
+      : await fetchCollectionElementById(collection, elementId!) // as we have already checked that either elementId or elementSlug is defined, we can safely assume that elementId is defined
 
     return (
       <>
@@ -148,7 +148,7 @@ export function createSingletonReader<
       id: nanoid(),
     } as const
 
-    const item = await fetchSingletonData(singleton, singletonName)
+    const item = await fetchSingleton(singleton, singletonName)
 
     return (
       <>

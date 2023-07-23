@@ -1,3 +1,1 @@
-import { imageUploader } from '../../cms'
-
-export const { POST } = imageUploader
+export { POST } from '~/cms/server/upload-image/route'

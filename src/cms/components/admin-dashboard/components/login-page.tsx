@@ -1,18 +1,10 @@
 import { Atom } from 'lucide-react'
-import { getServerSession } from 'next-auth'
-import { redirect } from 'next/navigation'
 import LoginForm from './login-form'
-import { authOptions } from '~/cms/core/auth'
 
 export default async function LoginPage() {
   /**
    * Redirect the user to the dashboard if the user is already logged in
    */
-  const session = await getServerSession(authOptions)
-  if (session) {
-    redirect('/cms/admin')
-  }
-
   return (
     <div className="flex h-screen items-center justify-center bg-primary">
       <div className="w-[480px] rounded-md bg-primary-foreground p-6">

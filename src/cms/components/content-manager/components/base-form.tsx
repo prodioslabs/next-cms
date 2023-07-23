@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { createElement, useMemo, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
-import { FileWarning, Loader2 } from 'lucide-react'
+import { FileWarning } from 'lucide-react'
 import { parseISO } from 'date-fns'
 import slugify from 'slugify'
 import dynamic from 'next/dynamic'
@@ -21,15 +21,11 @@ import { CMSPlugin } from '~/cms/types/plugin'
 import IconSelector from '../../icon-selector'
 import { ColorPicker } from '~/components/ui/color-picker'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
+import { Loader } from '~/components/ui/loader'
 
 const Editor = dynamic(() => import('../../editor'), {
   ssr: false,
-  loading: () => (
-    <div className="flex animate-pulse items-center justify-center gap-2 rounded-md border bg-muted p-4 text-xs text-muted-foreground">
-      <Loader2 className="h-4 w-4 animate-spin" />
-      <span>Loading Editor...</span>
-    </div>
-  ),
+  loading: () => <Loader message="Loading Editor..." />,
 })
 
 export type BaseFormProps = {

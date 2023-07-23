@@ -5,7 +5,7 @@ import { format } from 'date-fns'
 import { NextResponse } from 'next/server'
 import { isErrnoException } from '~/cms/utils/file'
 
-export async function uploadImage(request: Request) {
+export async function POST(request: Request) {
   async function getUploadDirectory(basePath: string) {
     const currentDate = format(new Date(), 'dd-MM-yyyy')
     const uploadDirectory = path.resolve(basePath, 'uploads', currentDate)

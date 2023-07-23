@@ -14,7 +14,7 @@ export const trpcClient = api.createClient({
         process.env.NODE_ENV === 'development' || (opts.direction === 'down' && opts.result instanceof Error),
     }),
     httpBatchLink({
-      url: '/api/trpc',
+      url: '/cms/api/trpc',
     }),
   ],
 })

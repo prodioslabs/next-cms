@@ -1,11 +1,15 @@
+'use client'
+
 import { File } from 'lucide-react'
-import { CMSSingleton, CMSSingletonData } from '~/cms/types/schema'
+import { useMemo } from 'react'
+import { CMSSingleton } from '~/cms/types/schema'
 import ContentManager from '../../content-manager'
 import { CMSField } from '~/cms/types/field'
-import { fetchSingletonData } from '~/cms/core/data'
 import { PageHeading } from '~/components/ui/page-heading'
 import { cn } from '~/lib/utils'
 import { CMSPlugin } from '~/cms/types/plugin'
+import { api } from '~/cms/server/api'
+import { Loader } from '~/components/ui/loader'
 
 type SingletonContentManagerProps = {
   singleton: CMSSingleton<Record<string, CMSField>>
@@ -16,7 +20,7 @@ type SingletonContentManagerProps = {
   style?: React.CSSProperties
 }
 
-export default async function SingletonContentManager({
+export default function SingletonContentManager({
   singleton,
   singletonName,
   plugins,
@@ -24,17 +28,33 @@ export default async function SingletonContentManager({
   className,
   style,
 }: SingletonContentManagerProps) {
-  const singletonData = await fetchSingletonData(singleton, singletonName)
+  const query = api.singleton.fetchSingleton.useQuery({ singletonName })
+
+  const content = useMemo(() => {
+    if (query.isLoading) {
+      return <Loader message="Loading Content Manager..." />
+    }
+
+    if (query.data) {
+      return (
+        <ContentManager
+          redirectToOnSave={redirectTo}
+          schema={singleton.schema}
+          config={{ type: 'singleton', singletonName, method: 'update' }}
+          initialData={query.data.data}
+          plugins={plugins}
+        />
+      )
+    }
+
+    return null
+  }, [query, redirectTo, plugins, singleton, singletonName])
+
   return (
     <div className={cn('space-y-4 p-4', className)} style={style}>
+      <title>{`Content Manager | ${singleton.label}`}</title>
       <PageHeading title={singleton.label} icon={<File />} />
-      <ContentManager
-        redirectToOnSave={redirectTo}
-        schema={singleton.schema}
-        config={{ type: 'singleton', singletonName, method: 'update' }}
-        initialData={singletonData.data as CMSSingletonData<typeof singleton>}
-        plugins={plugins}
-      />
+      {content}
     </div>
   )
 }

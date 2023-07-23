@@ -14,22 +14,26 @@ export default function createDashboardLayout<
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
 >(config: CMSConfig<CMSCollections, CMSSingletons>) {
   async function Layout({ children, params: { slug } }: { children: React.ReactNode; params: { slug?: string } }) {
-    // For the login page, we don't need any kind of appshell
-    if (slug?.[0] === 'login') {
-      return <Providers>{children}</Providers>
-    }
-
     /**
      * 1. Check for authentication
      * 2. If the user is not authenticated, the redirect the user to /admin/login
      */
     const session = await getServerSession(authOptions)
+
+    // For the login page, we don't need any kind of appshell
+    if (slug?.[0] === 'login') {
+      if (session) {
+        redirect('/cms/admin')
+      }
+      return <Providers session={null}>{children}</Providers>
+    }
+
     if (!session) {
       redirect('/cms/admin/login')
     }
 
     return (
-      <Providers>
+      <Providers session={session}>
         <div className="flex">
           <div className="sticky top-0 flex h-screen w-[240px] flex-col border-r">
             <div className="flex-1 space-y-4 overflow-auto px-2 py-4">

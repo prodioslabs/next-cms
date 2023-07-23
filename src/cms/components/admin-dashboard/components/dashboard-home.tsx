@@ -1,3 +1,5 @@
+'use client'
+
 import { ChevronRight, FolderOpen, File } from 'lucide-react'
 import Link from 'next/link'
 import { CMSConfig } from '~/cms/types/config'

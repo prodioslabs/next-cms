@@ -131,7 +131,7 @@ export default function EditableLink(props: EditableLinkProps) {
   const [adminAuthenticated, setAdminAuthenticated] = useState(false)
 
   useEffect(function fetchUserSession() {
-    fetch('/api/auth/session')
+    fetch('/cms/api/auth/session')
       .then((res) => res.json())
       .then((data) => setAdminAuthenticated(!!data?.user))
   }, [])

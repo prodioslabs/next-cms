@@ -1,4 +1,4 @@
-import { uploadImageResponseSchema } from '~/cms/api/schema'
+import { uploadImageResponseSchema } from '~/cms/server/upload-image/schema'
 
 export async function uploadImage(file: File) {
   const formData = new FormData()

@@ -1,5 +1,6 @@
-import { redirect } from 'next/navigation'
-import { Metadata } from 'next'
+'use client'
+
+import { redirect, useParams, useSearchParams } from 'next/navigation'
 import { CMSConfig } from '~/cms/types/config'
 import { CMSCollection, CMSSingleton } from '~/cms/types/schema'
 import DashboardHome from './dashboard-home'
@@ -8,56 +9,20 @@ import SingletonContentManager from './singleton-content-manager'
 import CollectionPage from './collection-page'
 import CollectionNewItemContentManager from './collection-new-item-content-manager'
 import CollectionPageLayout from './collection-page-layout'
-import { CollectionElementPage } from './collection-element-page'
+import CollectionElementPage from './collection-element-page'
 import LoginPage from './login-page'
 
 export default function createDashboardPage<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
 >(config: CMSConfig<CMSCollections, CMSSingletons>) {
-  async function generateMetadata({ params: { slug } }: { params: { slug?: string[] } }): Promise<Metadata> {
-    if (typeof slug === 'undefined') {
-      return {
-        title: 'CMS Dashboard',
-      }
-    }
+  function Page() {
+    const params = useParams()
+    const slug = params.slug?.split('/')
 
-    const pageType = slug[0]
+    const searchParams = useSearchParams()
+    const redirectTo = searchParams.get('redirectTo') ?? '/'
 
-    switch (pageType) {
-      case 'login': {
-        return {
-          title: 'CMS Login',
-        }
-      }
-
-      case 'singleton': {
-        const singletonName = slug[1]
-        return {
-          title: `CMS Singleton: ${singletonName}`,
-        }
-      }
-
-      case 'collection': {
-        const collectionName = slug[1]
-        return {
-          title: `CMS Collection: ${collectionName}`,
-        }
-      }
-
-      default: {
-        redirect('/404')
-      }
-    }
-  }
-
-  function Page({
-    params: { slug },
-    searchParams: { redirectTo = '/' },
-  }: {
-    params: { slug?: string[] }
-    searchParams: { redirectTo?: string }
-  }) {
     if (typeof slug === 'undefined') {
       return <DashboardHome config={config} />
     }
@@ -143,5 +108,5 @@ export default function createDashboardPage<
     }
   }
 
-  return { Page, generateMetadata }
+  return Page
 }

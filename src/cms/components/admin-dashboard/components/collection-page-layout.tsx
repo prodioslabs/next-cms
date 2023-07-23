@@ -1,3 +1,5 @@
+'use client'
+
 import { FolderOpen } from 'lucide-react'
 import { CMSField } from '~/cms/types/field'
 import { CMSCollection } from '~/cms/types/schema'
