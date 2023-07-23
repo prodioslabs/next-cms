@@ -5,6 +5,7 @@ import { Session } from 'next-auth'
 import { SessionProvider } from 'next-auth/react'
 import { api, trpcClient } from '~/cms/server/api'
 import { Toaster } from '~/components/ui/toaster'
+import ThemeProvider from './theme-provider'
 
 const queryClient = new QueryClient()
 
@@ -15,8 +16,12 @@ export default function Providers({ children, session }: { children: React.React
   return (
     <SessionProvider session={session} basePath="/cms/api/auth">
       <api.Provider client={trpcClient} queryClient={queryClient}>
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-        <Toaster />
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+            <Toaster />
+          </ThemeProvider>
+        </QueryClientProvider>
       </api.Provider>
     </SessionProvider>
   )

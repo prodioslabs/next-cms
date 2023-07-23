@@ -8,6 +8,7 @@ import NavLink from '../../nav-link'
 import Providers from './providers'
 import { authOptions } from '~/cms/core/auth'
 import LogoutButton from './logout-button'
+import ModeToggle from './mode-toggle'
 
 export default function createDashboardLayout<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
@@ -75,7 +76,10 @@ export default function createDashboardLayout<
                 })}
               </div>
             </div>
-            <LogoutButton className="mx-2 mb-2" />
+            <div className="mx-2 mb-2 flex items-center space-x-2">
+              <LogoutButton className="flex-1" />
+              <ModeToggle />
+            </div>
           </div>
           <div className="flex-1 overflow-auto">{children}</div>
         </div>

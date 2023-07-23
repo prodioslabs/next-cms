@@ -25,7 +25,7 @@ import { Loader } from '~/components/ui/loader'
 
 const Editor = dynamic(() => import('../../editor'), {
   ssr: false,
-  loading: () => <Loader message="Loading Editor..." />,
+  loading: () => <Loader message="Loading Editor..." variant="outline" />,
 })
 
 export type BaseFormProps = {

@@ -68,7 +68,7 @@ const Editor = forwardRef<EditorRef, EditorProps>(({ value, onChange, className,
     <div className={cn(className)} style={style}>
       <Remirror manager={editor.manager} initialContent={editor.state}>
         <EditorToolbar className="mb-2" />
-        <div className="editor-container prose !max-w-none rounded-md border px-3 py-2 text-sm  text-foreground [&>.remirror-editor-wrapper>div]:focus-within:outline-none">
+        <div className="editor-container prose prose-zinc !max-w-none rounded-md border px-3 py-2  text-sm text-foreground dark:prose-invert [&>.remirror-editor-wrapper>div]:focus-within:outline-none">
           <EditorComponent />
         </div>
         <MarkdownUpdater onChange={onChange} />

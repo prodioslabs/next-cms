@@ -16,7 +16,21 @@ export default function createDashboardPage<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
 >(config: CMSConfig<CMSCollections, CMSSingletons>) {
-  function Page() {
+  /**
+   * Remove the api field from all the plugins, as these handlers are not
+   * meant to be used on the client side
+   */
+  const clientSideConfig: CMSConfig<CMSCollections, CMSSingletons> = {
+    ...config,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    plugins: (config.plugins ?? []).map(({ api, ...rest }) => {
+      return {
+        ...rest,
+      }
+    }),
+  }
+
+  return function Page() {
     const params = useParams()
     const slug = params.slug?.split('/')
 
@@ -24,7 +38,7 @@ export default function createDashboardPage<
     const redirectTo = searchParams.get('redirectTo') ?? '/'
 
     if (typeof slug === 'undefined') {
-      return <DashboardHome config={config} />
+      return <DashboardHome config={clientSideConfig} />
     }
 
     const pageType = slug[0]
@@ -40,7 +54,7 @@ export default function createDashboardPage<
           redirect('/404')
         }
 
-        const singleton = config.singletons[singletonName]
+        const singleton = clientSideConfig.singletons[singletonName]
         if (!singleton) {
           redirect('/404')
         }
@@ -49,7 +63,7 @@ export default function createDashboardPage<
           <SingletonContentManager
             singleton={singleton}
             singletonName={singletonName}
-            plugins={config.plugins}
+            plugins={clientSideConfig.plugins}
             redirectTo={redirectTo}
           />
         )
@@ -61,7 +75,7 @@ export default function createDashboardPage<
           redirect('/404')
         }
 
-        const collection = config.collections[collectionName]
+        const collection = clientSideConfig.collections[collectionName]
         if (!collection) {
           redirect('/404')
         }
@@ -82,7 +96,7 @@ export default function createDashboardPage<
               <CollectionNewItemContentManager
                 collection={collection}
                 collectionName={collectionName}
-                plugins={config.plugins}
+                plugins={clientSideConfig.plugins}
                 redirectTo={redirectTo}
               />
             </CollectionPageLayout>
@@ -95,7 +109,7 @@ export default function createDashboardPage<
               collection={collection}
               collectionName={collectionName}
               elementId={collectionElementId}
-              plugins={config.plugins}
+              plugins={clientSideConfig.plugins}
               redirectTo={redirectTo}
             />
           </CollectionPageLayout>
@@ -107,6 +121,4 @@ export default function createDashboardPage<
       }
     }
   }
-
-  return Page
 }
