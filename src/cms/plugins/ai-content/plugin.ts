@@ -1,5 +1,6 @@
 import { CMSPlugin } from '~/cms/types/plugin'
 import AIContent from './components/ai-content'
+import { generateAIContent } from './api/route'
 
 export function createAIContentPlugin(config: any): CMSPlugin {
   return {
@@ -7,5 +8,9 @@ export function createAIContentPlugin(config: any): CMSPlugin {
     config,
     enabledForFields: ['text', 'rich-text'],
     component: AIContent,
+    api: {
+      method: 'POST',
+      handler: generateAIContent,
+    },
   }
 }

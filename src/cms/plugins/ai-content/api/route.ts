@@ -6,7 +6,7 @@ import { handleError } from '~/cms/utils/api'
 import { generateContentBodyValidationSchema } from './schema'
 import { env } from '~/env'
 
-export async function generateContentPOST(request: Request) {
+export async function generateAIContent(request: Request) {
   try {
     const { fieldType, message } = generateContentBodyValidationSchema.parse(await request.json())
 

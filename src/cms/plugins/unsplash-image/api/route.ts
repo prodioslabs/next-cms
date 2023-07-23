@@ -4,9 +4,8 @@ import { handleError } from '~/cms/utils/api'
 import { searchImageQueryParamsSchema } from './schema'
 import { env } from '~/env'
 
-const unsplash = createApi({ accessKey: env.UNSPLASH_ACCESS_KEY! })
-
-export async function searchImageGET(request: Request) {
+export async function searchImage(request: Request) {
+  const unsplash = createApi({ accessKey: env.UNSPLASH_ACCESS_KEY! })
   try {
     const url = new URL(request.url)
     const { query, page = '1' } = searchImageQueryParamsSchema.parse({

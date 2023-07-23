@@ -12,4 +12,8 @@ export type CMSPlugin = {
   enabledForFields: CMSField['type'][]
   component: React.ComponentType<CMSPluginComponentProps>
   config: any
+  api?: {
+    method: 'GET' | 'POST'
+    handler: (request: Request) => Promise<any>
+  }
 }
