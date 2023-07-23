@@ -13,17 +13,18 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 import { DatePicker } from '~/components/ui/date-picker'
-import ImageUploader from '../../image-uploader'
-import SlugInput from '../../slug-input/slug-input'
 import { CMSField, CMSImageData, CMSIconData, CMSColorData, CMSSelectOption } from '~/cms/types/field'
 import { getValidationSchemaForSchema } from '~/cms/core/validation'
 import { CMSPlugin } from '~/cms/types/plugin'
-import IconSelector from '../../icon-selector'
 import { ColorPicker } from '~/components/ui/color-picker'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
 import { Loader } from '~/components/ui/loader'
 
-const Editor = dynamic(() => import('../../editor'), {
+import ImageUploader from '../../fields/image-uploader'
+import SlugInput from '../../fields/slug-input/slug-input'
+import IconSelector from '../../fields/icon-selector'
+
+const Editor = dynamic(() => import('../../fields/editor'), {
   ssr: false,
   loading: () => <Loader message="Loading Editor..." variant="outline" />,
 })
