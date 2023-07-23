@@ -1,9 +1,8 @@
-import { z } from 'zod'
-
 export type CMSBaseField = {
   label?: string
   hidden?: boolean
   required?: boolean
+  multiple?: boolean
 }
 
 export type CMSTextField = CMSBaseField & {
@@ -33,14 +32,12 @@ export type CMSSlugField = CMSBaseField & {
 
 export type CMSImageField = CMSBaseField & {
   type: 'image'
-  multiple?: boolean
 }
 export type CMSImageData = {
   url: string
   width: number
   height: number
 }
-export type ZodImageSchema = z.ZodObject<{ url: z.ZodString; width: z.ZodNumber; height: z.ZodNumber }>
 
 export type CMSIconField = CMSBaseField & {
   type: 'icon'
@@ -69,6 +66,11 @@ export type CMSSelectField = CMSBaseField & {
   defaultValue?: CMSSelectOption
 }
 
+export type CMSObjectField = CMSBaseField & {
+  type: 'object'
+  schema: Record<string, CMSField>
+}
+
 export type CMSField =
   | CMSTextField
   | CMSRichTextField
@@ -79,6 +81,7 @@ export type CMSField =
   | CMSIconField
   | CMSColorField
   | CMSSelectField
+  | CMSObjectField
 
 export type CMSFieldDataType<F extends CMSField> = F extends CMSTextField
   ? string
