@@ -66,7 +66,7 @@ export function getValidationSchemaForField(field: CMSField) {
  * @see getValidationSchemaForCollectionList
  * @see getValidationSchemaForSingleton
  */
-export function getValidationSchemaForSchema<Schema extends Record<string, CMSField>>(schema: Schema) {
+export function getValidationSchemaForSchema<Schema extends Record<string, CMSField>>(schema: Schema): z.ZodType {
   let validationSchema = z.object({})
   Object.entries(schema).forEach(([fieldKey, field]) => {
     const fieldSchema = getValidationSchemaForField(field)

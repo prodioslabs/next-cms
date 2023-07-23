@@ -10,6 +10,7 @@ import { CMSPlugin } from '~/cms/types/plugin'
 type CollectionNewItemContentManagerProps = {
   collection: CMSCollection<Record<string, CMSField>>
   collectionName: string
+  redirectTo: string
   plugins?: CMSPlugin[]
   className?: string
   style?: React.CSSProperties
@@ -18,6 +19,7 @@ type CollectionNewItemContentManagerProps = {
 export default function CollectionNewItemContentManager({
   collection,
   collectionName,
+  redirectTo,
   plugins,
   className,
   style,
@@ -40,6 +42,7 @@ export default function CollectionNewItemContentManager({
         config={{ type: 'collection', collectionName, method: 'create' }}
         initialData={initialData}
         plugins={plugins}
+        redirectToOnSave={redirectTo}
       />
     </div>
   )

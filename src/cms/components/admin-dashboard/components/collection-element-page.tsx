@@ -11,6 +11,7 @@ type CollectionElementPageProps = {
   collection: CMSCollection<Record<string, CMSField>>
   collectionName: string
   elementId: string
+  redirectTo: string
   plugins?: CMSPlugin[]
   className?: string
   style?: React.CSSProperties
@@ -20,6 +21,7 @@ export async function CollectionElementPage({
   collection,
   collectionName,
   elementId,
+  redirectTo,
   plugins,
   className,
   style,
@@ -42,6 +44,7 @@ export async function CollectionElementPage({
         config={{ type: 'collection', collectionName, elementId, method: 'update' }}
         initialData={collectionElement.data}
         plugins={plugins}
+        redirectToOnSave={redirectTo}
       />
     </div>
   )

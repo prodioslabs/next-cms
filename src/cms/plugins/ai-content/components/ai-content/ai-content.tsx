@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FileEdit, Trash2 } from 'lucide-react'
+import { Sparkles, Trash2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useMutation } from '@tanstack/react-query'
@@ -61,7 +61,7 @@ export default function AIContent({ field, fieldKey, form: contentManagerForm }:
         <Sheet open={open} onOpenChange={setOpen}>
           <TooltipTrigger asChild>
             <SheetTrigger asChild>
-              <Button icon={<FileEdit />} variant="outline" size="icon" />
+              <Button icon={<Sparkles />} variant="outline" size="icon" />
             </SheetTrigger>
           </TooltipTrigger>
           <SheetContent className="space-y-4 overflow-auto">

@@ -91,7 +91,7 @@ function EditableLinkComponent({ url, label, containerElementId }: EditableLinkP
     ? createPortal(
         <>
           <Link
-            href={`${url}?redirect=${pathname}`}
+            href={`${url}?redirectTo=${pathname}`}
             className={cn(
               'fixed flex w-max items-center whitespace-nowrap rounded border border-border bg-muted px-2 py-1 text-xs text-muted-foreground hover:bg-secondary hover:text-secondary-foreground',
               {

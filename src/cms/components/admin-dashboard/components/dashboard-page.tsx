@@ -51,7 +51,13 @@ export default function createDashboardPage<
     }
   }
 
-  function Page({ params: { slug } }: { params: { slug?: string[] } }) {
+  function Page({
+    params: { slug },
+    searchParams: { redirectTo = '/' },
+  }: {
+    params: { slug?: string[] }
+    searchParams: { redirectTo?: string }
+  }) {
     if (typeof slug === 'undefined') {
       return <DashboardHome config={config} />
     }
@@ -74,7 +80,14 @@ export default function createDashboardPage<
           redirect('/404')
         }
 
-        return <SingletonContentManager singleton={singleton} singletonName={singletonName} plugins={config.plugins} />
+        return (
+          <SingletonContentManager
+            singleton={singleton}
+            singletonName={singletonName}
+            plugins={config.plugins}
+            redirectTo={redirectTo}
+          />
+        )
       }
 
       case 'collection': {
@@ -105,6 +118,7 @@ export default function createDashboardPage<
                 collection={collection}
                 collectionName={collectionName}
                 plugins={config.plugins}
+                redirectTo={redirectTo}
               />
             </CollectionPageLayout>
           )
@@ -117,6 +131,7 @@ export default function createDashboardPage<
               collectionName={collectionName}
               elementId={collectionElementId}
               plugins={config.plugins}
+              redirectTo={redirectTo}
             />
           </CollectionPageLayout>
         )
