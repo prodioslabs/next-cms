@@ -179,7 +179,7 @@ export default function BaseForm({
                                       onChange(uploadedImages)
                                     }}
                                     renderField={({ value, onChange }) => {
-                                      return <ImageUploader uploadedImages={value} onChange={onChange} />
+                                      return <ImageUploader uploadedImage={value} onChange={onChange} />
                                     }}
                                   />
                                 )
