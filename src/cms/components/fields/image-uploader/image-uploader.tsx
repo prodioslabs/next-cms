@@ -3,6 +3,7 @@
 import { useMutation } from '@tanstack/react-query'
 import Image from 'next/image'
 import { Loader2 } from 'lucide-react'
+import { useState } from 'react'
 import { CMSImageData } from '~/cms/types/field'
 import { Uploader } from '~/components/ui/uploader'
 import { cn } from '~/lib/utils'
@@ -16,15 +17,27 @@ type ImageUploaderProps = {
 }
 
 export default function ImageUploader({ uploadedImage, onChange, className, style }: ImageUploaderProps) {
-  const mutation = useMutation(uploadImage, {
-    onSuccess: (image) => {
-      // if multiple then pass all the uploaded images, else just pass the uploaded image
-      onChange?.(image)
+  const [progress, setProgress] = useState(0)
+  const mutation = useMutation(
+    (file: File) =>
+      uploadImage(file, ({ progress }) => {
+        setProgress(progress ?? 0)
+      }),
+    {
+      onSuccess: (image) => {
+        // if multiple then pass all the uploaded images, else just pass the uploaded image
+        onChange?.(image)
+      },
     },
-  })
+  )
 
   return (
-    <div className={cn('relative cursor-pointer', className)} style={style}>
+    <div className={cn('relative cursor-pointer overflow-hidden rounded-md', className)} style={style}>
+      {progress !== 0 && progress !== 1 ? (
+        <div className="absolute left-0 right-0 top-0 h-1 overflow-hidden rounded-full">
+          <div className="h-full bg-primary transition-all" style={{ width: `${progress * 100}%` }} />
+        </div>
+      ) : null}
       <Uploader
         description="Accept Images"
         accept={{

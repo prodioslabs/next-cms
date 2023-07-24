@@ -1,10 +1,8 @@
 import { z } from 'zod'
+import axios from 'axios'
 import { generateContentBodyValidationSchema, generateContentResponseValidationSchema } from '../../api/schema'
 
 export async function generateContent(input: z.infer<typeof generateContentBodyValidationSchema>) {
-  const res = await fetch('/cms/plugins/ai-content', {
-    method: 'POST',
-    body: JSON.stringify(input),
-  })
-  return generateContentResponseValidationSchema.parse(await res.json())
+  const { data } = await axios.post('/cms/plugins/ai-content', input)
+  return generateContentResponseValidationSchema.parse(data)
 }

@@ -18,7 +18,7 @@ const validationSchema = z.object({
   query: z.string().min(1),
 })
 
-export default function UnsplashImageSelector({ fieldKey, form: contentManagerForm }: CMSPluginComponentProps) {
+export default function UnsplashImageSelector({ updateField }: CMSPluginComponentProps) {
   const [open, setOpen] = useState(false)
 
   const form = useForm<z.infer<typeof validationSchema>>({
@@ -55,7 +55,15 @@ export default function UnsplashImageSelector({ fieldKey, form: contentManagerFo
               <SheetDescription>Select image from unsplash</SheetDescription>
             </SheetHeader>
             <Form {...form}>
-              <form className="flex items-start space-x-2">
+              <form
+                className="flex items-start space-x-2"
+                onSubmit={(event) => {
+                  event.stopPropagation()
+                  return form.handleSubmit(() => {
+                    mutation.mutate({ query: form.getValues().query })
+                  })(event)
+                }}
+              >
                 <FormField
                   name="query"
                   control={form.control}
@@ -70,15 +78,7 @@ export default function UnsplashImageSelector({ fieldKey, form: contentManagerFo
                     )
                   }}
                 />
-                <Button
-                  type="button"
-                  onClick={() => {
-                    form.handleSubmit(() => {
-                      mutation.mutate({ query: form.getValues().query })
-                    })()
-                  }}
-                  loading={mutation.isLoading}
-                >
+                <Button type="submit" loading={mutation.isLoading}>
                   Search
                 </Button>
               </form>
@@ -91,13 +91,11 @@ export default function UnsplashImageSelector({ fieldKey, form: contentManagerFo
                     className="relative block aspect-square overflow-hidden rounded-md after:absolute after:inset-0 after:bg-primary/50 after:opacity-0 after:transition-opacity hover:after:opacity-100"
                     type="button"
                     onClick={() => {
-                      contentManagerForm.setValue(fieldKey, [
-                        {
-                          url: photo.urls.full,
-                          width: photo.width,
-                          height: photo.height,
-                        },
-                      ])
+                      updateField({
+                        url: photo.urls.regular,
+                        width: photo.width,
+                        height: photo.height,
+                      })
                       setOpen(false)
                     }}
                   >
