@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { createElement, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
 import { FileWarning } from 'lucide-react'
@@ -13,9 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 import { DatePicker } from '~/components/ui/date-picker'
-import { CMSField, CMSImageData, CMSIconData, CMSColorData, CMSSelectOption } from '~/cms/types/field'
 import { getValidationSchemaForSchema } from '~/cms/core/validation'
-import { CMSPlugin } from '~/cms/types/plugin'
 import { ColorPicker } from '~/components/ui/color-picker'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
 import { Loader } from '~/components/ui/loader'
@@ -23,20 +21,17 @@ import { Loader } from '~/components/ui/loader'
 import ImageUploader from '../../fields/image-uploader'
 import SlugInput from '../../fields/slug-input/slug-input'
 import IconSelector from '../../fields/icon-selector'
+import BaseField from '../../base-field'
+import { ContentManagerProps } from '../types'
 
 const Editor = dynamic(() => import('../../fields/editor'), {
   ssr: false,
   loading: () => <Loader message="Loading Editor..." variant="outline" />,
 })
 
-export type BaseFormProps = {
-  schema: Record<string, CMSField>
-  initialData: any
+export type BaseFormProps = Omit<ContentManagerProps, 'config' | 'onUpdate' | 'redirectToOnSave'> & {
   onSubmit: (data: any) => void
   submitting?: boolean
-  plugins?: CMSPlugin[]
-  className?: string
-  style?: React.CSSProperties
 }
 
 export default function BaseForm({
@@ -68,7 +63,7 @@ export default function BaseForm({
             form.reset()
           }}
         >
-          <div className="space-y-4 px-4 pb-4 pt-2">
+          <div className="space-y-8 p-4">
             {Object.entries(schema).map(([fieldKey, fieldSchema]) => {
               // do not render hidden fields
               if (fieldSchema.hidden) {
@@ -84,33 +79,43 @@ export default function BaseForm({
                   key={fieldKey}
                   control={form.control}
                   name={fieldKey}
-                  render={({ field: { value, ...field } }) => {
+                  render={({ field: { value, onChange } }) => {
                     return (
                       <FormItem>
-                        <FormLabel className="flex items-center space-x-4 truncate">
-                          <span className="flex-1 truncate">{fieldSchema.label}</span>
-                          {pluginsToRender.map((plugin) => {
-                            return createElement(plugin.component, {
-                              fieldKey,
-                              field: fieldSchema,
-                              form,
-                              key: plugin.name,
-                            })
-                          })}
-                        </FormLabel>
+                        <FormLabel className="block">{fieldSchema.label}</FormLabel>
                         <FormControl>
                           {(() => {
                             switch (fieldSchema.type) {
                               case 'text': {
-                                return <Input {...field} value={value as string} />
+                                return (
+                                  <BaseField
+                                    field={fieldSchema}
+                                    plugins={pluginsToRender}
+                                    value={value as string}
+                                    onChange={onChange}
+                                    renderField={({ value, onChange }) => {
+                                      return (
+                                        <Input
+                                          value={value}
+                                          onChange={(event) => {
+                                            onChange(event.target.value)
+                                          }}
+                                        />
+                                      )
+                                    }}
+                                  />
+                                )
                               }
 
                               case 'rich-text': {
                                 return (
-                                  <Editor
+                                  <BaseField
+                                    plugins={pluginsToRender}
+                                    field={fieldSchema}
                                     value={value as string}
-                                    onChange={(markdownContent) => {
-                                      field.onChange(markdownContent as any)
+                                    onChange={onChange}
+                                    renderField={(props) => {
+                                      return <Editor {...props} />
                                     }}
                                   />
                                 )
@@ -118,16 +123,28 @@ export default function BaseForm({
 
                               case 'slug': {
                                 return (
-                                  <SlugInput
-                                    {...field}
+                                  <BaseField
+                                    field={fieldSchema}
                                     value={value as string}
-                                    onGenerateSlug={() => {
-                                      // TODO: validate if the field is string or not
-                                      const fromValue = values[fieldSchema.from as string] as string
-                                      if (fromValue) {
-                                        const slug = slugify(fromValue)
-                                        field.onChange(slug as any)
-                                      }
+                                    onChange={onChange}
+                                    plugins={pluginsToRender}
+                                    renderField={({ value, onChange }) => {
+                                      return (
+                                        <SlugInput
+                                          value={value}
+                                          onChange={(event) => {
+                                            onChange(event.target.value)
+                                          }}
+                                          onGenerateSlug={() => {
+                                            // TODO: validate if the field is string or not
+                                            const fromValue = values[fieldSchema.from as string] as string
+                                            if (fromValue) {
+                                              const slug = slugify(fromValue)
+                                              onChange(slug)
+                                            }
+                                          }}
+                                        />
+                                      )
                                     }}
                                   />
                                 )
@@ -138,23 +155,31 @@ export default function BaseForm({
                                 dateValue = !isNaN(dateValue.getTime()) ? dateValue : undefined
 
                                 return (
-                                  <div>
-                                    <DatePicker
-                                      date={dateValue}
-                                      onChange={(dateSelected) => {
-                                        field.onChange(dateSelected?.toISOString() as any)
-                                      }}
-                                    />
-                                  </div>
+                                  <BaseField
+                                    field={fieldSchema}
+                                    plugins={pluginsToRender}
+                                    value={dateValue}
+                                    onChange={(dateSelected) => {
+                                      onChange(dateSelected?.toISOString())
+                                    }}
+                                    renderField={({ value, onChange }) => {
+                                      return <DatePicker date={value} onChange={onChange} />
+                                    }}
+                                  />
                                 )
                               }
 
                               case 'image': {
                                 return (
-                                  <ImageUploader
-                                    uploadedImages={value as CMSImageData[]}
+                                  <BaseField
+                                    plugins={pluginsToRender}
+                                    field={fieldSchema}
+                                    value={value}
                                     onChange={(uploadedImages) => {
-                                      field.onChange(uploadedImages as any)
+                                      onChange(uploadedImages)
+                                    }}
+                                    renderField={({ value, onChange }) => {
+                                      return <ImageUploader uploadedImages={value} onChange={onChange} />
                                     }}
                                   />
                                 )
@@ -162,10 +187,15 @@ export default function BaseForm({
 
                               case 'icon': {
                                 return (
-                                  <IconSelector
-                                    icon={value as CMSIconData}
+                                  <BaseField
+                                    plugins={pluginsToRender}
+                                    field={fieldSchema}
+                                    value={value}
                                     onChange={(selectedIcon) => {
-                                      field.onChange(selectedIcon as any)
+                                      onChange(selectedIcon)
+                                    }}
+                                    renderField={({ value, onChange }) => {
+                                      return <IconSelector icon={value} onChange={onChange} />
                                     }}
                                   />
                                 )
@@ -173,10 +203,15 @@ export default function BaseForm({
 
                               case 'color': {
                                 return (
-                                  <ColorPicker
-                                    value={value as CMSColorData}
+                                  <BaseField
+                                    plugins={pluginsToRender}
+                                    field={fieldSchema}
+                                    value={value}
                                     onChange={(selectColor) => {
-                                      field.onChange(selectColor as any)
+                                      onChange(selectColor as any)
+                                    }}
+                                    renderField={(props) => {
+                                      return <ColorPicker {...props} />
                                     }}
                                   />
                                 )
@@ -184,25 +219,32 @@ export default function BaseForm({
 
                               case 'select': {
                                 return (
-                                  <Select
-                                    value={(value as CMSSelectOption | undefined)?.value}
-                                    onValueChange={(valueSelected) => {
-                                      field.onChange(
+                                  <BaseField
+                                    plugins={pluginsToRender}
+                                    field={fieldSchema}
+                                    value={value?.value}
+                                    onChange={(valueSelected) => {
+                                      onChange(
                                         fieldSchema.options.find((option) => option.value === valueSelected) as any,
                                       )
                                     }}
-                                  >
-                                    <SelectTrigger>
-                                      <SelectValue placeholder={`Select ${fieldSchema.label}`} />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                      {fieldSchema.options.map((option) => (
-                                        <SelectItem key={option.value} value={option.value}>
-                                          {option.label}
-                                        </SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
+                                    renderField={({ value, onChange }) => {
+                                      return (
+                                        <Select value={value} onValueChange={onChange}>
+                                          <SelectTrigger>
+                                            <SelectValue placeholder={`Select ${fieldSchema.label}`} />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            {fieldSchema.options.map((option) => (
+                                              <SelectItem key={option.value} value={option.value}>
+                                                {option.label}
+                                              </SelectItem>
+                                            ))}
+                                          </SelectContent>
+                                        </Select>
+                                      )
+                                    }}
+                                  />
                                 )
                               }
 

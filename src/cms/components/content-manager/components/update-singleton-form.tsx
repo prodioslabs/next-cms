@@ -1,21 +1,23 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import BaseForm, { BaseFormProps } from './base-form'
+import BaseForm from './base-form'
 import { useToast } from '~/components/ui/use-toast'
 import { api } from '~/cms/server/api'
 import { ToastAction } from '~/components/ui/toast'
+import { ContentManagerProps } from '../types'
 
-type UpdateSingletonFormProps = Omit<BaseFormProps, 'onSubmit' | 'submitting'> & {
+type UpdateSingletonFormProps = Omit<ContentManagerProps, 'config'> & {
   singletonName: string
-  redirectToOnSave: string
 }
 
-export default function UpdateSingletonForm({ singletonName, redirectToOnSave, ...rest }: UpdateSingletonFormProps) {
+export default function UpdateSingletonForm({
+  singletonName,
+  redirectToOnSave,
+  onUpdate,
+  ...rest
+}: UpdateSingletonFormProps) {
   const { toast } = useToast()
-
-  const router = useRouter()
 
   const mutation = api.singleton.updateSingleton.useMutation({
     onSuccess: (singleton) => {
@@ -28,7 +30,7 @@ export default function UpdateSingletonForm({ singletonName, redirectToOnSave, .
           </ToastAction>
         ),
       })
-      router.refresh()
+      onUpdate()
     },
     onError: (error) => {
       toast({

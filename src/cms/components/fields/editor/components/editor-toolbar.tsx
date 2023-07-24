@@ -52,7 +52,6 @@ export default function EditorToolbar({ className, style }: EditorToolbarProps) 
         }}
         disabled={toggleBold.enabled() === false}
         pressed={bold()}
-        size="sm"
         variant="outline"
       >
         <Bold className="h-4 w-4" />
@@ -63,7 +62,6 @@ export default function EditorToolbar({ className, style }: EditorToolbarProps) 
         }}
         disabled={toggleItalic.enabled() === false}
         pressed={italic()}
-        size="sm"
         variant="outline"
       >
         <Italic className="h-4 w-4" />
@@ -74,7 +72,6 @@ export default function EditorToolbar({ className, style }: EditorToolbarProps) 
         }}
         disabled={toggleUnderline.enabled() === false}
         pressed={underline()}
-        size="sm"
         variant="outline"
       >
         <Underline className="h-4 w-4" />
@@ -85,7 +82,6 @@ export default function EditorToolbar({ className, style }: EditorToolbarProps) 
         }}
         disabled={toggleStrike.enabled() === false}
         pressed={strike()}
-        size="sm"
         variant="outline"
       >
         <Strikethrough className="h-4 w-4" />
@@ -98,7 +94,6 @@ export default function EditorToolbar({ className, style }: EditorToolbarProps) 
         }}
         disabled={toggleBulletList.enabled() === false}
         pressed={bulletList()}
-        size="sm"
         variant="outline"
       >
         <List className="h-4 w-4" />
@@ -110,7 +105,6 @@ export default function EditorToolbar({ className, style }: EditorToolbarProps) 
         }}
         disabled={toggleOrderedList.enabled() === false}
         pressed={orderedList()}
-        size="sm"
         variant="outline"
       >
         <ListOrdered className="h-4 w-4" />
@@ -121,7 +115,6 @@ export default function EditorToolbar({ className, style }: EditorToolbarProps) 
         }}
         disabled={toggleBlockquote.enabled() === false}
         pressed={blockquote()}
-        size="sm"
         variant="outline"
       >
         <Quote className="h-4 w-4" />
@@ -171,7 +164,6 @@ export default function EditorToolbar({ className, style }: EditorToolbarProps) 
                 removeTextColor()
               }}
               pressed={false}
-              size="sm"
               variant="outline"
             >
               <RemoveFormatting className="h-4 w-4" />
@@ -187,7 +179,6 @@ export default function EditorToolbar({ className, style }: EditorToolbarProps) 
         }}
         disabled={undo.enabled() === false}
         pressed={false}
-        size="sm"
         variant="outline"
       >
         <Undo className="h-4 w-4" />
@@ -198,7 +189,6 @@ export default function EditorToolbar({ className, style }: EditorToolbarProps) 
         }}
         disabled={redo.enabled() === false}
         pressed={false}
-        size="sm"
         variant="outline"
       >
         <Redo className="h-4 w-4" />

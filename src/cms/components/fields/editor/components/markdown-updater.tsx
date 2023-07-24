@@ -15,7 +15,11 @@ export default function MarkdownUpdater({ value, setContent, onChange }: Markdow
   useEffect(
     function setEditorContentOnValueChange() {
       if (getMarkdown() !== value) {
-        setContent(value)
+        // TODO: figure out a better way to do this
+        // right now it uses setTimeout so as to prevent infinite loop
+        setTimeout(() => {
+          setContent(value)
+        })
       }
     },
     [value, getMarkdown, setContent],

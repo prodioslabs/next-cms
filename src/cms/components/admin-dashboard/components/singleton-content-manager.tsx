@@ -43,6 +43,9 @@ export default function SingletonContentManager({
           config={{ type: 'singleton', singletonName, method: 'update' }}
           initialData={query.data.data}
           plugins={plugins}
+          onUpdate={() => {
+            query.refetch()
+          }}
         />
       )
     }

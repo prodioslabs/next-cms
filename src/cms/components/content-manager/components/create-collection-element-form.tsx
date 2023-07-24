@@ -1,13 +1,13 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import BaseForm, { BaseFormProps } from './base-form'
+import BaseForm from './base-form'
 import { useToast } from '~/components/ui/use-toast'
 import { api } from '~/cms/server/api'
 import { ToastAction } from '~/components/ui/toast'
+import { ContentManagerProps } from '../types'
 
-type CreateCollectionElementFormProps = Omit<BaseFormProps, 'onSubmit' | 'submitting'> & {
+type CreateCollectionElementFormProps = Omit<ContentManagerProps, 'config'> & {
   collectionName: string
   redirectToOnSave: string
 }
@@ -15,11 +15,10 @@ type CreateCollectionElementFormProps = Omit<BaseFormProps, 'onSubmit' | 'submit
 export default function CreateCollectionElementForm({
   collectionName,
   redirectToOnSave,
+  onUpdate,
   ...rest
 }: CreateCollectionElementFormProps) {
   const { toast } = useToast()
-
-  const router = useRouter()
 
   const mutation = api.collection.createCollectionElement.useMutation({
     onSuccess: (collectionElement) => {
@@ -32,7 +31,7 @@ export default function CreateCollectionElementForm({
           </ToastAction>
         ),
       })
-      router.refresh()
+      onUpdate()
     },
     onError: (error) => {
       toast({

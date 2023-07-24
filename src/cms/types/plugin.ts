@@ -1,10 +1,8 @@
-import { UseFormReturn } from 'react-hook-form'
 import { CMSField } from './field'
 
 export type CMSPluginComponentProps = {
-  form: UseFormReturn<any, any, any>
-  fieldKey: string
   field: CMSField
+  updateField: (value: any) => void
 }
 
 export type CMSPlugin = {

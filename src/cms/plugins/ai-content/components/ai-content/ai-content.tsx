@@ -28,7 +28,7 @@ const validationSchema = z.object({
   message: z.string(),
 })
 
-export default function AIContent({ field, fieldKey, form: contentManagerForm }: CMSPluginComponentProps) {
+export default function AIContent({ field, updateField }: CMSPluginComponentProps) {
   const fieldType = z.union([z.literal('text'), z.literal('rich-text')]).parse(field.type)
 
   const [open, setOpen] = useState(false)
@@ -128,7 +128,7 @@ export default function AIContent({ field, fieldKey, form: contentManagerForm }:
                           <Button
                             variant="secondary"
                             onClick={() => {
-                              contentManagerForm.setValue(fieldKey, message)
+                              updateField(message)
                               setOpen(false)
                             }}
                             type="button"
