@@ -83,7 +83,7 @@ export type CMSField =
   | CMSSelectField
   | CMSObjectField
 
-export type CMSFieldDataType<F extends CMSField> = F extends CMSTextField
+type FieldDataTypeOnFieldType<F extends CMSField> = F extends CMSTextField
   ? string
   : F extends CMSRichTextField
   ? string
@@ -92,7 +92,7 @@ export type CMSFieldDataType<F extends CMSField> = F extends CMSTextField
   : F extends CMSDateField
   ? string
   : F extends CMSImageField
-  ? CMSImageData[]
+  ? CMSImageData
   : F extends CMSSlugField
   ? string
   : F extends CMSIconField
@@ -102,3 +102,13 @@ export type CMSFieldDataType<F extends CMSField> = F extends CMSTextField
   : F extends CMSSelectField
   ? CMSSelectOption
   : never
+
+type FieldDataTypeOnMultiple<F extends CMSField> = F['multiple'] extends true
+  ? FieldDataTypeOnFieldType<F>[]
+  : FieldDataTypeOnFieldType<F>
+
+type FieldDataTypeOnRequired<F extends CMSField> = F['required'] extends true
+  ? FieldDataTypeOnMultiple<F>
+  : FieldDataTypeOnMultiple<F> | undefined
+
+export type CMSFieldDataType<F extends CMSField> = FieldDataTypeOnRequired<F>

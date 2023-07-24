@@ -8,7 +8,7 @@ import { CMSField } from '../types/field'
  */
 export function isFieldArrayType(field: CMSField) {
   // right now, the only array type is the image type
-  return field.type === 'image'
+  return field.multiple
 }
 
 /**

@@ -12,12 +12,12 @@ export default function Home() {
   return (
     <div className="space-y-8">
       <HomePageHeroSectionSingleton
-        renderItem={({ data: { title, content, coverImage, callToAction, callToActionIcon } }) => {
+        renderItem={({ data: { title, content, callToAction, callToActionIcon, coverImage } }) => {
           return (
             <HeroSection
               title={title}
               description={content}
-              image={coverImage[0]}
+              image={coverImage}
               callToAction={callToAction}
               callToActionIcon={callToActionIcon.name}
             />
@@ -44,9 +44,9 @@ export default function Home() {
                       className="rounded-md border border-border p-4"
                     >
                       <Image
-                        width={blog.data.coverImage[0].width}
-                        height={blog.data.coverImage[0].height}
-                        src={blog.data.coverImage[0].url}
+                        width={blog.data.coverImage.width}
+                        height={blog.data.coverImage.height}
+                        src={blog.data.coverImage.url}
                         alt={blog.data.title}
                         className="mb-2 h-40 w-full rounded-md object-cover"
                       />

@@ -9,52 +9,72 @@ import { CMSCollection, CMSSingleton } from '../types/schema'
  * @returns zod schema
  */
 export function getValidationSchemaForField(field: CMSField) {
+  let schemaBasedOnType
   switch (field.type) {
     case 'text':
     case 'rich-text':
-    case 'slug':
-      return z.string().min(1)
+    case 'slug': {
+      schemaBasedOnType = z.string().min(1)
+      break
+    }
 
-    case 'date':
-      return z.string().datetime()
+    case 'date': {
+      schemaBasedOnType = z.string().datetime()
+      break
+    }
 
-    case 'number':
-      return z.number()
+    case 'number': {
+      schemaBasedOnType = z.number()
+      break
+    }
 
-    case 'image':
-      return z
-        .array(
-          z.object({
-            url: z.string().min(1),
-            width: z.number().int(),
-            height: z.number().int(),
-          }),
-        )
-        .min(1)
+    case 'image': {
+      schemaBasedOnType = z.object({
+        url: z.string().min(1),
+        width: z.number().int(),
+        height: z.number().int(),
+      })
+      break
+    }
 
     case 'icon': {
-      return z.object({
+      schemaBasedOnType = z.object({
         name: z.string().min(1),
         // update the list based on the icons list in future
         iconLib: z.enum(['lucide']),
       })
+      break
     }
 
     case 'color': {
-      return z.string().startsWith('#')
+      schemaBasedOnType = z.string().startsWith('#')
+      break
     }
 
     case 'select': {
-      return z.object({
+      schemaBasedOnType = z.object({
         value: z.string(),
         label: z.string(),
       })
+      break
     }
 
     default: {
       throw new Error('Invalid field type')
     }
   }
+
+  let validationSchema
+  if (field.multiple) {
+    validationSchema = schemaBasedOnType.array().min(1)
+  } else {
+    validationSchema = schemaBasedOnType
+  }
+
+  if (!field.required) {
+    return validationSchema.optional()
+  }
+  return validationSchema
 }
 
 /**
@@ -69,12 +89,7 @@ export function getValidationSchemaForField(field: CMSField) {
 export function getValidationSchemaForSchema<Schema extends Record<string, CMSField>>(schema: Schema): z.ZodType {
   let validationSchema = z.object({})
   Object.entries(schema).forEach(([fieldKey, field]) => {
-    const fieldSchema = getValidationSchemaForField(field)
-    if (!field.required) {
-      validationSchema = validationSchema.extend({ [fieldKey]: fieldSchema.optional() })
-    } else {
-      validationSchema = validationSchema.extend({ [fieldKey]: fieldSchema })
-    }
+    validationSchema = validationSchema.extend({ [fieldKey]: getValidationSchemaForField(field) })
   })
   return validationSchema
 }

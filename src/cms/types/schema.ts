@@ -13,9 +13,7 @@ export type CMSCollection<
 }
 
 export type CMSSchemaData<Schema extends Record<string, CMSField>> = {
-  [Key in keyof Schema]: Schema[Key]['required'] extends true
-    ? CMSFieldDataType<Schema[Key]>
-    : CMSFieldDataType<Schema[Key]> | undefined
+  [Key in keyof Schema]: CMSFieldDataType<Schema[Key]>
 }
 
 export type CMSCollectionData<_Collection extends CMSCollection<Record<string, CMSField>>> = CMSSchemaData<
