@@ -126,14 +126,14 @@ export function fixData<Schema extends Record<string, CMSField>>(schema: Schema,
   const fixedData = isPlainObject(invalidData) ? { ...invalidData } : undefined
 
   if (!fixedData) {
-    return generateDummyData(schema)
+    return generateDummyData(schema) as CMSSchemaData<Schema>
   }
 
   error.issues.forEach((issue) => {
     try {
       fixItemData(fixedData, issue.path)
     } catch (error) {
-      return generateDummyData(schema)
+      return generateDummyData(schema) as CMSSchemaData<Schema>
     }
   })
 

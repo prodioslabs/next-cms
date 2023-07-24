@@ -116,7 +116,7 @@ async function bootstrap<
       })
       console.log(`✅ Singleton - ${singletonName} created`)
     } else {
-      console.log(`⏱️ Syncing singletong ${singletonName} schema...`)
+      console.log(`⏱️ Syncing singleton ${singletonName} schema...`)
       await prisma.singleton.update({
         where: {
           id: singletonPresent.id,
