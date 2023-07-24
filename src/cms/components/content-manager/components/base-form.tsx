@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { createElement, useMemo, useState } from 'react'
+import { createElement, useMemo } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
 import { FileWarning } from 'lucide-react'
@@ -59,15 +59,6 @@ export default function BaseForm({
   const values = useWatch({ control: form.control }) as Record<string, any>
   const isDataChanged = useMemo(() => JSON.stringify(values) !== JSON.stringify(initialData), [values, initialData])
 
-  /**
-   * resetEditorState is a state that is used to reset the Editor component
-   * The Editor component is not a controlled component, so when the form is reset to the previous
-   * state it won't be reflected automatically. So this state can be used as a key to the
-   * Editor component and would be toggled when the form is updated, this would re-render the component
-   * and the previous state would be automatically restored
-   */
-  const [resetEditorState, setResetEditorState] = useState(false)
-
   return (
     <div className={cn('rounded-md border', className)} style={style}>
       <Form {...form}>
@@ -75,7 +66,6 @@ export default function BaseForm({
           onSubmit={form.handleSubmit(onSubmit)}
           onReset={() => {
             form.reset()
-            setResetEditorState((prevState) => !prevState)
           }}
         >
           <div className="space-y-4 px-4 pb-4 pt-2">
@@ -103,12 +93,7 @@ export default function BaseForm({
                             return createElement(plugin.component, {
                               fieldKey,
                               field: fieldSchema,
-                              form: {
-                                ...form,
-                                resetEditorState: () => {
-                                  setResetEditorState((prevState) => !prevState)
-                                },
-                              },
+                              form,
                               key: plugin.name,
                             })
                           })}
@@ -123,7 +108,6 @@ export default function BaseForm({
                               case 'rich-text': {
                                 return (
                                   <Editor
-                                    key={`${resetEditorState}`}
                                     value={value as string}
                                     onChange={(markdownContent) => {
                                       field.onChange(markdownContent as any)

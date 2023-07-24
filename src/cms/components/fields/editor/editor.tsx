@@ -16,7 +16,7 @@ import {
   HistoryExtension,
   TextColorExtension,
 } from 'remirror/extensions'
-import { forwardRef, useImperativeHandle } from 'react'
+import { forwardRef, useCallback, useImperativeHandle } from 'react'
 import { cn } from '~/lib/utils'
 import MarkdownUpdater from './components/markdown-updater'
 import EditorToolbar from './components/editor-toolbar'
@@ -58,10 +58,15 @@ const Editor = forwardRef<EditorRef, EditorProps>(({ value, onChange, className,
     content: value,
   })
 
-  useImperativeHandle(ref, () => ({
-    setContent(markdownContent) {
+  const setContent = useCallback(
+    (markdownContent: string) => {
       editor.getContext()?.setContent(markdownContent)
     },
+    [editor],
+  )
+
+  useImperativeHandle(ref, () => ({
+    setContent,
   }))
 
   return (
@@ -71,7 +76,7 @@ const Editor = forwardRef<EditorRef, EditorProps>(({ value, onChange, className,
         <div className="editor-container prose prose-zinc !max-w-none rounded-md border px-3 py-2  text-sm text-foreground dark:prose-invert [&>.remirror-editor-wrapper>div]:focus-within:outline-none">
           <EditorComponent />
         </div>
-        <MarkdownUpdater onChange={onChange} />
+        <MarkdownUpdater onChange={onChange} value={value} setContent={setContent} />
       </Remirror>
     </div>
   )
