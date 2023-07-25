@@ -1,5 +1,5 @@
 import { FolderOpen, File } from 'lucide-react'
-import { getServerSession } from 'next-auth'
+import { getServerSession as nextAuthGetServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import { CMSConfig } from '~/cms/types/config'
 import { CMSCollection, CMSSingleton } from '~/cms/types/schema'
@@ -10,6 +10,16 @@ import { authOptions } from '~/cms/core/auth'
 import LogoutButton from './logout-button'
 import ModeToggle from './mode-toggle'
 
+async function getServerSession() {
+  try {
+    return await nextAuthGetServerSession(authOptions)
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error)
+    return null
+  }
+}
+
 export default function createDashboardLayout<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
@@ -19,14 +29,19 @@ export default function createDashboardLayout<
      * 1. Check for authentication
      * 2. If the user is not authenticated, the redirect the user to /admin/login
      */
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession()
 
     // For the login page, we don't need any kind of appshell
     if (slug?.[0] === 'login') {
       if (session) {
         redirect('/cms/admin')
       }
-      return <Providers session={null}>{children}</Providers>
+
+      return (
+        <Providers session={null}>
+          <div>{children}</div>
+        </Providers>
+      )
     }
 
     if (!session) {
