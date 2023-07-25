@@ -23,6 +23,7 @@ import SlugInput from '../../fields/slug-input/slug-input'
 import IconSelector from '../../fields/icon-selector'
 import { ContentManagerProps } from '../types'
 import InputField from '../../input-field'
+import { useToast } from '~/components/ui/use-toast'
 
 // TODO: Move it to utils directory
 function parseDate(dateStr: string) {
@@ -68,6 +69,8 @@ export default function BaseForm({
 
   const values = useWatch({ control: form.control }) as Record<string, any>
   const isDataChanged = useMemo(() => JSON.stringify(values) !== JSON.stringify(initialData), [values, initialData])
+
+  const { toast } = useToast()
 
   return (
     <>
@@ -157,10 +160,17 @@ export default function BaseForm({
                                             }}
                                             onGenerateSlug={() => {
                                               // TODO: validate if the field is string or not
-                                              const fromValue = values[fieldSchema.from as string] as string
-                                              if (fromValue) {
+                                              const fromValue = values[fieldSchema.from]
+                                              if (fromValue && typeof fromValue === 'string') {
                                                 const slug = slugify(fromValue)
                                                 onChange(slug)
+                                              } else {
+                                                toast({
+                                                  title: "Couldn't generate slug",
+                                                  description:
+                                                    'The field to generate slug from is not a string. Please check your cms.config',
+                                                  variant: 'destructive',
+                                                })
                                               }
                                             }}
                                           />
