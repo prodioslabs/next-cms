@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker'
-import slugify from 'slugify'
 import { z } from 'zod'
 import { CMSField } from '../types/field'
 import { CMSSchemaData } from '../types/schema'
@@ -15,7 +14,7 @@ import { isFieldArrayType } from './field'
  * @param collectionData collection data from which the some data is to be arrived
  * @returns dummy data
  */
-function generateDummyDataForField(field: CMSField, collectionData: any) {
+export function generateDummyDataForField(field: CMSField) {
   if ('default' in field) {
     return field.default
   }
@@ -34,10 +33,6 @@ function generateDummyDataForField(field: CMSField, collectionData: any) {
       return faker.date.past().toISOString()
 
     case 'slug': {
-      const baseValue = collectionData[field.from]
-      if (baseValue && typeof baseValue === 'string') {
-        return slugify(baseValue)
-      }
       return faker.lorem.slug()
     }
 
@@ -81,9 +76,9 @@ export function generateDummyData<Schema extends Record<string, CMSField>>(schem
 
   Object.entries(schema).forEach(([fieldKey, field]) => {
     if (isFieldArrayType(field)) {
-      data[fieldKey] = [generateDummyDataForField(field, data)]
+      data[fieldKey] = [generateDummyDataForField(field)]
     } else {
-      data[fieldKey] = generateDummyDataForField(field, data)
+      data[fieldKey] = generateDummyDataForField(field)
     }
   })
 
@@ -113,13 +108,13 @@ export function fixData<Schema extends Record<string, CMSField>>(schema: Schema,
       const indexWithIssue = issuePath[1]
       // if field is of type array, but there is no index, then the issue must be in the entire field
       if (typeof indexWithIssue === 'undefined') {
-        itemData[fieldKeyWithIssue] = [generateDummyDataForField(field, itemData)]
+        itemData[fieldKeyWithIssue] = [generateDummyDataForField(field)]
       } else {
         // else the issue must be in the item of the array
-        itemData[fieldKeyWithIssue][indexWithIssue] = generateDummyDataForField(field, itemData)
+        itemData[fieldKeyWithIssue][indexWithIssue] = generateDummyDataForField(field)
       }
     } else {
-      itemData[fieldKeyWithIssue] = generateDummyDataForField(field, itemData)
+      itemData[fieldKeyWithIssue] = generateDummyDataForField(field)
     }
   }
 

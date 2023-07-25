@@ -1,5 +1,5 @@
 export type CMSBaseField = {
-  label?: string
+  label: string
   hidden?: boolean
   required?: boolean
   multiple?: boolean
