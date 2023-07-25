@@ -8,6 +8,7 @@ import ContentManager from '../../content-manager'
 import { cn } from '~/lib/utils'
 import { generateDummyData } from '~/cms/core/fix-data'
 import { CMSPlugin } from '~/cms/types/plugin'
+import { api } from '~/cms/server/api'
 
 type CollectionNewItemContentManagerProps = {
   collection: CMSCollection<Record<string, CMSField>>
@@ -26,6 +27,15 @@ export default function CollectionNewItemContentManager({
   className,
   style,
 }: CollectionNewItemContentManagerProps) {
+  const collectionElementsQuery = api.collection.fetchCollectionElements.useQuery(
+    {
+      collectionName,
+    },
+    {
+      enabled: false,
+    },
+  )
+
   const initialData = generateDummyData(collection.schema)
 
   return (
@@ -45,6 +55,9 @@ export default function CollectionNewItemContentManager({
         initialData={initialData}
         plugins={plugins}
         redirectToOnSave={redirectTo}
+        onUpdate={() => {
+          collectionElementsQuery.refetch()
+        }}
       />
     </div>
   )

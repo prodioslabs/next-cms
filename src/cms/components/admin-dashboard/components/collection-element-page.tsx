@@ -30,30 +30,42 @@ export default function CollectionElementPage({
   className,
   style,
 }: CollectionElementPageProps) {
-  const query = api.collection.fetchCollectionElementById.useQuery({
+  const collectionElementsQuery = api.collection.fetchCollectionElements.useQuery(
+    {
+      collectionName,
+    },
+    {
+      enabled: false,
+    },
+  )
+  const collectionElementQuery = api.collection.fetchCollectionElementById.useQuery({
     collectionName,
     elementId,
   })
 
   const content = useMemo(() => {
-    if (query.isLoading) {
+    if (collectionElementQuery.isLoading) {
       return <Loader message="Loading content manager..." />
     }
 
-    if (query.data) {
+    if (collectionElementQuery.data) {
       return (
         <ContentManager
           schema={collection.schema}
           config={{ type: 'collection', collectionName, elementId, method: 'update' }}
-          initialData={query.data.data}
+          initialData={collectionElementQuery.data.data}
           plugins={plugins}
           redirectToOnSave={redirectTo}
+          onUpdate={() => {
+            collectionElementQuery.refetch()
+            collectionElementsQuery.refetch()
+          }}
         />
       )
     }
 
     return null
-  }, [query, collection, collectionName, plugins, redirectTo, elementId])
+  }, [collectionElementQuery, collectionElementsQuery, collection, collectionName, plugins, redirectTo, elementId])
 
   return (
     <div className={cn('space-y-4', className)} style={style}>

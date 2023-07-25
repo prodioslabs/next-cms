@@ -53,14 +53,17 @@ export default function CollectionPage({ collection, collectionName, className, 
   }, [query, collection, collectionName])
 
   return (
-    <div className={cn('space-y-4', className)} style={style}>
-      <div className="flex items-center">
-        <div className="flex-1 text-base font-medium text-foreground">Items</div>
-        <Link href={`/cms/admin/collection/${collectionName}/new`}>
-          <Button icon={<Plus />}>Create New Item</Button>
-        </Link>
+    <>
+      <title>{`Content Manager | ${collection.label}`}</title>
+      <div className={cn('space-y-4', className)} style={style}>
+        <div className="flex items-center">
+          <div className="flex-1 text-base font-medium text-foreground">Items</div>
+          <Link href={`/cms/admin/collection/${collectionName}/new`}>
+            <Button icon={<Plus />}>Create New Item</Button>
+          </Link>
+        </div>
+        {content}
       </div>
-      {content}
-    </div>
+    </>
   )
 }
