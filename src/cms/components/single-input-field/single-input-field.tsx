@@ -5,7 +5,7 @@ import { CMSField } from '~/cms/types/field'
 import { CMSPlugin } from '~/cms/types/plugin'
 import { cn } from '~/lib/utils'
 
-type BaseFieldProps<DataType extends any> = {
+export type SingleInputFieldProps<DataType extends any> = {
   field: CMSField
   value: DataType
   onChange: (value: DataType) => void
@@ -15,7 +15,7 @@ type BaseFieldProps<DataType extends any> = {
   style?: React.CSSProperties
 }
 
-export default function BaseField<DataType extends any>({
+export default function SingleInputField<DataType extends any>({
   value,
   onChange,
   renderField,
@@ -23,16 +23,18 @@ export default function BaseField<DataType extends any>({
   plugins,
   className,
   style,
-}: BaseFieldProps<DataType>) {
+}: SingleInputFieldProps<DataType>) {
   return (
     <div className={cn('flex items-start space-x-2', className)} style={style}>
       <div className="flex-1">{renderField({ value, onChange })}</div>
       {plugins.length ? (
         <>
           <div className="h-10 border-r border-dashed" />
-          {plugins.map((plugin) => {
-            return createElement(plugin.component, { field, updateField: onChange })
-          })}
+          <div className="space-y-2">
+            {plugins.map((plugin) => {
+              return createElement(plugin.component, { field, updateField: onChange, key: plugin.name })
+            })}
+          </div>
         </>
       ) : null}
     </div>

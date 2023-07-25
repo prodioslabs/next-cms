@@ -9,7 +9,10 @@ type UploaderProps = DropzoneOptions & {
 }
 
 export function Uploader({ description, className, style, ...options }: UploaderProps) {
-  const { getRootProps, getInputProps, isDragActive } = useDropzone(options)
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    ...options,
+    multiple: false,
+  })
 
   return (
     <div

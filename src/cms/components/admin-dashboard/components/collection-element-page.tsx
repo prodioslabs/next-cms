@@ -60,6 +60,7 @@ export default function CollectionElementPage({
             collectionElementQuery.refetch()
             collectionElementsQuery.refetch()
           }}
+          title={`Edit ${collection.label} item`}
         />
       )
     }

@@ -2,7 +2,6 @@ import { cloneElement, forwardRef } from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { Loader2 } from 'lucide-react'
-import clsx from 'clsx'
 import { cn } from '~/lib/utils'
 
 const buttonVariants = cva(
@@ -12,6 +11,7 @@ const buttonVariants = cva(
       variant: {
         default: 'bg-primary text-primary-foreground hover:bg-primary/90',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        'destructive-outline': 'border border-destructive/30 text-destructive hover:bg-destructive/10',
         outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
@@ -59,7 +59,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} data-loading={loading} {...props}>
         {loading ? (
           <Loader2
-            className={clsx(iconVariants({ type: children ? 'withChildren' : 'withoutChildren' }), 'animate-spin')}
+            className={cn(iconVariants({ type: children ? 'withChildren' : 'withoutChildren' }), 'animate-spin')}
           />
         ) : icon ? (
           cloneElement(icon, {

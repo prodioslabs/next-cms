@@ -58,6 +58,7 @@ export default function CollectionNewItemContentManager({
         onUpdate={() => {
           collectionElementsQuery.refetch()
         }}
+        title={`${collection.label} - New Item`}
       />
     </div>
   )

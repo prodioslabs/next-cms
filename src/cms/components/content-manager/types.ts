@@ -21,6 +21,7 @@ export type Config =
 
 export type ContentManagerProps = {
   config: Config
+  title?: string
   schema: Record<string, CMSField>
   initialData: any
   plugins?: CMSPlugin[]

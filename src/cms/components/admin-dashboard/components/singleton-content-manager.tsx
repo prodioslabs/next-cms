@@ -46,6 +46,7 @@ export default function SingletonContentManager({
           onUpdate={() => {
             query.refetch()
           }}
+          title={singleton.label}
         />
       )
     }
@@ -55,7 +56,6 @@ export default function SingletonContentManager({
 
   return (
     <div className={cn('space-y-4 p-4', className)} style={style}>
-      <title>{`Content Manager | ${singleton.label}`}</title>
       <PageHeading title={singleton.label} icon={<File />} />
       {content}
     </div>
