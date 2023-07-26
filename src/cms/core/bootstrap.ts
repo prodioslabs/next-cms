@@ -9,6 +9,7 @@ import { fixData, generateDummyData } from './fix-data'
 import { isTextField } from './field'
 import { getValidationSchemaForCollectionElement, getValidationSchemaForSingleton } from './validation'
 import config from '~/cms.config'
+import { errorMessage, eventMessage, successMessage, warnMessage } from '../utils/cli'
 
 function validateCollection(collection: CMSCollection<Record<string, CMSField>>, collectionName: string) {
   if (!isTextField(collection.schema[collection.slugField])) {
@@ -23,8 +24,15 @@ async function bootstrap<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
 >(config: CMSConfig<CMSCollections, CMSSingletons>) {
-  console.log('🚀 Bootstrapping CMS...')
+  console.log(
+    `\n${Array.from({ length: 80 })
+      .map(() => '_')
+      .join('')}\n`,
+  )
 
+  console.group(eventMessage('bootstrapping cms...'))
+
+  console.group(eventMessage('syncing collection and collection elements...'))
   for (const [collectionName, collection] of Object.entries(config.collections)) {
     // validate the collection
     validateCollection(collection, collectionName)
@@ -35,7 +43,7 @@ async function bootstrap<
       },
     })
     if (!collectionPresent) {
-      console.warn(`⚠️ Collection - ${collectionName} not created. Creating ...`)
+      console.log(warnMessage(`collection - ${collectionName} not found. creating ...`))
       await prisma.collection.create({
         data: {
           label: collection.label,
@@ -44,9 +52,9 @@ async function bootstrap<
           slugField: collection.slugField,
         },
       })
-      console.log(`✅ Collection - ${collectionName} created`)
+      console.log(successMessage(`collection - ${collectionName} created`))
     } else {
-      console.log(`⏱️ Syncing singleton ${collectionName} schema...`)
+      console.log(eventMessage(`syncing singleton ${collectionName} schema...`))
       await prisma.collection.update({
         where: {
           id: collectionPresent.id,
@@ -58,11 +66,12 @@ async function bootstrap<
           slugField: collection.slugField,
         },
       })
-      console.log(`✅ Collection - ${collectionName} synced`)
+      console.log(successMessage(`collection - ${collectionName} synced`))
     }
 
     const validationSchema = getValidationSchemaForCollectionElement(collection)
 
+    console.group(eventMessage(`syncing collection elements for collection - ${collectionName}...`))
     // Fix the collection elements data
     const collectionElements = await prisma.collectionElement.findMany({
       where: {
@@ -78,9 +87,15 @@ async function bootstrap<
       } catch (error) {
         if (error instanceof z.ZodError) {
           console.log(
-            `⚠️ Invalid collection element ${collectionElement.id} for collection - ${collectionName} data found`,
+            errorMessage(
+              `invalid collection element ${collectionElement.id} for collection - ${collectionName} data found`,
+            ),
           )
-          console.log(`⏱️ Fixing collection element ${collectionElement.id} for collection - ${collectionName} data...`)
+          console.log(
+            eventMessage(
+              `fixing collection element ${collectionElement.id} for collection - ${collectionName} data...`,
+            ),
+          )
           const fixedData = fixData(collection.schema, collectionElement.data, error)
           await prisma.collectionElement.update({
             where: {
@@ -90,14 +105,21 @@ async function bootstrap<
               data: fixedData,
             },
           })
-          console.log(`✅ Collection element ${collectionElement.id} for collection - ${collectionName} data fixed`)
+          console.log(
+            successMessage(`collection element ${collectionElement.id} for collection - ${collectionName} data fixed`),
+          )
         } else {
           throw error
         }
       }
     }
+    console.groupEnd()
+    console.log(successMessage(`syncing collection elements for collection - ${collectionName}...`))
   }
+  console.groupEnd()
+  console.log(successMessage('collection and collection elements synced'))
 
+  console.group(eventMessage('syncing singletons...'))
   for (const [singletonName, singleton] of Object.entries(config.singletons)) {
     const singletonPresent = await prisma.singleton.findFirst({
       where: {
@@ -105,7 +127,7 @@ async function bootstrap<
       },
     })
     if (!singletonPresent) {
-      console.warn(`⚠️ Singleton - ${singletonName} not created. Creating ...`)
+      console.log(warnMessage(`singleton - ${singletonName} not created. creating ...`))
       await prisma.singleton.create({
         data: {
           label: singleton.label,
@@ -114,9 +136,9 @@ async function bootstrap<
           data: generateDummyData(singleton.schema),
         },
       })
-      console.log(`✅ Singleton - ${singletonName} created`)
+      console.log(successMessage(`singleton - ${singletonName} created`))
     } else {
-      console.log(`⏱️ Syncing singleton ${singletonName} schema...`)
+      console.log(eventMessage(`syncing singleton ${singletonName} schema...`))
       await prisma.singleton.update({
         where: {
           id: singletonPresent.id,
@@ -127,15 +149,15 @@ async function bootstrap<
           schema: singleton.schema,
         },
       })
-      console.log(`✅ Singleton - ${singletonName} synced`)
+      console.log(successMessage(`singleton - ${singletonName} synced`))
 
       const validationSchema = getValidationSchemaForSingleton(singleton)
       try {
         validationSchema.parse(singletonPresent.data)
       } catch (error) {
         if (error instanceof z.ZodError) {
-          console.log(`⚠️ Invalid singleton ${singletonName} data found`)
-          console.log(`⏱️ Fixing singleton ${singletonName} data...`)
+          console.log(errorMessage(`invalid singleton ${singletonName} data found`))
+          console.log(eventMessage(`fixing singleton ${singletonName} data...`))
           const fixedData = fixData(singleton.schema, singletonPresent.data, error)
           await prisma.singleton.update({
             where: {
@@ -145,14 +167,24 @@ async function bootstrap<
               data: fixedData,
             },
           })
-          console.log(`✅ Singleton ${singletonName} data fixed`)
+          console.log(successMessage(`singleton ${singletonName} data fixed`))
         } else {
           throw error
         }
       }
     }
   }
-  console.log('✅ CMS Bootstrapped')
+  console.groupEnd()
+  console.log(successMessage('singletons synced'))
+
+  console.groupEnd()
+  console.log(successMessage('cms bootstrapped'))
+
+  console.log(
+    `\n${Array.from({ length: 80 })
+      .map(() => '_')
+      .join('')}\n`,
+  )
 }
 
 bootstrap(config)
