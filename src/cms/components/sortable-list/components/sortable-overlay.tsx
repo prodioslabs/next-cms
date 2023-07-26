@@ -4,6 +4,7 @@ import { DragOverlay, defaultDropAnimationSideEffects } from '@dnd-kit/core'
 import type { DropAnimation } from '@dnd-kit/core'
 
 const dropAnimationConfig: DropAnimation = {
+  duration: 100,
   sideEffects: defaultDropAnimationSideEffects({
     styles: {
       active: {

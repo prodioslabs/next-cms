@@ -5,9 +5,9 @@ import { useMemo } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
 import { FileWarning } from 'lucide-react'
-import { parseISO } from 'date-fns'
 import slugify from 'slugify'
 import dynamic from 'next/dynamic'
+import deepEqual from 'fast-deep-equal/es6'
 import { cn } from '~/lib/utils'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
 import { Button } from '~/components/ui/button'
@@ -24,20 +24,8 @@ import IconSelector from '../../fields/icon-selector'
 import { ContentManagerProps } from '../types'
 import InputField from '../../input-field'
 import { useToast } from '~/components/ui/use-toast'
-
-// TODO: Move it to utils directory
-function parseDate(dateStr: string) {
-  const parsedDate = parseISO(dateStr)
-  if (isNaN(parsedDate.getTime())) {
-    return undefined
-  }
-  return parsedDate
-}
-
-// TODO: Move it to the utils directory
-function stringifyDate(date: Date) {
-  return date.toISOString()
-}
+import { parseDate, stringifyDate } from '~/cms/utils/date'
+import { pick } from '~/cms/utils/object'
 
 const Editor = dynamic(() => import('../../fields/editor'), {
   ssr: false,
@@ -68,7 +56,11 @@ export default function BaseForm({
   })
 
   const values = useWatch({ control: form.control }) as Record<string, any>
-  const isDataChanged = useMemo(() => JSON.stringify(values) !== JSON.stringify(initialData), [values, initialData])
+  const isDataChanged = useMemo(() => {
+    const schemaKeys = Object.keys(schema)
+    // only compare the values which are present in schema
+    return !deepEqual(pick(values, schemaKeys), pick(initialData, schemaKeys))
+  }, [values, initialData, schema])
 
   const { toast } = useToast()
 

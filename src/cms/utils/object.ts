@@ -22,3 +22,13 @@ export function isPlainObject(obj: any): obj is object {
   // Most likely a plain Object
   return true
 }
+
+export function pick<T extends object>(data: T, keys: string[]): Partial<T> {
+  const result: Partial<T> = {}
+
+  for (const key of keys) {
+    result[key as keyof T] = data[key as keyof T] ?? undefined
+  }
+
+  return result
+}

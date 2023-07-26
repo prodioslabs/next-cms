@@ -1,9 +1,10 @@
 'use client'
 
-import { Fragment, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { DndContext, KeyboardSensor, PointerSensor, UniqueIdentifier, useSensor, useSensors } from '@dnd-kit/core'
 import type { Active, DragEndEvent } from '@dnd-kit/core'
 import { SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
+import { Slot } from '@radix-ui/react-slot'
 import SortableOverlay from './components/sortable-overlay'
 import SortableItem from './components/sortable-item'
 import DragHandle from './components/drag-handle'
@@ -54,7 +55,7 @@ export default function SortableList<T extends any>({
       <SortableContext items={items}>
         <div className={className} style={style}>
           {items.map((item) => (
-            <Fragment key={item.id}>{renderItem(item)}</Fragment>
+            <Slot key={item.id}>{renderItem(item)}</Slot>
           ))}
         </div>
       </SortableContext>
