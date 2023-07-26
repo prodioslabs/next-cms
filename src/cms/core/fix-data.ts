@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { CMSField } from '../types/field'
 import { CMSSchemaData } from '../types/schema'
 import { isPlainObject } from '../utils/object'
-import { isFieldArrayType } from './field'
+import { isFieldArrayType, isFieldObjectType } from './field'
 
 /**
  * Generate dummy data for a field. This function will generate dummy data based on the
@@ -27,7 +27,7 @@ export function generateDummyDataForField(field: CMSField) {
       return faker.lorem.paragraphs()
 
     case 'number':
-      return faker.datatype.number()
+      return faker.number.int()
 
     case 'date':
       return faker.date.past().toISOString()
@@ -56,6 +56,11 @@ export function generateDummyDataForField(field: CMSField) {
 
     case 'select': {
       return field.options[0]
+    }
+
+    case 'object': {
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      return generateDummyData(field.schema)
     }
 
     default:
@@ -100,37 +105,72 @@ export function fixData<Schema extends Record<string, CMSField>>(schema: Schema,
    * @param itemData item data to be fixed
    * @param issuePath path to the issue in the item data
    */
-  function fixItemData(itemData: any, issuePath: (string | number)[]) {
+  function fixItemData(itemData: any, issuePath: (string | number)[], schema: Record<string, CMSField>) {
     const fieldKeyWithIssue = issuePath[0]
     const field = schema[fieldKeyWithIssue]
 
+    /**
+     * Before fixing the error, check if the field is
+     *  a) type array -> because in that case, we might need to fix the particular item in the array
+     *  b) type object -> because in that case, we might need to fix the particular subField in the object
+     *
+     * If it is neither of the above, then the issue must be in the entire field, so we can generate the dummy data
+     */
+
     if (isFieldArrayType(field)) {
       const indexWithIssue = issuePath[1]
-      // if field is of type array, but there is no index, then the issue must be in the entire field
+      /**
+       * if field is of type array, but there is no index, then the issue must be in the entire field
+       * else the issue must be in the item of the array
+       */
       if (typeof indexWithIssue === 'undefined') {
         itemData[fieldKeyWithIssue] = [generateDummyDataForField(field)]
       } else {
-        // else the issue must be in the item of the array
-        itemData[fieldKeyWithIssue][indexWithIssue] = generateDummyDataForField(field)
+        // if the field is of type object, then the issue must be in the item of the array
+        if (isFieldObjectType(field)) {
+          /**
+           * the first element of the issuePath would be fieldKey,
+           * the second element of the issuePath would be the indexKey
+           * the issuePath for the particular index would be the rest of the issuePath (.slice(2))
+           */
+          const issuePathForTheIndex = issuePath.slice(2)
+          if (issuePathForTheIndex.length !== 0) {
+            fixItemData(itemData[fieldKeyWithIssue][indexWithIssue], issuePathForTheIndex, field.schema)
+          }
+        } else {
+          // else the issue must be in the item of the array, so we can safely generate the data
+          itemData[fieldKeyWithIssue][indexWithIssue] = generateDummyDataForField(field)
+        }
+      }
+    } else if (isFieldObjectType(field)) {
+      const subFieldWithIssue = issuePath[1]
+      // if there is issue in the subField, then fix it, else generate data for the entire field
+      if (typeof subFieldWithIssue !== 'undefined') {
+        /**
+         * the first element of the issuePath would be fieldKey,
+         * so the issue path for the subField would be the rest of the issuePath (.slice(1))
+         */
+        fixItemData(itemData[fieldKeyWithIssue], issuePath.slice(1), field.schema)
+      } else {
+        // else the issue must be in the entire field, so we can safely generate the data
+        itemData[fieldKeyWithIssue] = generateDummyData(field.schema)
       }
     } else {
       itemData[fieldKeyWithIssue] = generateDummyDataForField(field)
     }
   }
 
-  const fixedData = isPlainObject(invalidData) ? { ...invalidData } : undefined
-
-  if (!fixedData) {
+  if (!isPlainObject(invalidData)) {
     return generateDummyData(schema) as CMSSchemaData<Schema>
+  } else {
+    const fixedData = { ...invalidData }
+    error.issues.forEach((issue) => {
+      try {
+        fixItemData(fixedData, issue.path, schema)
+      } catch (error) {
+        return generateDummyData(schema) as CMSSchemaData<Schema>
+      }
+    })
+    return fixedData as CMSSchemaData<Schema>
   }
-
-  error.issues.forEach((issue) => {
-    try {
-      fixItemData(fixedData, issue.path)
-    } catch (error) {
-      return generateDummyData(schema) as CMSSchemaData<Schema>
-    }
-  })
-
-  return fixedData as CMSSchemaData<Schema>
 }

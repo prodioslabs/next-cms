@@ -1,14 +1,11 @@
-import { CMSField } from '../types/field'
+import { CMSField, CMSObjectField } from '../types/field'
 
-/**
- * Checks if the field is an array type.
- *
- * @param field field to be checked
- * @returns true if the field is an array type, false otherwise
- */
-export function isFieldArrayType(field: CMSField) {
-  // right now, the only array type is the image type
-  return field.multiple
+export function isFieldArrayType(field: CMSField): field is CMSField & { multiple: true } {
+  return !!field.multiple
+}
+
+export function isFieldObjectType(field: CMSField): field is CMSObjectField {
+  return field.type === 'object'
 }
 
 /**

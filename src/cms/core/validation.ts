@@ -59,6 +59,12 @@ export function getValidationSchemaForField(field: CMSField) {
       break
     }
 
+    case 'object': {
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      schemaBasedOnType = getValidationSchemaForSchema(field.schema)
+      break
+    }
+
     default: {
       throw new Error('Invalid field type')
     }
