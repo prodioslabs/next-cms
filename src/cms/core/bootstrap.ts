@@ -9,7 +9,7 @@ import { fixData, generateDummyData } from './fix-data'
 import { isTextField } from './field'
 import { getValidationSchemaForCollectionElement, getValidationSchemaForSingleton } from './validation'
 import config from '~/cms.config'
-import { errorMessage, eventMessage, successMessage, warnMessage } from '../utils/cli'
+import { DIVIDER, errorMessage, eventMessage, successMessage, warnMessage } from '../utils/cli'
 
 function validateCollection(collection: CMSCollection<Record<string, CMSField>>, collectionName: string) {
   if (!isTextField(collection.schema[collection.slugField])) {
@@ -24,11 +24,7 @@ async function bootstrap<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
 >(config: CMSConfig<CMSCollections, CMSSingletons>) {
-  console.log(
-    `\n${Array.from({ length: 80 })
-      .map(() => '_')
-      .join('')}\n`,
-  )
+  console.log(DIVIDER)
 
   console.group(eventMessage('bootstrapping cms...'))
 
@@ -180,11 +176,7 @@ async function bootstrap<
   console.groupEnd()
   console.log(successMessage('cms bootstrapped'))
 
-  console.log(
-    `\n${Array.from({ length: 80 })
-      .map(() => '_')
-      .join('')}\n`,
-  )
+  console.log(DIVIDER)
 }
 
 bootstrap(config)

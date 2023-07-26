@@ -28,6 +28,10 @@ export const CLI_STYLES = {
   BG_GRAY: '\x1b[100m',
 } as const
 
+export const DIVIDER = `\n${Array.from({ length: 80 })
+  .map(() => '_')
+  .join('')}\n`
+
 export function eventMessage(message: string) {
   return `${CLI_STYLES.GRAY}>>${CLI_STYLES.RESET} ${CLI_STYLES.BLUE}event${CLI_STYLES.RESET} ${message}`
 }

@@ -71,6 +71,8 @@ export type CMSObjectField = CMSBaseField & {
   schema: Record<string, CMSField>
 }
 
+export type CMSObjectData<F extends CMSObjectField> = { [Key in keyof F['schema']]: CMSFieldDataType<F['schema'][Key]> }
+
 export type CMSField =
   | CMSTextField
   | CMSRichTextField
@@ -101,6 +103,8 @@ type FieldDataTypeOnFieldType<F extends CMSField> = F extends CMSTextField
   ? CMSColorData
   : F extends CMSSelectField
   ? CMSSelectOption
+  : F extends CMSObjectField
+  ? CMSObjectData<F>
   : never
 
 type FieldDataTypeOnMultiple<F extends CMSField> = F['multiple'] extends true
