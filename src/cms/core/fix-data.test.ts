@@ -423,3 +423,90 @@ test('should fix multiple object data when partial data is present', () => {
     'fixedData.objectField.imageField.url should of type string',
   )
 })
+
+test('should fix multiple deeply nested object data when partial data is present', () => {
+  const schema = {
+    objectField: {
+      type: 'object',
+      label: 'Object Field',
+      required: true,
+      multiple: true,
+      schema: {
+        nestedObjectField: {
+          type: 'object',
+          label: 'Nexted Object Field',
+          multiple: true,
+          required: true,
+          schema: {
+            stringField: {
+              type: 'text',
+              label: 'String Field',
+              required: true,
+            },
+            imageField: {
+              type: 'image',
+              label: 'Image Field',
+              required: true,
+            },
+          },
+        },
+      },
+    },
+  } satisfies Schema
+
+  const data = {
+    objectField: [
+      {
+        nestedObjectField: [
+          {
+            stringField: 'String Field Data',
+            imageField: {
+              url: '/path/to/image',
+              height: 120,
+            },
+          },
+          {
+            stringField: 'String Field Data',
+          },
+        ],
+      },
+    ],
+  }
+
+  const validationSchema = getValidationSchemaForSchema(schema)
+
+  const result = validationSchema.safeParse(data)
+  assert(result.success === false, 'data should be invalid')
+
+  const fixedData = fixData(schema, data, result.error)
+
+  assert(Array.isArray(fixedData.objectField), 'fixedData.objectField should be an array')
+  expect(data.objectField[0].nestedObjectField[0].stringField).toEqual(
+    fixedData.objectField[0].nestedObjectField[0].stringField,
+  )
+
+  assert(
+    typeof fixedData.objectField[0].nestedObjectField[0].imageField === 'object',
+    'fixedData.objectField.imageField should of type object',
+  )
+  assert(
+    typeof fixedData.objectField[0].nestedObjectField[0].imageField.url === 'string',
+    'fixedData.objectField.imageField.url should of type string',
+  )
+  assert(
+    typeof fixedData.objectField[0].nestedObjectField[0].imageField.width === 'number',
+    'fixedData.objectField.imageField.width should of type number',
+  )
+
+  expect(data.objectField[0].nestedObjectField[1].stringField).toEqual(
+    fixedData.objectField[0].nestedObjectField[1].stringField,
+  )
+  assert(
+    typeof fixedData.objectField[0].nestedObjectField[1].imageField === 'object',
+    'fixedData.objectField.imageField should of type object',
+  )
+  assert(
+    typeof fixedData.objectField[0].nestedObjectField[1].imageField.url === 'string',
+    'fixedData.objectField.imageField.url should of type string',
+  )
+})
