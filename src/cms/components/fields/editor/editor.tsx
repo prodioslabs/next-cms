@@ -15,6 +15,8 @@ import {
   UnderlineExtension,
   HistoryExtension,
   TextColorExtension,
+  CodeBlockExtension,
+  CodeExtension,
 } from 'remirror/extensions'
 import { forwardRef, useCallback, useImperativeHandle } from 'react'
 import { cn } from '~/lib/utils'
@@ -47,6 +49,8 @@ const Editor = forwardRef<EditorRef, EditorProps>(({ value, onChange, className,
       new BulletListExtension({ enableSpine: true }),
       new OrderedListExtension(),
       new HistoryExtension(),
+      new CodeBlockExtension(),
+      new CodeExtension(),
       new TextColorExtension(),
       /**
        * `HardBreakExtension` allows us to create a newline inside paragraphs.

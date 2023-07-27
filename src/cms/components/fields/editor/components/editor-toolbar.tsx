@@ -10,6 +10,8 @@ import {
   ListOrdered,
   Quote,
   RemoveFormatting,
+  Code,
+  TerminalSquare,
 } from 'lucide-react'
 import { CMSColorData } from '~/cms/types/field'
 import { ColorPicker } from '~/components/ui/color-picker'
@@ -35,13 +37,15 @@ export default function EditorToolbar({ className, style }: EditorToolbarProps) 
     toggleBulletList,
     toggleOrderedList,
     toggleBlockquote,
+    toggleCode,
+    toggleCodeBlock,
     undo,
     redo,
     toggleHeading,
     setTextColor,
     removeTextColor,
   } = useCommands()
-  const { bold, italic, underline, strike, bulletList, orderedList, blockquote } = useActive()
+  const { bold, italic, underline, strike, bulletList, orderedList, blockquote, code, codeBlock } = useActive()
   const { textColor, heading } = useAttrs()
 
   return (
@@ -85,6 +89,27 @@ export default function EditorToolbar({ className, style }: EditorToolbarProps) 
         variant="outline"
       >
         <Strikethrough className="h-4 w-4" />
+      </Toggle>
+      <div className="h-6 border-r" />
+      <Toggle
+        onPressedChange={() => {
+          toggleCode()
+        }}
+        disabled={toggleCode.enabled() === false}
+        pressed={code()}
+        variant="outline"
+      >
+        <Code className="h-4 w-4" />
+      </Toggle>
+      <Toggle
+        onPressedChange={() => {
+          toggleCodeBlock()
+        }}
+        disabled={toggleCodeBlock.enabled() === false}
+        pressed={codeBlock()}
+        variant="outline"
+      >
+        <TerminalSquare className="h-4 w-4" />
       </Toggle>
       <div className="h-6 border-r" />
       <Toggle
