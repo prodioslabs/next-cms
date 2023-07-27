@@ -1,5 +1,5 @@
 import { useHelpers } from '@remirror/react'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
 type MarkdownUpdaterProps = {
   onChange: (markdownContent: string) => void
@@ -10,7 +10,6 @@ type MarkdownUpdaterProps = {
 export default function MarkdownUpdater({ value, setContent, onChange }: MarkdownUpdaterProps) {
   const { getMarkdown } = useHelpers(true)
   const markdownContent = getMarkdown()
-  const onChangeRef = useRef(onChange)
 
   useEffect(
     function setEditorContentOnValueChange() {
@@ -27,9 +26,9 @@ export default function MarkdownUpdater({ value, setContent, onChange }: Markdow
 
   useEffect(
     function updateContentOnChange() {
-      onChangeRef.current(markdownContent)
+      onChange(markdownContent)
     },
-    [markdownContent],
+    [markdownContent, onChange],
   )
 
   return null

@@ -34,20 +34,6 @@ const config = createCMSConfig({
           type: 'image',
           required: true,
         },
-        options: {
-          label: 'Options',
-          type: 'select',
-          options: [
-            {
-              value: 'first',
-              label: 'First',
-            },
-            {
-              value: 'second',
-              label: 'Second',
-            },
-          ],
-        },
       },
     },
   },
