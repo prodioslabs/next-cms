@@ -26,6 +26,7 @@ import { useToast } from '~/components/ui/use-toast'
 import { parseDate, stringifyDate } from '~/cms/utils/date'
 import { pick } from '~/cms/utils/object'
 import { CMSField } from '~/cms/types/field'
+import VideoUploader from '../../fields/video-uploader'
 
 const Editor = dynamic(() => import('../../fields/editor'), {
   ssr: false,
@@ -83,7 +84,10 @@ export default function BaseForm({
         return (
           <FormField key={fieldName} name={fieldName}>
             <FormItem>
-              <FormLabel className="block">{fieldSchema.label}</FormLabel>
+              <FormLabel className="block">
+                {fieldSchema.label}{' '}
+                {fieldSchema.required ? <span className="text-xs text-muted-foreground">(required)</span> : null}
+              </FormLabel>
               <FormControl>
                 {(() => {
                   switch (fieldSchema.type) {
@@ -141,7 +145,7 @@ export default function BaseForm({
                                   // TODO: validate if the field is string or not
                                   const fromValue = form.getValues(fieldSchema.from)
                                   if (fromValue && typeof fromValue === 'string') {
-                                    const slug = slugify(fromValue)
+                                    const slug = slugify(fromValue).toLowerCase()
                                     onChange(slug)
                                   } else {
                                     toast({
@@ -190,7 +194,22 @@ export default function BaseForm({
                           fieldName={fieldName}
                           control={form.control}
                           renderInput={({ value, onChange }) => {
-                            return <ImageUploader uploadedImage={value} onChange={onChange} />
+                            return <ImageUploader uploadedImage={value} onChange={onChange} field={fieldSchema} />
+                          }}
+                          cmsField={fieldSchema}
+                          plugins={pluginsToRender}
+                        />
+                      )
+                    }
+
+                    case 'video': {
+                      return (
+                        <InputField
+                          type={fieldSchema.multiple ? 'multiple' : 'single'}
+                          fieldName={fieldName}
+                          control={form.control}
+                          renderInput={({ value, onChange }) => {
+                            return <VideoUploader uploadedVideo={value} onChange={onChange} field={fieldSchema} />
                           }}
                           cmsField={fieldSchema}
                           plugins={pluginsToRender}

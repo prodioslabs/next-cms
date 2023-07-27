@@ -66,6 +66,10 @@ export type CMSSelectField = CMSBaseField & {
   defaultValue?: CMSSelectOption
 }
 
+export type CMSVideoField = CMSBaseField & {
+  type: 'video'
+}
+
 export type CMSObjectField = CMSBaseField & {
   type: 'object'
   schema: Record<string, CMSField>
@@ -79,6 +83,7 @@ export type CMSField =
   | CMSNumberField
   | CMSDateField
   | CMSImageField
+  | CMSVideoField
   | CMSSlugField
   | CMSIconField
   | CMSColorField
@@ -95,6 +100,8 @@ type FieldDataTypeOnFieldType<F extends CMSField> = F extends CMSTextField
   ? string
   : F extends CMSImageField
   ? CMSImageData
+  : F extends CMSVideoField
+  ? string
   : F extends CMSSlugField
   ? string
   : F extends CMSIconField

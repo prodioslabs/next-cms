@@ -8,7 +8,7 @@ import { z } from 'zod'
 import { useMutation } from '@tanstack/react-query'
 import ReactMarkdown from 'react-markdown'
 import { Button } from '~/components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
+import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
 import {
   Sheet,
   SheetClose,
@@ -80,7 +80,7 @@ export default function AIContent({ field, updateField }: CMSPluginComponentProp
                   })(event)
                 }}
               >
-                <FormField
+                <FormFieldWithController
                   name="message"
                   control={form.control}
                   render={({ field }) => {

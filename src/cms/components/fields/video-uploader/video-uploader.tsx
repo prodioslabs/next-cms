@@ -1,34 +1,33 @@
 'use client'
 
 import { useMutation } from '@tanstack/react-query'
-import Image from 'next/image'
+import ReactPlayer from 'react-player'
 import { Loader2, Trash } from 'lucide-react'
 import { useState } from 'react'
-import { CMSImageData, CMSImageField } from '~/cms/types/field'
+import { CMSVideoField } from '~/cms/types/field'
 import { Uploader } from '~/components/ui/uploader'
 import { cn } from '~/lib/utils'
-import { uploadImage } from './queries'
+import { uploadVideo } from './queries'
 import { Button } from '~/components/ui/button'
 
-type ImageUploaderProps = {
-  field: CMSImageField
-  uploadedImage?: CMSImageData
-  onChange?: (uploadImage: CMSImageData | null) => void
+type VideoUploaderProps = {
+  field: CMSVideoField
+  uploadedVideo?: string
+  onChange?: (uploadedVideo: string | null) => void
   className?: string
   style?: React.CSSProperties
 }
 
-export default function ImageUploader({ field, uploadedImage, onChange, className, style }: ImageUploaderProps) {
+export default function VideoUploader({ field, uploadedVideo, onChange, className, style }: VideoUploaderProps) {
   const [progress, setProgress] = useState(0)
   const mutation = useMutation(
     (file: File) =>
-      uploadImage(file, ({ progress }) => {
+      uploadVideo(file, ({ progress }) => {
         setProgress(progress ?? 0)
       }),
     {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      onSuccess: ({ assetType, ...image }) => {
-        onChange?.(image)
+      onSuccess: ({ url }) => {
+        onChange?.(url)
       },
     },
   )
@@ -41,9 +40,9 @@ export default function ImageUploader({ field, uploadedImage, onChange, classNam
         </div>
       ) : null}
       <Uploader
-        description="Accept Images"
+        description="Accept Videos"
         accept={{
-          'image/*': ['.jpeg', '.png'],
+          'video/*': ['.mp4', '.mov', '.webm'],
         }}
         disabled={mutation.isLoading}
         onDrop={(acceptedFile) => {
@@ -51,20 +50,13 @@ export default function ImageUploader({ field, uploadedImage, onChange, classNam
         }}
       />
       {mutation.isLoading ? <Loader2 className="absolute right-3 top-3 h-6 w-6 animate-spin" /> : null}
-      {uploadedImage ? (
-        <div key={uploadedImage.url} className="mt-2 flex items-center space-x-2 truncate rounded-md border p-2">
-          <Image
-            alt=""
-            src={uploadedImage.url}
-            width={uploadedImage.width}
-            height={uploadedImage.height}
-            className="h-10 w-10 rounded-md object-cover"
-          />
+      {uploadedVideo ? (
+        <div key={uploadedVideo} className="mt-2 flex items-center space-x-2 truncate rounded-md border p-2">
+          <div className="h-10 w-10 overflow-hidden rounded-md">
+            <ReactPlayer alt="" url={uploadedVideo} width={40} height={40} />
+          </div>
           <div className="flex-1 truncate text-xs text-muted-foreground">
-            <div className="line-clamp-1 truncate whitespace-break-spaces">{uploadedImage.url}</div>
-            <div className="truncate">
-              {uploadedImage.width}x{uploadedImage.height}
-            </div>
+            <div className="line-clamp-1 truncate whitespace-break-spaces">{uploadedVideo}</div>
           </div>
           {!field.required ? (
             <Button

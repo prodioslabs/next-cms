@@ -10,7 +10,7 @@ const BlogsCollection = createCollectionReader(config, 'blogs')
 
 export default function Home() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 p-8">
       <HomePageHeroSectionSingleton
         renderItem={({ data: { title, content, callToAction, callToActionIcon, coverImage } }) => {
           return (
@@ -28,8 +28,8 @@ export default function Home() {
         type="list"
         renderItems={({ items: blogs }) => {
           return (
-            <div className="mx-auto max-w-screen-xl">
-              <div className="mb-2 text-center text-2xl font-semibold text-foreground">Blogs</div>
+            <div className="mx-auto max-w-screen-2xl rounded-md bg-primary p-8">
+              <div className="mb-2 text-center text-2xl font-semibold text-primary-foreground">Blogs</div>
               <div className="mb-4 flex items-center justify-center">
                 <Link href="/blogs" className="mx-auto flex items-center text-sm text-muted-foreground">
                   Read more blogs...
@@ -41,18 +41,20 @@ export default function Home() {
                     <Link
                       href={`/blogs/${blog.elementSlug}`}
                       key={index}
-                      className="rounded-md border border-border p-4"
+                      className="overflow-hidden rounded-md bg-primary"
                     >
                       <Image
                         width={blog.data.coverImage.width}
                         height={blog.data.coverImage.height}
                         src={blog.data.coverImage.url}
                         alt={blog.data.title}
-                        className="mb-2 h-40 w-full rounded-md object-cover"
+                        className="h-48 w-full object-cover"
                       />
-                      <div className="line-clamp-2 font-medium text-foreground">{blog.data.title}</div>
-                      <div className="line-clamp-2 text-sm text-muted-foreground">
-                        <Markdown>{blog.data.content}</Markdown>
+                      <div className="bg-background p-4">
+                        <div className="line-clamp-2 font-medium text-foreground">{blog.data.title}</div>
+                        <div className="line-clamp-2 text-sm text-muted-foreground">
+                          <Markdown>{blog.data.content}</Markdown>
+                        </div>
                       </div>
                     </Link>
                   )

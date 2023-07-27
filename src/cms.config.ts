@@ -34,6 +34,11 @@ const config = createCMSConfig({
           type: 'image',
           required: true,
         },
+        coverVideo: {
+          label: 'Cover Video',
+          type: 'video',
+          required: true,
+        },
       },
     },
     features: {

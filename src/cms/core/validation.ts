@@ -37,6 +37,11 @@ export function getValidationSchemaForField(field: CMSField) {
       break
     }
 
+    case 'video': {
+      schemaBasedOnType = z.string()
+      break
+    }
+
     case 'icon': {
       schemaBasedOnType = z.object({
         name: z.string().min(1),

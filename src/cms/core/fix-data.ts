@@ -43,6 +43,11 @@ export function generateDummyDataForField(field: CMSField) {
         height: 1080,
       }
 
+    case 'video': {
+      // Rick Roll 🤣
+      return 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+    }
+
     case 'icon': {
       return {
         name: 'ShieldQuestion',

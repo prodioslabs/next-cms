@@ -8,7 +8,7 @@ import { z } from 'zod'
 import Image from 'next/image'
 import { CMSPluginComponentProps } from '~/cms/types/plugin'
 import { Button } from '~/components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '~/components/ui/form'
+import { Form, FormControl, FormFieldWithController, FormItem, FormMessage } from '~/components/ui/form'
 import { Input } from '~/components/ui/input'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '~/components/ui/sheet'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip'
@@ -64,7 +64,7 @@ export default function UnsplashImageSelector({ updateField }: CMSPluginComponen
                   })(event)
                 }}
               >
-                <FormField
+                <FormFieldWithController
                   name="query"
                   control={form.control}
                   render={({ field }) => {
