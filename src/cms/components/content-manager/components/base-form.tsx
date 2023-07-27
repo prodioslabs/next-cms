@@ -2,14 +2,14 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMemo } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { FileWarning } from 'lucide-react'
 import slugify from 'slugify'
 import dynamic from 'next/dynamic'
 import deepEqual from 'fast-deep-equal/es6'
 import { cn } from '~/lib/utils'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
+import { Form, FormControl, FormItem, FormLabel, FormMessage, FormField } from '~/components/ui/form'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 import { DatePicker } from '~/components/ui/date-picker'
@@ -17,7 +17,6 @@ import { getValidationSchemaForSchema } from '~/cms/core/validation'
 import { ColorPicker } from '~/components/ui/color-picker'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
 import { Loader } from '~/components/ui/loader'
-
 import ImageUploader from '../../fields/image-uploader'
 import SlugInput from '../../fields/slug-input/slug-input'
 import IconSelector from '../../fields/icon-selector'
@@ -47,15 +46,17 @@ export default function BaseForm({
   className,
   style,
 }: BaseFormProps) {
-  // validationSchema is always computed assuming schema as a singleton because of even for the collection
-  // each element of the collection would be having its own content manager
+  /**
+   * validationSchema is always computed assuming schema as a singleton because of even for the collection
+   * each element of the collection would be having its own content manager
+   */
   const validationSchema = useMemo(() => getValidationSchemaForSchema(schema) as z.ZodType, [schema])
   const form = useForm<z.infer<typeof validationSchema>>({
     resolver: zodResolver(validationSchema),
     defaultValues: initialData,
   })
+  const values = form.watch()
 
-  const values = useWatch({ control: form.control }) as Record<string, any>
   const isDataChanged = useMemo(() => {
     const schemaKeys = Object.keys(schema)
     // only compare the values which are present in schema
@@ -87,208 +88,197 @@ export default function BaseForm({
                 })
 
                 return (
-                  <FormField
-                    key={fieldKey}
-                    control={form.control}
-                    name={fieldKey}
-                    render={({ field: { value, onChange } }) => {
-                      return (
-                        <FormItem>
-                          <FormLabel className="block">{fieldSchema.label}</FormLabel>
-                          <FormControl>
-                            {(() => {
-                              switch (fieldSchema.type) {
-                                case 'text': {
-                                  return (
-                                    <InputField
-                                      type={fieldSchema.multiple ? 'multiple' : 'single'}
-                                      field={fieldSchema}
-                                      plugins={pluginsToRender}
-                                      value={value}
-                                      onChange={onChange}
-                                      renderField={({ value, onChange }) => {
-                                        return (
-                                          <Input
-                                            value={value}
-                                            onChange={(event) => {
-                                              onChange(event.target.value)
-                                            }}
-                                          />
-                                        )
-                                      }}
-                                    />
-                                  )
-                                }
+                  <FormField key={fieldKey} name={fieldKey}>
+                    <FormItem>
+                      <FormLabel className="block">{fieldSchema.label}</FormLabel>
+                      <FormControl>
+                        {(() => {
+                          switch (fieldSchema.type) {
+                            case 'text': {
+                              return (
+                                <InputField
+                                  type={fieldSchema.multiple ? 'multiple' : 'single'}
+                                  fieldName={fieldKey}
+                                  control={form.control}
+                                  renderInput={({ value, onChange }) => {
+                                    return (
+                                      <Input
+                                        value={value}
+                                        onChange={(event) => {
+                                          onChange(event.target.value)
+                                        }}
+                                      />
+                                    )
+                                  }}
+                                  cmsField={fieldSchema}
+                                  plugins={pluginsToRender}
+                                />
+                              )
+                            }
 
-                                case 'rich-text': {
-                                  return (
-                                    <InputField
-                                      type={fieldSchema.multiple ? 'multiple' : 'single'}
-                                      plugins={pluginsToRender}
-                                      field={fieldSchema}
-                                      value={value}
-                                      onChange={onChange}
-                                      renderField={(props) => {
-                                        return <Editor {...props} />
-                                      }}
-                                    />
-                                  )
-                                }
+                            case 'rich-text': {
+                              return (
+                                <InputField
+                                  type={fieldSchema.multiple ? 'multiple' : 'single'}
+                                  fieldName={fieldKey}
+                                  control={form.control}
+                                  renderInput={(props) => {
+                                    return <Editor {...props} />
+                                  }}
+                                  cmsField={fieldSchema}
+                                  plugins={pluginsToRender}
+                                />
+                              )
+                            }
 
-                                case 'slug': {
-                                  return (
-                                    <InputField
-                                      type={fieldSchema.multiple ? 'multiple' : 'single'}
-                                      field={fieldSchema}
-                                      value={value}
-                                      onChange={onChange}
-                                      plugins={pluginsToRender}
-                                      renderField={({ value, onChange }) => {
-                                        return (
-                                          <SlugInput
-                                            value={value}
-                                            onChange={(event) => {
-                                              onChange(event.target.value)
-                                            }}
-                                            onGenerateSlug={() => {
-                                              // TODO: validate if the field is string or not
-                                              const fromValue = values[fieldSchema.from]
-                                              if (fromValue && typeof fromValue === 'string') {
-                                                const slug = slugify(fromValue)
-                                                onChange(slug)
-                                              } else {
-                                                toast({
-                                                  title: "Couldn't generate slug",
-                                                  description:
-                                                    'The field to generate slug from is not a string. Please check your cms.config',
-                                                  variant: 'destructive',
-                                                })
-                                              }
-                                            }}
-                                          />
-                                        )
-                                      }}
-                                    />
-                                  )
-                                }
+                            case 'slug': {
+                              return (
+                                <InputField
+                                  type={fieldSchema.multiple ? 'multiple' : 'single'}
+                                  fieldName={fieldKey}
+                                  control={form.control}
+                                  renderInput={({ value, onChange }) => {
+                                    return (
+                                      <SlugInput
+                                        value={value}
+                                        onChange={(event) => {
+                                          onChange(event.target.value)
+                                        }}
+                                        onGenerateSlug={() => {
+                                          // TODO: validate if the field is string or not
+                                          const fromValue = values[fieldSchema.from]
+                                          if (fromValue && typeof fromValue === 'string') {
+                                            const slug = slugify(fromValue)
+                                            onChange(slug)
+                                          } else {
+                                            toast({
+                                              title: "Couldn't generate slug",
+                                              description:
+                                                'The field to generate slug from is not a string. Please check your cms.config',
+                                              variant: 'destructive',
+                                            })
+                                          }
+                                        }}
+                                      />
+                                    )
+                                  }}
+                                  cmsField={fieldSchema}
+                                  plugins={pluginsToRender}
+                                />
+                              )
+                            }
 
-                                case 'date': {
-                                  const dateValue = fieldSchema.multiple ? value.map(parseDate) : parseDate(value)
+                            case 'date': {
+                              return (
+                                <InputField
+                                  type={fieldSchema.multiple ? 'multiple' : 'single'}
+                                  fieldName={fieldKey}
+                                  control={form.control}
+                                  renderInput={({ value, onChange }) => {
+                                    return (
+                                      <DatePicker
+                                        date={parseDate(value)}
+                                        onChange={(dateSelected) => {
+                                          onChange(dateSelected ? stringifyDate(dateSelected) : undefined)
+                                        }}
+                                      />
+                                    )
+                                  }}
+                                  cmsField={fieldSchema}
+                                  plugins={pluginsToRender}
+                                />
+                              )
+                            }
 
-                                  return (
-                                    <InputField
-                                      type={fieldSchema.multiple ? 'multiple' : 'single'}
-                                      field={fieldSchema}
-                                      plugins={pluginsToRender}
-                                      value={dateValue}
-                                      onChange={(dateSelected: any) => {
-                                        onChange(
-                                          Array.isArray(dateSelected)
-                                            ? dateSelected.map(stringifyDate)
-                                            : stringifyDate(dateSelected),
-                                        )
-                                      }}
-                                      renderField={({ value, onChange }) => {
-                                        return <DatePicker date={value} onChange={onChange} />
-                                      }}
-                                    />
-                                  )
-                                }
+                            case 'image': {
+                              return (
+                                <InputField
+                                  type={fieldSchema.multiple ? 'multiple' : 'single'}
+                                  fieldName={fieldKey}
+                                  control={form.control}
+                                  renderInput={({ value, onChange }) => {
+                                    return <ImageUploader uploadedImage={value} onChange={onChange} />
+                                  }}
+                                  cmsField={fieldSchema}
+                                  plugins={pluginsToRender}
+                                />
+                              )
+                            }
 
-                                case 'image': {
-                                  return (
-                                    <InputField
-                                      type={fieldSchema.multiple ? 'multiple' : 'single'}
-                                      plugins={pluginsToRender}
-                                      field={fieldSchema}
-                                      value={value}
-                                      onChange={(uploadedImages: any) => {
-                                        onChange(uploadedImages)
-                                      }}
-                                      renderField={({ value, onChange }) => {
-                                        return <ImageUploader uploadedImage={value} onChange={onChange} />
-                                      }}
-                                    />
-                                  )
-                                }
+                            case 'icon': {
+                              return (
+                                <InputField
+                                  type={fieldSchema.multiple ? 'multiple' : 'single'}
+                                  fieldName={fieldKey}
+                                  control={form.control}
+                                  renderInput={({ value, onChange }) => {
+                                    return <IconSelector icon={value} onChange={onChange} />
+                                  }}
+                                  cmsField={fieldSchema}
+                                  plugins={pluginsToRender}
+                                />
+                              )
+                            }
 
-                                case 'icon': {
-                                  return (
-                                    <InputField
-                                      type={fieldSchema.multiple ? 'multiple' : 'single'}
-                                      plugins={pluginsToRender}
-                                      field={fieldSchema}
-                                      value={value}
-                                      onChange={(selectedIcon: any) => {
-                                        onChange(selectedIcon)
-                                      }}
-                                      renderField={({ value, onChange }) => {
-                                        return <IconSelector icon={value} onChange={onChange} />
-                                      }}
-                                    />
-                                  )
-                                }
+                            case 'color': {
+                              return (
+                                <InputField
+                                  type={fieldSchema.multiple ? 'multiple' : 'single'}
+                                  fieldName={fieldKey}
+                                  control={form.control}
+                                  renderInput={(props) => {
+                                    return <ColorPicker {...props} />
+                                  }}
+                                  cmsField={fieldSchema}
+                                  plugins={pluginsToRender}
+                                />
+                              )
+                            }
 
-                                case 'color': {
-                                  return (
-                                    <InputField
-                                      type={fieldSchema.multiple ? 'multiple' : 'single'}
-                                      plugins={pluginsToRender}
-                                      field={fieldSchema}
-                                      value={value}
-                                      onChange={(selectColor: any) => {
-                                        onChange(selectColor)
-                                      }}
-                                      renderField={(props) => {
-                                        return <ColorPicker {...props} />
-                                      }}
-                                    />
-                                  )
-                                }
+                            case 'select': {
+                              return (
+                                <InputField
+                                  type={fieldSchema.multiple ? 'multiple' : 'single'}
+                                  fieldName={fieldKey}
+                                  control={form.control}
+                                  renderInput={({ value, onChange }) => {
+                                    return (
+                                      <Select
+                                        value={value?.value}
+                                        onValueChange={(valueSelected) => {
+                                          onChange(
+                                            fieldSchema.options.find((option) => option.value === valueSelected) as any,
+                                          )
+                                        }}
+                                      >
+                                        <SelectTrigger>
+                                          <SelectValue placeholder={`Select ${fieldSchema.label}`} />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                          {fieldSchema.options.map((option) => (
+                                            <SelectItem key={option.value} value={option.value}>
+                                              {option.label}
+                                            </SelectItem>
+                                          ))}
+                                        </SelectContent>
+                                      </Select>
+                                    )
+                                  }}
+                                  cmsField={fieldSchema}
+                                  plugins={pluginsToRender}
+                                />
+                              )
+                            }
 
-                                case 'select': {
-                                  return (
-                                    <InputField
-                                      type={fieldSchema.multiple ? 'multiple' : 'single'}
-                                      plugins={pluginsToRender}
-                                      field={fieldSchema}
-                                      value={value?.value}
-                                      onChange={(valueSelected: any) => {
-                                        onChange(
-                                          fieldSchema.options.find((option) => option.value === valueSelected) as any,
-                                        )
-                                      }}
-                                      renderField={({ value, onChange }) => {
-                                        return (
-                                          <Select value={value} onValueChange={onChange}>
-                                            <SelectTrigger>
-                                              <SelectValue placeholder={`Select ${fieldSchema.label}`} />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                              {fieldSchema.options.map((option) => (
-                                                <SelectItem key={option.value} value={option.value}>
-                                                  {option.label}
-                                                </SelectItem>
-                                              ))}
-                                            </SelectContent>
-                                          </Select>
-                                        )
-                                      }}
-                                    />
-                                  )
-                                }
-
-                                default: {
-                                  return null
-                                }
-                              }
-                            })()}
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )
-                    }}
-                  />
+                            default: {
+                              return null
+                            }
+                          }
+                        })()}
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  </FormField>
                 )
               })}
             </div>

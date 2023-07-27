@@ -6,7 +6,9 @@ import { createContext, forwardRef, useContext, useId } from 'react'
 import { cn } from '~/lib/utils'
 import { Label } from '~/components/ui/label'
 
-const Form = FormProvider
+/**
+ * Contexts
+ */
 
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
@@ -17,22 +19,18 @@ type FormFieldContextValue<
 
 const FormFieldContext = createContext<FormFieldContextValue>({} as FormFieldContextValue)
 
-const FormField = <
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({
-  ...props
-}: ControllerProps<TFieldValues, TName>) => {
-  return (
-    <FormFieldContext.Provider value={{ name: props.name }}>
-      <Controller {...props} />
-    </FormFieldContext.Provider>
-  )
+type FormItemContextValue = {
+  id: string
 }
 
-const useFormField = () => {
+const FormItemContext = createContext<FormItemContextValue>({} as FormItemContextValue)
+
+/**
+ * Hooks
+ */
+
+function useFormField() {
   const fieldContext = useContext(FormFieldContext)
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   const itemContext = useContext(FormItemContext)
   const { getFieldState, formState } = useFormContext()
 
@@ -54,11 +52,31 @@ const useFormField = () => {
   }
 }
 
-type FormItemContextValue = {
-  id: string
+/**
+ * Components
+ */
+
+const Form = FormProvider
+
+function FormFieldWithController<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>(props: ControllerProps<TFieldValues, TName>) {
+  return (
+    <FormFieldContext.Provider value={{ name: props.name }}>
+      <Controller {...props} />
+    </FormFieldContext.Provider>
+  )
 }
 
-const FormItemContext = createContext<FormItemContextValue>({} as FormItemContextValue)
+type FormFieldProps = {
+  name: string
+  children: React.ReactNode
+}
+
+function FormField({ name, children }: FormFieldProps) {
+  return <FormFieldContext.Provider value={{ name }}>{children}</FormFieldContext.Provider>
+}
 
 const FormItem = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => {
   const id = useId()
@@ -125,4 +143,14 @@ const FormMessage = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLPa
 )
 FormMessage.displayName = 'FormMessage'
 
-export { useFormField, Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField }
+export {
+  useFormField,
+  Form,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+  FormFieldWithController,
+  FormField,
+}

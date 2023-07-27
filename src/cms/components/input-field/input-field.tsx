@@ -1,11 +1,9 @@
 import MultiInputField, { MultiInputFieldProps } from '../multi-input-field'
 import SingleInputField, { SingleInputFieldProps } from '../single-input-field'
 
-type InputFieldProps<DataType extends any> =
-  | (MultiInputFieldProps<DataType> & { type: 'multiple' })
-  | (SingleInputFieldProps<DataType> & { type: 'single' })
+type InputFieldProps = (MultiInputFieldProps & { type: 'multiple' }) | (SingleInputFieldProps & { type: 'single' })
 
-export default function InputField<DataType extends any>(props: InputFieldProps<DataType>) {
+export default function InputField(props: InputFieldProps) {
   if (props.type === 'multiple') {
     return <MultiInputField {...props} />
   } else {

@@ -1,42 +1,48 @@
 'use client'
 
-import { createElement } from 'react'
+import { createElement, forwardRef } from 'react'
+import { Control, Controller } from 'react-hook-form'
 import { CMSField } from '~/cms/types/field'
 import { CMSPlugin } from '~/cms/types/plugin'
 import { cn } from '~/lib/utils'
 
-export type SingleInputFieldProps<DataType extends any> = {
-  field: CMSField
-  value: DataType
-  onChange: (value: DataType) => void
-  renderField: (args: { value: DataType; onChange: (value: DataType) => void }) => React.ReactElement
+export type SingleInputFieldProps = {
+  fieldName: string
+  control: Control
+  renderInput: (args: { value: any; onChange: (updatedValue: any) => void }) => React.ReactNode
+  cmsField: CMSField
   plugins: CMSPlugin[]
   className?: string
   style?: React.CSSProperties
 }
 
-export default function SingleInputField<DataType extends any>({
-  value,
-  onChange,
-  renderField,
-  field,
-  plugins,
-  className,
-  style,
-}: SingleInputFieldProps<DataType>) {
+function SingleInputField(
+  { fieldName, control, renderInput, cmsField, plugins, className, style }: SingleInputFieldProps,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) {
   return (
-    <div className={cn('flex items-start space-x-2', className)} style={style}>
-      <div className="flex-1">{renderField({ value, onChange })}</div>
-      {plugins.length ? (
-        <>
-          <div className="h-10 border-r border-dashed" />
-          <div className="space-y-2">
-            {plugins.map((plugin) => {
-              return createElement(plugin.component, { field, updateField: onChange, key: plugin.name })
-            })}
+    <Controller
+      name={fieldName}
+      control={control}
+      render={({ field: { value, onChange } }) => {
+        return (
+          <div className={cn('flex items-start space-x-2', className)} style={style} ref={ref}>
+            <div className="flex-1">{renderInput({ value, onChange })}</div>
+            {plugins.length ? (
+              <>
+                <div className="h-10 border-r border-dashed" />
+                <div className="space-y-2">
+                  {plugins.map((plugin) => {
+                    return createElement(plugin.component, { field: cmsField, updateField: onChange, key: plugin.name })
+                  })}
+                </div>
+              </>
+            ) : null}
           </div>
-        </>
-      ) : null}
-    </div>
+        )
+      }}
+    />
   )
 }
+
+export default forwardRef(SingleInputField)

@@ -13,7 +13,7 @@ type SortableDataItem<T extends any> = { id: UniqueIdentifier } & { data: T }
 
 type SortableListProps<T extends any> = {
   items: SortableDataItem<T>[]
-  renderItem: (args: SortableDataItem<T>) => React.ReactElement
+  renderItem: (args: SortableDataItem<T>, index: number) => React.ReactElement
   onDragEnd?: (event: DragEndEvent) => void
   className?: string
   style?: React.CSSProperties
@@ -28,6 +28,7 @@ export default function SortableList<T extends any>({
 }: SortableListProps<T>) {
   const [active, setActive] = useState<Active | undefined>(undefined)
   const activeItem = useMemo(() => items.find((item) => item.id === active?.id), [active, items])
+  const activeItemIndex = useMemo(() => items.findIndex((item) => item.id === active?.id), [active, items])
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -54,12 +55,12 @@ export default function SortableList<T extends any>({
     >
       <SortableContext items={items}>
         <div className={className} style={style}>
-          {items.map((item) => (
-            <Slot key={item.id}>{renderItem(item)}</Slot>
+          {items.map((item, index) => (
+            <Slot key={item.id}>{renderItem(item, index)}</Slot>
           ))}
         </div>
       </SortableContext>
-      <SortableOverlay>{activeItem ? renderItem(activeItem) : null}</SortableOverlay>
+      <SortableOverlay>{activeItem ? renderItem(activeItem, activeItemIndex) : null}</SortableOverlay>
     </DndContext>
   )
 }

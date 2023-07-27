@@ -1,7 +1,8 @@
 'use client'
 
 import { Plus, Trash } from 'lucide-react'
-import { arrayMove } from '@dnd-kit/sortable'
+import { forwardRef } from 'react'
+import { Control, useFieldArray } from 'react-hook-form'
 import { CMSField } from '~/cms/types/field'
 import { CMSPlugin } from '~/cms/types/plugin'
 import SortableList from '../sortable-list'
@@ -10,60 +11,45 @@ import SingleInputField from '../single-input-field'
 import { cn } from '~/lib/utils'
 import { generateDummyDataForField } from '~/cms/core/fix-data'
 
-export type MultiInputFieldProps<DataType extends any> = {
-  field: CMSField
-  value: DataType[]
-  onChange: (value: DataType[]) => void
-  renderField: (args: { value: DataType; onChange: (value: DataType) => void }) => React.ReactElement
+export type MultiInputFieldProps = {
+  fieldName: string
+  control: Control
+  renderInput: (args: { value: any; onChange: (value: any) => void }) => React.ReactElement
+  cmsField: CMSField
   plugins: CMSPlugin[]
   className?: string
   style?: React.CSSProperties
 }
 
-export default function MultiInputField<DataType extends any>({
-  field,
-  value,
-  onChange,
-  renderField,
-  plugins,
-  className,
-  style,
-}: MultiInputFieldProps<DataType>) {
+function MultiInputField(
+  { fieldName, control, renderInput, cmsField, plugins, className, style }: MultiInputFieldProps,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) {
+  const { fields, append, remove, swap } = useFieldArray({ name: fieldName, control })
   return (
-    <div className={cn('space-y-4', className)}>
+    <div className={cn('space-y-4', className)} ref={ref}>
       <SortableList
         className="space-y-4"
         style={style}
-        items={value?.map((item, index) => ({ id: `item-${index}`, data: item })) ?? []}
+        items={fields.map((field) => ({ id: field.id, data: field }))}
         onDragEnd={({ active, over }) => {
-          const fromIndex = value?.findIndex((item, index) => `item-${index}` === active.id)
-          const toIndex = value?.findIndex((item, index) => `item-${index}` === over!.id)
+          const fromIndex = fields?.findIndex((item) => item.id === active.id)
+          const toIndex = fields?.findIndex((item) => item.id === over!.id)
           if (typeof fromIndex !== 'undefined' && typeof toIndex !== 'undefined') {
-            const newArray = arrayMove(value, fromIndex, toIndex)
-            onChange(newArray)
+            swap(fromIndex, toIndex)
           }
         }}
-        renderItem={({ id, data }) => {
+        renderItem={({ id }, index) => {
           return (
             <SortableList.Item key={id} id={id} className="flex items-start space-x-2">
               <SortableList.DragHandle />
               <SingleInputField
                 className="flex-1"
-                value={data}
-                onChange={(updatedValue) => {
-                  onChange(
-                    value?.map((item, index) => {
-                      const itemId = `item-${index}`
-                      if (itemId !== id) {
-                        return item
-                      }
-                      return updatedValue
-                    }) ?? [],
-                  )
-                }}
-                field={field}
+                cmsField={cmsField}
                 plugins={plugins}
-                renderField={renderField}
+                fieldName={`${fieldName}.${index}`}
+                control={control}
+                renderInput={renderInput}
               />
               <div className="h-10 border-r border-dashed" />
               <Button
@@ -73,8 +59,7 @@ export default function MultiInputField<DataType extends any>({
                 size="icon"
                 className="opacity-30 hover:opacity-100"
                 onClick={() => {
-                  // remove the element
-                  onChange(value?.filter((item, index) => `item-${index}` !== id) ?? [])
+                  remove(index)
                 }}
               />
             </SortableList.Item>
@@ -87,7 +72,7 @@ export default function MultiInputField<DataType extends any>({
           variant="outline"
           icon={<Plus />}
           onClick={() => {
-            onChange([...(value ?? []), generateDummyDataForField(field) as DataType])
+            append(generateDummyDataForField(cmsField))
           }}
         >
           Add Entry
@@ -96,3 +81,5 @@ export default function MultiInputField<DataType extends any>({
     </div>
   )
 }
+
+export default forwardRef(MultiInputField)
