@@ -36,6 +36,51 @@ const config = createCMSConfig({
         },
       },
     },
+    features: {
+      label: 'Features',
+      description: 'Features section on the home page',
+      schema: {
+        heading: {
+          label: 'Heading',
+          type: 'rich-text',
+          required: true,
+        },
+        description: {
+          label: 'Description',
+          type: 'rich-text',
+          required: true,
+        },
+        features: {
+          type: 'object',
+          label: 'Features',
+          required: true,
+          multiple: true,
+          schema: {
+            featureName: {
+              label: 'Feature Name',
+              type: 'rich-text',
+              required: true,
+            },
+            featureDescription: {
+              label: 'Feature Description',
+              type: 'rich-text',
+              required: true,
+            },
+            icon: {
+              label: 'Feature Icon',
+              type: 'icon',
+              required: true,
+            },
+            tags: {
+              type: 'text',
+              label: 'Feature Tags',
+              required: true,
+              multiple: true,
+            },
+          },
+        },
+      },
+    },
   },
   collections: {
     blogs: {

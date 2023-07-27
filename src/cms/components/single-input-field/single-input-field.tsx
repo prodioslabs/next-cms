@@ -9,7 +9,7 @@ import { cn } from '~/lib/utils'
 export type SingleInputFieldProps = {
   fieldName: string
   control: Control
-  renderInput: (args: { value: any; onChange: (updatedValue: any) => void }) => React.ReactNode
+  renderInput: (args: { value: any; onChange: (updatedValue: any) => void; fieldName: string }) => React.ReactNode
   cmsField: CMSField
   plugins: CMSPlugin[]
   className?: string
@@ -27,7 +27,7 @@ function SingleInputField(
       render={({ field: { value, onChange } }) => {
         return (
           <div className={cn('flex items-start space-x-2', className)} style={style} ref={ref}>
-            <div className="flex-1">{renderInput({ value, onChange })}</div>
+            <div className="flex-1">{renderInput({ value, onChange, fieldName })}</div>
             {plugins.length ? (
               <>
                 <div className="h-10 border-r border-dashed" />

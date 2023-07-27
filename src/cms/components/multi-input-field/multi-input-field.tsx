@@ -14,7 +14,7 @@ import { generateDummyDataForField } from '~/cms/core/fix-data'
 export type MultiInputFieldProps = {
   fieldName: string
   control: Control
-  renderInput: (args: { value: any; onChange: (value: any) => void }) => React.ReactElement
+  renderInput: (args: { value: any; onChange: (value: any) => void; fieldName: string }) => React.ReactElement
   cmsField: CMSField
   plugins: CMSPlugin[]
   className?: string
