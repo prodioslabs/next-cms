@@ -2,9 +2,8 @@
 
 import { useContext } from 'react'
 import { Grip } from 'lucide-react'
+import { Button, cn } from 'ui'
 import { SortableItemContext } from '../context'
-import { Button } from '~/components/ui/button'
-import { cn } from '~/lib/utils'
 
 type DragHandleProps = {
   className?: string

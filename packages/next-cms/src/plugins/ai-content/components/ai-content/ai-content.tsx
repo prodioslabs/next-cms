@@ -7,9 +7,14 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useMutation } from '@tanstack/react-query'
 import ReactMarkdown from 'react-markdown'
-import { Button } from '~/components/ui/button'
-import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
 import {
+  Button,
+  Form,
+  FormControl,
+  FormFieldWithController,
+  FormItem,
+  FormLabel,
+  FormMessage,
   Sheet,
   SheetClose,
   SheetContent,
@@ -17,11 +22,14 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '~/components/ui/sheet'
-import { Textarea } from '~/components/ui/textarea'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip'
+  Textarea,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  useToast,
+} from 'ui'
 import { generateContent } from './queries'
-import { useToast } from '~/components/ui/use-toast'
 import { CMSPluginComponentProps } from '~/types/plugin'
 
 const validationSchema = z.object({

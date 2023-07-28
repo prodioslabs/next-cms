@@ -3,12 +3,11 @@
 import { Plus, Trash } from 'lucide-react'
 import { forwardRef } from 'react'
 import { Control, useFieldArray } from 'react-hook-form'
+import { Button, cn } from 'ui'
 import { CMSField } from '~/types/field'
 import { CMSPlugin } from '~/types/plugin'
 import SortableList from '../sortable-list'
-import { Button } from '~/components/ui/button'
 import SingleInputField from '../single-input-field'
-import { cn } from '~/lib/utils'
 import { generateDummyDataForField } from '~/core/fix-data'
 
 export type MultiInputFieldProps = {

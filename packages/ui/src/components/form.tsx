@@ -4,7 +4,7 @@ import { Controller, ControllerProps, FieldPath, FieldValues, FormProvider, useF
 
 import { createContext, forwardRef, useContext, useId } from 'react'
 import { cn } from '~/lib/utils'
-import { Label } from '~/components/ui/label'
+import { Label } from './label'
 
 /**
  * Contexts

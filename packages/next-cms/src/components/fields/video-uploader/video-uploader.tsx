@@ -4,11 +4,9 @@ import { useMutation } from '@tanstack/react-query'
 import ReactPlayer from 'react-player'
 import { Loader2, Trash } from 'lucide-react'
 import { useState } from 'react'
+import { Uploader, Button, cn } from 'ui'
 import { CMSVideoField } from '~/types/field'
-import { Uploader } from '~/components/ui/uploader'
-import { cn } from '~/lib/utils'
 import { uploadVideo } from './queries'
-import { Button } from '~/components/ui/button'
 
 type VideoUploaderProps = {
   field: CMSVideoField
