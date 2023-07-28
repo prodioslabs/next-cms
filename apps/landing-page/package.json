@@ -1,10 +1,10 @@
 {
   "name": "landing-page",
   "dependencies": {
-    "next-cms": "workspace:*"
+    "next-cms": "*"
   },
   "devDependencies": {
-    "eslint-custom-config": "workspace:*",
-    "prettier-config": "workspace:*"
+    "eslint-custom-config": "*",
+    "prettier-config": "*"
   }
 }
