@@ -1,0 +1,8 @@
+{
+  "name": "next-cms",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint-custom-config": "workspace:*",
+    "prettier-config": "workspace:*"
+  }
+}
