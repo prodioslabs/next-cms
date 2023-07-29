@@ -22,7 +22,7 @@ async function getUploadDirectory(basePath: string, assetType: 'image' | 'video'
   return uploadDirectory
 }
 
-export async function POST(request: Request) {
+export async function uploadAssetHandler(request: Request) {
   try {
     const formData = await request.formData()
     const { file, assetType } = uploadAssetBodySchema.parse({
