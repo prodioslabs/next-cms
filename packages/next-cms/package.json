@@ -1,16 +1,10 @@
 {
   "name": "next-cms",
-  "main": "./dist/index.js",
+  "main": "dist/index.js",
   "types": "./src/index.ts",
   "scripts": {
+    "build": "tsup ./src/index.ts",
     "test": "vitest"
-  },
-  "exports": {
-    ".": "./src/index.ts",
-    "./react": "./src/react/index.ts",
-    "./server": "./src/server/index.ts",
-    "./core": "./src/core/index.ts",
-    "./plugins": "./src/plugins/index.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",

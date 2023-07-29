@@ -1,10 +1,9 @@
+'use client'
+
 import Image from 'next/image'
 import React from 'react'
-import Markdown from '~/cms/components/markdown'
-import { CMSImageData } from '~/cms/types/field'
-import { Button } from './button'
-import { LucideIcon } from './lucide-icon'
-import { cn } from '../lib/utils'
+import { CMSImageData, Markdown } from 'next-cms'
+import { cn, Button, LucideIcon } from 'ui'
 
 type HeroSectionProps = React.HTMLAttributes<HTMLDivElement> & {
   title: string
