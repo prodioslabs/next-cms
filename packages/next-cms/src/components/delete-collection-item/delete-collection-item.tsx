@@ -3,7 +3,7 @@
 import { Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { Button, Popover, PopoverClose, PopoverContent, PopoverTrigger, useToast } from 'ui'
-import { api } from '~/server/api'
+import { api } from '../../server/api'
 
 type DeleteCollectionItemProps = {
   elementId: string

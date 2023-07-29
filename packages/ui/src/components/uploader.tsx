@@ -1,6 +1,6 @@
 import { DropzoneOptions, useDropzone } from 'react-dropzone'
 import { Upload } from 'lucide-react'
-import { cn } from '~/lib/utils'
+import { cn } from '../lib/utils'
 
 type UploaderProps = DropzoneOptions & {
   description?: string

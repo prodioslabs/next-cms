@@ -9,7 +9,7 @@ import {
   fetchCollectionElementBySlugSchema,
   updateCollectionElementSchema,
 } from './collection.schema'
-import { CMSConfig } from '~/types/config'
+import { CMSConfig } from '../../../types/config'
 import {
   createCollectionElement as _createCollectionElement,
   updateCollectionElementData as _updateCollectionElement,
@@ -17,8 +17,8 @@ import {
   fetchCollectionElements as _fetchCollectionElements,
   fetchCollectionElementById as _fetchCollectionElementById,
   fetchCollectionElementBySlug as _fetchCollectionElementBySlug,
-} from '~/core/data'
-import { NotFoundError } from '~/core/error'
+} from '../../../core/data'
+import { NotFoundError } from '../../../core/error'
 
 export function fetchCollectionElements(
   input: z.infer<typeof fetchCollectionElementsSchema>,

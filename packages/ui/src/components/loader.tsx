@@ -1,6 +1,6 @@
 import { VariantProps, cva } from 'class-variance-authority'
 import { Loader2 } from 'lucide-react'
-import { cn } from '~/lib/utils'
+import { cn } from '../lib/utils'
 
 const loaderVariants = cva('flex animate-pulse items-center justify-center gap-2 rounded-md p-4 text-xs', {
   variants: {

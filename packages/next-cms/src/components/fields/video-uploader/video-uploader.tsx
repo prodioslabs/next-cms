@@ -5,7 +5,7 @@ import ReactPlayer from 'react-player'
 import { Loader2, Trash } from 'lucide-react'
 import { useState } from 'react'
 import { Uploader, Button, cn } from 'ui'
-import { CMSVideoField } from '~/types/field'
+import { CMSVideoField } from '../../../types/field'
 import { uploadVideo } from './queries'
 
 type VideoUploaderProps = {

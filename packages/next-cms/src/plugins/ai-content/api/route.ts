@@ -2,9 +2,9 @@ import { LLMChain } from 'langchain/chains'
 import { PromptTemplate } from 'langchain/prompts'
 import { ChatOpenAI } from 'langchain/chat_models/openai'
 import { NextResponse } from 'next/server'
-import { handleError } from '~/utils/api'
 import { generateContentBodyValidationSchema } from './schema'
-import { env } from '~/env'
+import { handleError } from '../../../utils/api'
+import { env } from '../../../env'
 
 export async function generateAIContent(request: Request) {
   try {

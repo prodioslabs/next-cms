@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { forwardRef } from 'react'
 import { X } from 'lucide-react'
 
-import { cn } from '~/lib/utils'
+import { cn } from '../lib/utils'
 
 const ToastProvider = ToastPrimitives.Provider
 

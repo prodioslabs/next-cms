@@ -1,5 +1,5 @@
 import axios, { AxiosProgressEvent } from 'axios'
-import { uploadVideoResponseSchema } from '~/server/upload-asset/schema'
+import { uploadVideoResponseSchema } from '../../../server/upload-asset/schema'
 
 export async function uploadVideo(file: File, onUploadProgress?: (progressEvent: AxiosProgressEvent) => void) {
   const formData = new FormData()

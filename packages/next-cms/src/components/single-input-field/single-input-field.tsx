@@ -2,9 +2,9 @@
 
 import { createElement, forwardRef } from 'react'
 import { Control, Controller } from 'react-hook-form'
-import { CMSField } from '~/types/field'
-import { CMSPlugin } from '~/types/plugin'
-import { cn } from '~/lib/utils'
+import { cn } from 'ui'
+import { CMSField } from '../../types/field'
+import { CMSPlugin } from '../../types/plugin'
 
 export type SingleInputFieldProps = {
   fieldName: string

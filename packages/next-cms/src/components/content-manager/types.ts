@@ -1,5 +1,5 @@
-import { CMSField } from '~/types/field'
-import { CMSPlugin } from '~/types/plugin'
+import { CMSField } from '../../types/field'
+import { CMSPlugin } from '../../types/plugin'
 
 export type Config =
   | {

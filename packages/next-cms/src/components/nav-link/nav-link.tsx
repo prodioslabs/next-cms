@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useMemo } from 'react'
-import { cn } from '~/lib/utils'
+import { cn } from '../lib/utils'
 
 type NavLinkProps = React.ComponentProps<typeof Link> & { activeClassName?: string }
 

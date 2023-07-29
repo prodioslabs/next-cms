@@ -2,8 +2,8 @@ import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
 import { PrismaClient } from '@prisma/client'
 import { fetchSingletonSchema, updateSingletonSchema } from './singleton.schema'
-import { CMSConfig } from '~/types/config'
-import { updateSingleton as _updateSingleton, fetchSingleton as _fetchSingleton } from '~/core/data'
+import { CMSConfig } from '../../../types/config'
+import { updateSingleton as _updateSingleton, fetchSingleton as _fetchSingleton } from '../../../core/data'
 
 export function fetchSingleton(
   input: z.infer<typeof fetchSingletonSchema>,

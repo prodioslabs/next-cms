@@ -13,8 +13,21 @@ import {
   Code,
   TerminalSquare,
 } from 'lucide-react'
-import { ColorPicker, Select, SelectValue, SelectTrigger, SelectContent, SelectItem, Toggle, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, cn } from 'ui'
-import { CMSColorData } from '~/types/field'
+import {
+  ColorPicker,
+  Select,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  Toggle,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  cn,
+} from 'ui'
+import { CMSColorData } from '../../../../types/field'
 
 const HEADING_LEVELS = [1, 2, 3, 4, 5]
 

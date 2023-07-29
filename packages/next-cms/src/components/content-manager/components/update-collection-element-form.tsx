@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useToast, ToastAction } from 'ui'
 import BaseForm from './base-form'
-import { api } from '~/server/api'
+import { api } from '../../../server/api'
 import { ContentManagerProps } from '../types'
 
 type UpdateCollectionElementFormProps = Omit<ContentManagerProps, 'config'> & {

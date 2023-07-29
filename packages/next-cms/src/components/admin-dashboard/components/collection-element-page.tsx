@@ -5,10 +5,10 @@ import { ChevronLeft } from 'lucide-react'
 import { useMemo } from 'react'
 import { cn, Loader } from 'ui'
 import ContentManager from '../../content-manager'
-import { CMSCollection } from '~/types/schema'
-import { CMSField } from '~/types/field'
-import { CMSPlugin } from '~/types/plugin'
-import { api } from '~/server/api'
+import { CMSCollection } from '../../../types/schema'
+import { CMSField } from '../../../types/field'
+import { CMSPlugin } from '../../../types/plugin'
+import { api } from '../../../server/api'
 
 type CollectionElementPageProps = {
   collection: CMSCollection<Record<string, CMSField>>

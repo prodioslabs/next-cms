@@ -1,33 +1,30 @@
-import Image from "next/image";
-import React from "react";
-import Markdown from "~/cms/components/markdown";
-import { CMSImageData } from "~/cms/types/field";
-import { Button } from "./button";
-import { LucideIcon } from "./lucide-icon";
-import { cn } from "~/lib/utils";
+import Image from 'next/image'
+import React from 'react'
+import Markdown from '~/cms/components/markdown'
+import { CMSImageData } from '~/cms/types/field'
+import { Button } from './button'
+import { LucideIcon } from './lucide-icon'
+import { cn } from '../lib/utils'
 
 type HeroSectionProps = React.HTMLAttributes<HTMLDivElement> & {
-  title: string;
-  description: string;
-  image: CMSImageData;
-  callToActionIcon?: string;
-  callToAction?: string;
-};
+  title: string
+  description: string
+  image: CMSImageData
+  callToActionIcon?: string
+  callToAction?: string
+}
 
 export default function HeroSection({
   title,
   description,
   image,
-  callToAction = "Get Started",
+  callToAction = 'Get Started',
   callToActionIcon,
   className,
   ...rest
 }: HeroSectionProps) {
   return (
-    <div
-      className={cn("mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8", className)}
-      {...rest}
-    >
+    <div className={cn('mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8', className)} {...rest}>
       {/** Grid */}
       <div className="grid gap-4 md:grid-cols-2 md:items-center md:gap-8 xl:gap-20">
         <div>
@@ -40,15 +37,7 @@ export default function HeroSection({
 
           {/** Buttons */}
           <div className="mt-7 grid w-full gap-3 sm:inline-flex">
-            <Button
-              icon={
-                callToActionIcon ? (
-                  <LucideIcon name={callToActionIcon} />
-                ) : undefined
-              }
-            >
-              {callToAction}
-            </Button>
+            <Button icon={callToActionIcon ? <LucideIcon name={callToActionIcon} /> : undefined}>{callToAction}</Button>
           </div>
           {/** End Buttons */}
         </div>
@@ -74,82 +63,22 @@ export default function HeroSection({
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <rect
-                x="531"
-                y="352"
-                width="99"
-                height="99"
-                fill="currentColor"
-              />
-              <rect
-                x="140"
-                y="352"
-                width="106"
-                height="99"
-                fill="currentColor"
-              />
-              <rect
-                x="482"
-                y="402"
-                width="64"
-                height="49"
-                fill="currentColor"
-              />
-              <rect
-                x="433"
-                y="402"
-                width="63"
-                height="49"
-                fill="currentColor"
-              />
-              <rect
-                x="384"
-                y="352"
-                width="49"
-                height="50"
-                fill="currentColor"
-              />
-              <rect
-                x="531"
-                y="328"
-                width="50"
-                height="50"
-                fill="currentColor"
-              />
+              <rect x="531" y="352" width="99" height="99" fill="currentColor" />
+              <rect x="140" y="352" width="106" height="99" fill="currentColor" />
+              <rect x="482" y="402" width="64" height="49" fill="currentColor" />
+              <rect x="433" y="402" width="63" height="49" fill="currentColor" />
+              <rect x="384" y="352" width="49" height="50" fill="currentColor" />
+              <rect x="531" y="328" width="50" height="50" fill="currentColor" />
               <rect x="99" y="303" width="49" height="58" fill="currentColor" />
               <rect x="99" y="352" width="49" height="50" fill="currentColor" />
               <rect x="99" y="392" width="49" height="59" fill="currentColor" />
               <rect x="44" y="402" width="66" height="49" fill="currentColor" />
-              <rect
-                x="234"
-                y="402"
-                width="62"
-                height="49"
-                fill="currentColor"
-              />
-              <rect
-                x="334"
-                y="303"
-                width="50"
-                height="49"
-                fill="currentColor"
-              />
+              <rect x="234" y="402" width="62" height="49" fill="currentColor" />
+              <rect x="334" y="303" width="50" height="49" fill="currentColor" />
               <rect x="581" width="49" height="49" fill="currentColor" />
               <rect x="581" width="49" height="64" fill="currentColor" />
-              <rect
-                x="482"
-                y="123"
-                width="49"
-                height="49"
-                fill="currentColor"
-              />
-              <rect
-                x="507"
-                y="124"
-                width="49"
-                height="24"
-                fill="currentColor"
-              />
+              <rect x="482" y="123" width="49" height="49" fill="currentColor" />
+              <rect x="507" y="124" width="49" height="24" fill="currentColor" />
               <rect x="531" y="49" width="99" height="99" fill="currentColor" />
             </svg>
           </div>
@@ -159,5 +88,5 @@ export default function HeroSection({
       </div>
       {/** End Grid */}
     </div>
-  );
+  )
 }

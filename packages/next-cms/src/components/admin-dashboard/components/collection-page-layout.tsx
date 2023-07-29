@@ -2,8 +2,8 @@
 
 import { FolderOpen } from 'lucide-react'
 import { PageHeading } from 'ui'
-import { CMSField } from '~/types/field'
-import { CMSCollection } from '~/types/schema'
+import { CMSField } from '../../../types/field'
+import { CMSCollection } from '../../../types/schema'
 
 type CollectionPageLayoutProps = {
   collection: CMSCollection<Record<string, CMSField>>

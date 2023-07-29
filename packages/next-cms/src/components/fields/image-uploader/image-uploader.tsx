@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { Loader2, Trash } from 'lucide-react'
 import { useState } from 'react'
 import { Uploader, Button, cn } from 'ui'
-import { CMSImageData, CMSImageField } from '~/types/field'
+import { CMSImageData, CMSImageField } from '../../../types/field'
 import { uploadImage } from './queries'
 
 type ImageUploaderProps = {

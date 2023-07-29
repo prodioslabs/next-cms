@@ -1,8 +1,8 @@
 import { createApi } from 'unsplash-js'
 import { NextResponse } from 'next/server'
-import { handleError } from '~/utils/api'
+import { handleError } from '../../../utils/api'
 import { searchImageQueryParamsSchema } from './schema'
-import { env } from '~/env'
+import { env } from '../../../env'
 
 export async function searchImage(request: Request) {
   const unsplash = createApi({ accessKey: env.UNSPLASH_ACCESS_KEY! })

@@ -3,9 +3,9 @@ import path from 'path'
 import imageSize from 'image-size'
 import { format } from 'date-fns'
 import { NextResponse } from 'next/server'
-import { isErrnoException } from '~/utils/file'
+import { isErrnoException } from '../../utils/file'
 import { uploadAssetBodySchema } from './schema'
-import { handleError } from '~/utils/api'
+import { handleError } from '../../utils/api'
 
 async function getUploadDirectory(basePath: string, assetType: 'image' | 'video') {
   const currentDate = format(new Date(), 'dd-MM-yyyy')

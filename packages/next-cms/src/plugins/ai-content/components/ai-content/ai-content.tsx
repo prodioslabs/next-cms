@@ -30,7 +30,7 @@ import {
   useToast,
 } from 'ui'
 import { generateContent } from './queries'
-import { CMSPluginComponentProps } from '~/types/plugin'
+import { CMSPluginComponentProps } from '../../../../types/plugin'
 
 const validationSchema = z.object({
   message: z.string(),

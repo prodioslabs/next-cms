@@ -8,16 +8,35 @@ import { FileWarning } from 'lucide-react'
 import slugify from 'slugify'
 import dynamic from 'next/dynamic'
 import deepEqual from 'fast-deep-equal/es6'
-import { cn, Form, FormControl, FormItem, FormLabel, FormMessage, FormField, Button, Input, DatePicker, ColorPicker, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Loader, useToast } from 'ui'
-import { getValidationSchemaForSchema } from '~/core/validation'
+import {
+  cn,
+  Form,
+  FormControl,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  FormField,
+  Button,
+  Input,
+  DatePicker,
+  ColorPicker,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Loader,
+  useToast,
+} from 'ui'
+import { getValidationSchemaForSchema } from '../../../core/validation'
 import ImageUploader from '../../fields/image-uploader'
 import SlugInput from '../../fields/slug-input/slug-input'
 import IconSelector from '../../fields/icon-selector'
 import { ContentManagerProps } from '../types'
 import InputField from '../../input-field'
-import { parseDate, stringifyDate } from '~/utils/date'
-import { pick } from '~/utils/object'
-import { CMSField } from '~/types/field'
+import { parseDate, stringifyDate } from '../../../utils/date'
+import { pick } from '../../../utils/object'
+import { CMSField } from '../../../types/field'
 import VideoUploader from '../../fields/video-uploader'
 
 const Editor = dynamic(() => import('../../fields/editor'), {

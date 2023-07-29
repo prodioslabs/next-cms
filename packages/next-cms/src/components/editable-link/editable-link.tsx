@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { ChevronRight } from 'lucide-react'
-import { cn } from '~/lib/utils'
+import { cn } from '../lib/utils'
 
 type EditableLinkProps = {
   url: string

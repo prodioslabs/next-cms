@@ -1,10 +1,10 @@
 'use client'
 
 import { redirect, useParams, useSearchParams } from 'next/navigation'
-import { CMSConfig } from '~/types/config'
-import { CMSCollection, CMSSingleton } from '~/types/schema'
+import { CMSConfig } from '../../../types/config'
+import { CMSCollection, CMSSingleton } from '../../../types/schema'
 import DashboardHome from './dashboard-home'
-import { CMSField } from '~/types/field'
+import { CMSField } from '../../../types/field'
 import SingletonContentManager from './singleton-content-manager'
 import CollectionPage from './collection-page'
 import CollectionNewItemContentManager from './collection-new-item-content-manager'

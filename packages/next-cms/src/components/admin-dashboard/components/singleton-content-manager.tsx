@@ -3,11 +3,11 @@
 import { File } from 'lucide-react'
 import { useMemo } from 'react'
 import { PageHeading, cn, Loader } from 'ui'
-import { CMSSingleton } from '~/types/schema'
+import { CMSSingleton } from '../../../types/schema'
 import ContentManager from '../../content-manager'
-import { CMSField } from '~/types/field'
-import { CMSPlugin } from '~/types/plugin'
-import { api } from '~/server/api'
+import { CMSField } from '../../../types/field'
+import { CMSPlugin } from '../../../types/plugin'
+import { api } from '../../../server/api'
 
 type SingletonContentManagerProps = {
   singleton: CMSSingleton<Record<string, CMSField>>

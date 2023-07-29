@@ -19,7 +19,7 @@ import {
   CodeExtension,
 } from 'remirror/extensions'
 import { forwardRef, useCallback, useImperativeHandle } from 'react'
-import { cn } from '~/lib/utils'
+import { cn } from '../lib/utils'
 import MarkdownUpdater from './components/markdown-updater'
 import EditorToolbar from './components/editor-toolbar'
 import { htmlToMarkdown } from './utils/html-to-md'

@@ -5,9 +5,9 @@ import { ChevronRight, Plus } from 'lucide-react'
 import { useMemo } from 'react'
 import { Button, Loader, cn } from 'ui'
 import DeleteCollectionItem from '../../delete-collection-item'
-import { CMSCollection } from '~/types/schema'
-import { CMSField } from '~/types/field'
-import { api } from '~/server/api'
+import { CMSCollection } from '../../../types/schema'
+import { CMSField } from '../../../types/field'
+import { api } from '../../../server/api'
 
 type CollectionPageProps = {
   collection: CMSCollection<Record<string, CMSField>>

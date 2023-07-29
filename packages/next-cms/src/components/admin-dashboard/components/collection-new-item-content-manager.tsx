@@ -2,13 +2,13 @@
 
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
-import { CMSField } from '~/types/field'
-import { CMSCollection } from '~/types/schema'
+import { cn } from 'ui'
+import { CMSField } from '../../../types/field'
+import { CMSCollection } from '../../../types/schema'
 import ContentManager from '../../content-manager'
-import { cn } from '~/lib/utils'
-import { generateDummyData } from '~/core/fix-data'
-import { CMSPlugin } from '~/types/plugin'
-import { api } from '~/server/api'
+import { generateDummyData } from '../../../core/fix-data'
+import { CMSPlugin } from '../../../types/plugin'
+import { api } from '../../../server/api'
 
 type CollectionNewItemContentManagerProps = {
   collection: CMSCollection<Record<string, CMSField>>

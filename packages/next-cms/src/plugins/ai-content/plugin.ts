@@ -1,4 +1,4 @@
-import { CMSPlugin } from '~/types/plugin'
+import { CMSPlugin } from '../../types/plugin'
 import AIContent from './components/ai-content'
 import { generateAIContent } from './api/route'
 

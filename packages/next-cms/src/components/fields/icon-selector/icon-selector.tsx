@@ -4,8 +4,20 @@ import { useMemo, useState } from 'react'
 import invariant from 'tiny-invariant'
 import * as LucideIcons from 'lucide-react'
 import { matchSorter } from 'match-sorter'
-import { Button, Command, CommandEmpty, CommandInput, CommandItem, CommandList, LucideIcon, Popover, PopoverContent, PopoverTrigger, cn } from 'ui'
-import { CMSIconData } from '~/types/field'
+import {
+  Button,
+  Command,
+  CommandEmpty,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  LucideIcon,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  cn,
+} from 'ui'
+import { CMSIconData } from '../../../types/field'
 
 const iconNames = Object.keys(LucideIcons)
   .filter((key) => key !== 'createLucideIcon' && key !== 'icons')

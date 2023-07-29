@@ -2,9 +2,9 @@
 
 import { ChevronRight, FolderOpen, File } from 'lucide-react'
 import Link from 'next/link'
-import { CMSConfig } from '~/types/config'
-import { CMSField } from '~/types/field'
-import { CMSCollection, CMSSingleton } from '~/types/schema'
+import { CMSConfig } from '../../../types/config'
+import { CMSField } from '../../../types/field'
+import { CMSCollection, CMSSingleton } from '../../../types/schema'
 
 type DashboardHomeProps<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,

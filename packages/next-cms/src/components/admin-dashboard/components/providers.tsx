@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Session } from 'next-auth'
 import { SessionProvider } from 'next-auth/react'
 import { Toaster } from 'ui'
-import { api, trpcClient } from '~/server/api'
+import { api, trpcClient } from '../../../server/api'
 import ThemeProvider from './theme-provider'
 
 const queryClient = new QueryClient()

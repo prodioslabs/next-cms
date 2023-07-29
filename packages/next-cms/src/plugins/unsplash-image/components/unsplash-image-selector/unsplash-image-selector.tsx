@@ -6,8 +6,26 @@ import { useForm } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
 import Image from 'next/image'
-import { Button, Form, FormControl, FormFieldWithController, FormItem, FormMessage, Input, Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from 'ui'
-import { CMSPluginComponentProps } from '~/types/plugin'
+import {
+  Button,
+  Form,
+  FormControl,
+  FormFieldWithController,
+  FormItem,
+  FormMessage,
+  Input,
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from 'ui'
+import { CMSPluginComponentProps } from '../../../../types/plugin'
 import { searchImage } from './queries'
 
 const validationSchema = z.object({

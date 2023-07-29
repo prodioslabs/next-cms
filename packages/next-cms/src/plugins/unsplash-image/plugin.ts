@@ -1,4 +1,4 @@
-import { CMSPlugin } from '~/types/plugin'
+import { CMSPlugin } from '../../types/plugin'
 import UnsplashImageSelector from './components/unsplash-image-selector'
 import { searchImage } from './api/route'
 

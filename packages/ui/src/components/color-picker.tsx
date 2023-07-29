@@ -1,14 +1,13 @@
 import { HexColorPicker } from 'react-colorful'
 import colors from 'tailwindcss/colors'
 import { useState } from 'react'
-import { CMSColorData } from '~/cms/types/field'
 import { Button } from './button'
 import { Popover, PopoverContent, PopoverTrigger } from './popover'
-import { cn } from '~/lib/utils'
+import { cn } from '../lib/utils'
 
 type ColorPickerProps = {
-  value?: CMSColorData
-  onChange?: (value: CMSColorData) => void
+  value?: string
+  onChange?: (value: string) => void
   className?: string
   style?: React.CSSProperties
 }
@@ -128,7 +127,7 @@ export function ColorPicker({ value, onChange, className, style }: ColorPickerPr
           <HexColorPicker
             className="!w-full"
             onChange={(selectedColor) => {
-              onChange?.(selectedColor as CMSColorData)
+              onChange?.(selectedColor)
             }}
           />
           <div className="max-h-[120px] space-y-4 overflow-auto">
@@ -144,7 +143,7 @@ export function ColorPicker({ value, onChange, className, style }: ColorPickerPr
                           style={{ backgroundColor: color, color }}
                           className="h-5 w-5 rounded-full border ring-current focus:outline-none focus:ring-2"
                           onClick={() => {
-                            onChange?.(color as CMSColorData)
+                            onChange?.(color)
                             setOpen(false)
                           }}
                         />

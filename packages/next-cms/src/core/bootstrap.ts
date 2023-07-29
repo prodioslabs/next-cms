@@ -8,7 +8,6 @@ import { prisma } from './db'
 import { fixData, generateDummyData } from './fix-data'
 import { isTextField } from './field'
 import { getValidationSchemaForCollectionElement, getValidationSchemaForSingleton } from './validation'
-import config from '~/cms.config'
 import { DIVIDER, errorMessage, eventMessage, successMessage, warnMessage } from '../utils/cli'
 
 function validateCollection(collection: CMSCollection<Record<string, CMSField>>, collectionName: string) {
@@ -20,7 +19,7 @@ function validateCollection(collection: CMSCollection<Record<string, CMSField>>,
   }
 }
 
-async function bootstrap<
+export async function bootstrap<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
 >(config: CMSConfig<CMSCollections, CMSSingletons>) {
@@ -178,5 +177,3 @@ async function bootstrap<
 
   console.log(DIVIDER)
 }
-
-bootstrap(config)
