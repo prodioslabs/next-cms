@@ -1,8 +1,15 @@
 {
   "name": "next-cms",
+  "main": "./src/index.ts",
+  "scripts": {
+    "test": "vitest"
+  },
   "exports": {
+    ".": "./src/index.ts",
     "./react": "./src/react/index.ts",
-    "./server": "./src/server/index.ts"
+    "./server": "./src/server/index.ts",
+    "./core": "./src/core/index.ts",
+    "./plugins": "./src/plugins/index.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
@@ -33,6 +40,8 @@
     "langchain": "^0.0.104",
     "match-sorter": "^6.3.1",
     "nanoid": "^4.0.2",
+    "next-auth": "^4.22.1",
+    "next-themes": "^0.2.1",
     "react": "18.2.0",
     "react-colorful": "^5.6.1",
     "react-day-picker": "^8.8.0",
@@ -50,9 +59,13 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@types/react": "^18.2.14",
+    "autoprefixer": "10.4.14",
     "eslint-custom-config": "*",
     "prettier-config": "*",
     "prisma": "^5.0.0",
-    "vitest": "^0.33.0"
+    "vitest": "^0.33.0",
+    "postcss": "8.4.24",
+    "typescript": "^5.1.3"
   }
 }

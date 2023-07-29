@@ -1,1 +1,6 @@
-module.exports = requrie('ui/postcss.config')
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}

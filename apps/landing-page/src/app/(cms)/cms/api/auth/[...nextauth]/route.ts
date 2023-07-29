@@ -1,6 +1,3 @@
-import NextAuth from 'next-auth/next'
-import { authOptions } from '~/cms/core/auth'
+import { authHandler } from 'next-cms'
 
-const handler = NextAuth(authOptions)
-
-export { handler as GET, handler as POST }
+export { authHandler as GET, authHandler as POST }

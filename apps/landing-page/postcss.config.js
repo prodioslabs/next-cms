@@ -1,1 +1,6 @@
-module.exports = require('next-cms/postcss.config')
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}

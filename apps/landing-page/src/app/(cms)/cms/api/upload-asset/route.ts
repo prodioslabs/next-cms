@@ -1,1 +1,1 @@
-export { POST } from '~/cms/server/upload-asset/route'
+export { uploadAssetHandler as POST } from 'next-cms'

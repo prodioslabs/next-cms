@@ -1,6 +1,4 @@
-import { createUnsplashPlugin } from './cms/plugins/unsplash-image/plugin'
-import { createCMSConfig } from './cms/core/config'
-import { createAIContentPlugin } from './cms/plugins/ai-content/plugin'
+import { createAIContentPlugin, createCMSConfig, createUnsplashPlugin } from 'next-cms'
 
 const config = createCMSConfig({
   singletons: {
