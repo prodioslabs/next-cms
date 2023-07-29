@@ -1,6 +1,7 @@
 {
   "name": "next-cms",
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./src/index.ts",
   "scripts": {
     "test": "vitest"
   },
@@ -62,10 +63,11 @@
     "@types/react": "^18.2.14",
     "autoprefixer": "10.4.14",
     "eslint-custom-config": "*",
+    "postcss": "8.4.24",
     "prettier-config": "*",
     "prisma": "^5.0.0",
-    "vitest": "^0.33.0",
-    "postcss": "8.4.24",
-    "typescript": "^5.1.3"
+    "tsup": "^7.1.0",
+    "typescript": "^5.1.3",
+    "vitest": "^0.33.0"
   }
 }
