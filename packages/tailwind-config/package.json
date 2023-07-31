@@ -1,0 +1,10 @@
+{
+  "name": "tailwind-config",
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.27",
+    "prettier-config": "*",
+    "tailwindcss": "^3.3.3",
+    "tailwindcss-animate": "^1.0.6"
+  }
+}
