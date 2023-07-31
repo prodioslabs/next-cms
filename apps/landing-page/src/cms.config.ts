@@ -1,4 +1,4 @@
-import { createCMSConfig } from 'next-cms/core'
+import { createCMSConfig } from 'next-cms'
 import { createAIContentPlugin, createUnsplashPlugin } from 'next-cms/plugins'
 
 const config = createCMSConfig({

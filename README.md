@@ -6,46 +6,135 @@ To get started, first create a configuration file.
 
 ```tsx
 // cms.config.ts
-import { type Config } from '~/cms/core'
+import { createCMSConfig } from "next-cms";
+import { createAIContentPlugin, createUnsplashPlugin } from "next-cms/plugins";
 
-export const config = {
+const config = createCMSConfig({
   singletons: {
     homePageHeroSection: {
-      name: 'Home Page Hero Section',
-      path: 'home-page/hero-section',
-      fields: {
+      label: "Home Page Hero Section",
+      description: "Hero section on the home page",
+      schema: {
         title: {
-          type: 'text',
+          label: "Title",
+          type: "rich-text",
           required: true,
         },
         content: {
-          type: 'rich-text',
+          label: "Content",
+          type: "rich-text",
           required: true,
+        },
+        callToActionIcon: {
+          label: "Call to Action Icon",
+          type: "icon",
+          required: true,
+        },
+        callToAction: {
+          label: "Call to Action",
+          type: "text",
+          required: true,
+          default: "Learn More",
+        },
+        coverImage: {
+          label: "Cover Image",
+          type: "image",
+          required: true,
+        },
+        coverVideo: {
+          label: "Cover Video",
+          type: "video",
+          required: true,
+        },
+      },
+    },
+    features: {
+      label: "Features",
+      description: "Features section on the home page",
+      schema: {
+        heading: {
+          label: "Heading",
+          type: "rich-text",
+          required: true,
+        },
+        description: {
+          label: "Description",
+          type: "rich-text",
+          required: true,
+        },
+        features: {
+          type: "object",
+          label: "Features",
+          required: true,
+          multiple: true,
+          schema: {
+            featureName: {
+              label: "Feature Name",
+              type: "rich-text",
+              required: true,
+            },
+            featureDescription: {
+              label: "Feature Description",
+              type: "rich-text",
+              required: true,
+            },
+            icon: {
+              label: "Feature Icon",
+              type: "icon",
+              required: true,
+            },
+            tags: {
+              type: "text",
+              label: "Feature Tags",
+              required: true,
+              multiple: true,
+            },
+          },
         },
       },
     },
   },
   collections: {
     blogs: {
-      name: 'Blogs',
-      path: 'blogs',
-      fields: {
+      label: "Blogs",
+      slugField: "slug",
+      nameField: "title",
+      schema: {
         coverImage: {
-          type: 'image',
+          label: "Cover Image",
+          type: "image",
           required: true,
         },
         title: {
-          type: 'text',
+          label: "Title",
+          type: "text",
+          required: true,
+        },
+        slug: {
+          label: "Slug",
+          type: "slug",
+          from: "title",
           required: true,
         },
         content: {
-          type: 'rich-text',
+          label: "Content",
+          type: "rich-text",
           required: true,
         },
       },
     },
   },
-} as const satisfies Config
+  plugins: [
+    createAIContentPlugin({
+      OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
+    }),
+    createUnsplashPlugin({
+      UNSPLASH_ACCESS_KEY: process.env.UNSPLASH_ACCESS_KEY!,
+    }),
+  ],
+});
+
+export default config;
 ```
 
 ## Singleton
@@ -70,10 +159,13 @@ These components can be created using `createSingletonReader` function. It would
 The `data` object contains the content of the singleton. As this library is fully typed, you can use the intellisense to see the type of the content. This is the same type that is used in the configuration file.
 
 ```tsx
-import cmsConfig from '~/cms.config'
-import { createSingletonReader } from '~/cms/core'
+import cmsConfig from "~/cms.config";
+import { createSingletonReader } from "next-cms/react";
 
-const HomePageHeroSectionSingleton = createSingletonReader(cmsConfig, 'homePageHeroSection')
+const HomePageHeroSectionSingleton = createSingletonReader(
+  cmsConfig,
+  "homePageHeroSection"
+);
 
 export default function HeroSection() {
   return (
@@ -82,17 +174,19 @@ export default function HeroSection() {
         return (
           <div className="grid grid-cols-2">
             <div>
-              <h1 className="mb-2 text-2xl font-bold text-foreground">{title}</h1>
-              <div className="mb-4 text-muted-foreground">
+              <h1 className="text-foreground mb-2 text-2xl font-bold">
+                {title}
+              </h1>
+              <div className="text-muted-foreground mb-4">
                 <ReactMarkdown>{content}</ReactMarkdown>
               </div>
               <Button icon={<FaGoogle />}>Click Here</Button>
             </div>
           </div>
-        )
+        );
       }}
     />
-  )
+  );
 }
 ```
 
@@ -120,10 +214,10 @@ These components can be created using `createCollectionReader` function. It woul
 | elementSlug | string                                                                                     | Slug of the element to read. This is only used when `type` is `element`                           |
 
 ```tsx
-import cmsConfig from '~/cms.config'
-import { createCollectionReader } from '~/cms/core'
+import cmsConfig from "~/cms.config";
+import { createCollectionReader } from "next-cms/react";
 
-const BlogsCollection = createCollectionReader(cmsConfig, 'blogs')
+const BlogsCollection = createCollectionReader(cmsConfig, "blogs");
 
 export default function Blogs() {
   return (
@@ -134,7 +228,10 @@ export default function Blogs() {
           <div className="grid grid-cols-6 gap-4">
             {blogs.map(({ data: blog }, index) => {
               return (
-                <div key={index} className="rounded-md border border-border p-4">
+                <div
+                  key={index}
+                  className="border-border rounded-md border p-4"
+                >
                   <Image
                     width={blog.coverImage.width}
                     height={blog.coverImage.height}
@@ -142,15 +239,19 @@ export default function Blogs() {
                     alt={blog.title}
                     className="mb-2 h-40 w-full rounded-md object-cover"
                   />
-                  <div className="font-medium text-foreground">{blog.title}</div>
-                  <div className="text-sm text-muted-foreground">{blog.content.slice(0, 20)}</div>
+                  <div className="text-foreground font-medium">
+                    {blog.title}
+                  </div>
+                  <div className="text-muted-foreground text-sm">
+                    {blog.content.slice(0, 20)}
+                  </div>
                 </div>
-              )
+              );
             })}
           </div>
-        )
+        );
       }}
     />
-  )
+  );
 }
 ```
