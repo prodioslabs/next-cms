@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Markdown, createCollectionReader, createSingletonReader } from 'next-cms/react'
 import config from '~/cms.config'
-import HeroSection from '~/blocks/hero-section'
+import HeroSection from '~/components/hero-section'
 
 const HomePageHeroSectionSingleton = createSingletonReader(config, 'homePageHeroSection')
 const BlogsCollection = createCollectionReader(config, 'blogs')
