@@ -7,6 +7,7 @@ const config = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
     '../../packages/ui/src/**/*.{ts,tsx}',
+    '../../packages/next-cms/src/**/*.{ts,tsx}',
   ],
   theme: {
     container: {

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Markdown, createCollectionReader, createSingletonReader } from 'next-cms'
+import { Markdown, createCollectionReader, createSingletonReader } from 'next-cms/react'
 import config from '~/cms.config'
 import HeroSection from '~/blocks/hero-section'
 

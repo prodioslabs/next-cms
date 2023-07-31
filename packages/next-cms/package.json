@@ -1,7 +1,13 @@
 {
   "name": "next-cms",
-  "main": "dist/index.js",
   "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./server": "./src/server/index.ts",
+    "./react": "./src/react/index.ts",
+    "./core": "./src/core/index.ts",
+    "./plugins": "./src/plugins/index.ts"
+  },
   "scripts": {
     "build": "tsup ./src/index.ts",
     "test": "vitest"

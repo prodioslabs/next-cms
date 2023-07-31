@@ -1,4 +1,4 @@
-import { createDashboardLayout } from 'next-cms'
+import { createDashboardLayout } from 'next-cms/react'
 import config from '~/cms.config'
 
 const Layout = createDashboardLayout(config)

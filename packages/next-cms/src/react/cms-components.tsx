@@ -10,13 +10,13 @@ import {
 import { CMSConfig } from '../types/config'
 import { CMSField } from '../types/field'
 import { CMSCollection, CMSCollectionData, CMSSingleton, CMSSingletonData } from '../types/schema'
-import EditableLink from '../react/components/editable-link'
+import EditableLink from './components/editable-link'
 import {
   fetchCollectionElementById,
   fetchCollectionElementBySlug,
   fetchCollectionElements,
   fetchSingleton,
-} from './data'
+} from '../core/data'
 
 export function createCollectionReader<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
