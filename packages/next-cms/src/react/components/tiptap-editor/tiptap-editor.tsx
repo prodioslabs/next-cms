@@ -1,9 +1,12 @@
+'use client'
+
 import { cn } from 'ui'
 import { EditorContent, useEditor } from '@tiptap/react'
 import Underline from '@tiptap/extension-underline'
 import { StarterKit } from '@tiptap/starter-kit'
 import TextStyle from '@tiptap/extension-text-style'
 import Color from '@tiptap/extension-color'
+import LinkExtension from '@tiptap/extension-link'
 import { useEffect, useState } from 'react'
 import EditorToolbar, { HEADING_LEVELS } from './components/editor-toolbar'
 
@@ -36,6 +39,13 @@ export default function TiptapEditor({ value, onChange, className, style }: Tipt
       TextStyle,
       Color.configure({
         types: ['textStyle'],
+      }),
+      LinkExtension.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          rel: 'noopener noreferrer',
+          target: '_blank',
+        },
       }),
     ],
     onUpdate: () => {

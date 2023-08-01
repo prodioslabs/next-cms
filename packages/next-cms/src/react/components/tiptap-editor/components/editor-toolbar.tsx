@@ -1,4 +1,6 @@
-import { Editor } from '@tiptap/core'
+'use client'
+
+import { Editor } from '@tiptap/react'
 import { Level } from '@tiptap/extension-heading'
 import {
   Bold,
@@ -13,6 +15,7 @@ import {
   RemoveFormatting,
   Undo,
   Redo,
+  Unlink,
 } from 'lucide-react'
 import {
   Toggle,
@@ -28,6 +31,7 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from 'ui'
+import LinkButton from './link-button'
 
 type EditorToolbarProps = {
   editor: Editor
@@ -38,7 +42,6 @@ type EditorToolbarProps = {
 export const HEADING_LEVELS: Level[] = [1, 2, 3, 4, 5]
 
 export default function EditorToolbar({ editor, className, style }: EditorToolbarProps) {
-  console.log(editor.getAttributes('textStyle'))
   return (
     <div className={cn('flex flex-wrap items-center gap-2', className)} style={style}>
       <Toggle
@@ -195,6 +198,17 @@ export default function EditorToolbar({ editor, className, style }: EditorToolba
           <TooltipContent>Remove Color</TooltipContent>
         </Tooltip>
       </TooltipProvider>
+      <LinkButton editor={editor} />
+      <Toggle
+        variant="outline"
+        pressed={false}
+        disabled={!editor.isActive('link')}
+        onPressedChange={() => {
+          editor.chain().focus().unsetLink().run()
+        }}
+      >
+        <Unlink className="h-4 w-4" />
+      </Toggle>
       <Toggle
         onPressedChange={() => {
           editor.chain().focus().undo().run()
