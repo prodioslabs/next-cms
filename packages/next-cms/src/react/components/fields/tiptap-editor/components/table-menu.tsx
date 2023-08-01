@@ -55,13 +55,13 @@ const validationSchema = z.object({
   columns: z.number().int().positive().min(1),
 })
 
-type TableButtonProps = {
+type TableMenuProps = {
   editor: Editor
   className?: string
   style?: React.CSSProperties
 }
 
-export default function TableButton({ editor, className, style }: TableButtonProps) {
+export default function TableMenu({ editor, className, style }: TableMenuProps) {
   const form = useForm<z.infer<typeof validationSchema>>({
     resolver: zodResolver(validationSchema),
     defaultValues: {
@@ -87,7 +87,11 @@ export default function TableButton({ editor, className, style }: TableButtonPro
                   <MenubarItem
                     key={`${tableSize.rows}x${tableSize.columns}`}
                     onClick={() => {
-                      editor.chain().focus().insertTable({ rows: tableSize.rows, cols: tableSize.columns }).run()
+                      editor
+                        .chain()
+                        .focus()
+                        .insertTable({ rows: tableSize.rows, cols: tableSize.columns, withHeaderRow: true })
+                        .run()
                     }}
                   >
                     {tableSize.rows} x {tableSize.columns}
@@ -100,18 +104,82 @@ export default function TableButton({ editor, className, style }: TableButtonPro
               </MenubarSubContent>
             </MenubarSub>
             <MenubarSeparator />
-            <MenubarItem>Add Column Before</MenubarItem>
-            <MenubarItem>Add Column After</MenubarItem>
-            <MenubarItem>Delete Column</MenubarItem>
+            <MenubarItem
+              disabled={!editor.isActive('table')}
+              onClick={() => {
+                editor.chain().focus().addColumnBefore().run()
+              }}
+            >
+              Add Column Before
+            </MenubarItem>
+            <MenubarItem
+              disabled={!editor.isActive('table')}
+              onClick={() => {
+                editor.chain().focus().addColumnAfter().run()
+              }}
+            >
+              Add Column After
+            </MenubarItem>
+            <MenubarItem
+              disabled={!editor.isActive('table')}
+              onClick={() => {
+                editor.chain().focus().deleteColumn().run()
+              }}
+            >
+              Delete Column
+            </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem>Add Row Before</MenubarItem>
-            <MenubarItem>Add Row After</MenubarItem>
-            <MenubarItem>Delete Row</MenubarItem>
+            <MenubarItem
+              disabled={!editor.isActive('table')}
+              onClick={() => {
+                editor.chain().focus().addRowBefore().run()
+              }}
+            >
+              Add Row Before
+            </MenubarItem>
+            <MenubarItem
+              disabled={!editor.isActive('table')}
+              onClick={() => {
+                editor.chain().focus().addRowAfter().run()
+              }}
+            >
+              Add Row After
+            </MenubarItem>
+            <MenubarItem
+              disabled={!editor.isActive('table')}
+              onClick={() => {
+                editor.chain().focus().deleteRow().run()
+              }}
+            >
+              Delete Row
+            </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem>Merge Cells</MenubarItem>
-            <MenubarItem>Split Cell</MenubarItem>
+            <MenubarItem
+              disabled={!editor.can().chain().mergeCells().run()}
+              onClick={() => {
+                editor.chain().focus().mergeCells().run()
+              }}
+            >
+              Merge Cells
+            </MenubarItem>
+            <MenubarItem
+              disabled={!editor.can().chain().splitCell().run()}
+              onClick={() => {
+                editor.chain().focus().splitCell().run()
+              }}
+            >
+              Split Cell
+            </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem>Delete Table</MenubarItem>
+            <MenubarItem
+              disabled={!editor.isActive('table')}
+              onClick={() => {
+                editor.chain().focus().deleteTable().run()
+              }}
+              className="text-destructive"
+            >
+              Delete Table
+            </MenubarItem>
           </MenubarContent>
         </MenubarMenu>
       </Menubar>
@@ -125,7 +193,7 @@ export default function TableButton({ editor, className, style }: TableButtonPro
             onSubmit={(event) => {
               event.stopPropagation()
               form.handleSubmit(({ rows, columns }) => {
-                editor.chain().focus().insertTable({ rows, cols: columns }).run()
+                editor.chain().focus().insertTable({ rows, cols: columns, withHeaderRow: true }).run()
               })(event)
             }}
             className="space-y-4"

@@ -54,7 +54,7 @@ export default function TiptapEditor({ value, onChange, className, style }: Tipt
       Table.configure({
         resizable: true,
         HTMLAttributes: {
-          class: 'table-fixed',
+          style: 'table-layout: fixed; width: 100%;',
         },
       }),
       TableRow,
@@ -86,7 +86,7 @@ export default function TiptapEditor({ value, onChange, className, style }: Tipt
           <EditorToolbar editor={editor} />
           <EditorContent
             editor={editor}
-            className="editor-container prose prose-zinc !max-w-none rounded-md border px-3 py-2 text-sm text-foreground dark:prose-invert focus-within:border-primary/50 [&>.ProseMirror]:focus-within:outline-none"
+            className={String.raw`editor-container prose prose-zinc !max-w-none rounded-md border px-3 py-2 text-sm text-foreground dark:prose-invert focus-within:border-primary/50 prose-table:table-fixed prose-table:border-collapse prose-table:border [&>.ProseMirror]:focus-within:outline-none [&_.column-resize-handle]:pointer-events-none [&_.column-resize-handle]:absolute [&_.column-resize-handle]:bottom-0 [&_.column-resize-handle]:right-0 [&_.column-resize-handle]:top-0 [&_.column-resize-handle]:w-0.5 [&_.column-resize-handle]:cursor-col-resize [&_.column-resize-handle]:bg-primary/50 [&_.selectedCell]:after:pointer-events-none [&_.selectedCell]:after:absolute [&_.selectedCell]:after:inset-0 [&_.selectedCell]:after:bg-primary/10 [&_td]:relative [&_td]:border [&_td]:p-2 [&_td_p]:m-0 [&_th>p]:m-0 [&_th]:relative [&_th]:border [&_th]:bg-muted [&_th]:p-2`}
           />
         </>
       ) : null}

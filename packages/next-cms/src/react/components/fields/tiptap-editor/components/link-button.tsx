@@ -33,12 +33,21 @@ export default function LinkButton({ editor, className, style }: LinkButtonProps
   const form = useForm<z.infer<typeof validationSchema>>({
     resolver: zodResolver(validationSchema),
     defaultValues: {
-      link: '',
+      link: editor.isActive('link') ? editor.getAttributes('link').href : '',
     },
   })
 
   return (
-    <Popover>
+    <Popover
+      onOpenChange={(open) => {
+        if (editor.isActive('link') && open) {
+          form.setValue('link', editor.getAttributes('link').href)
+        }
+        if (!open && !editor.isActive('link')) {
+          form.setValue('link', '')
+        }
+      }}
+    >
       <PopoverTrigger asChild>
         <Button className={className} style={style} icon={<Link />} size="icon" variant="outline" type="button" />
       </PopoverTrigger>
@@ -51,7 +60,7 @@ export default function LinkButton({ editor, className, style }: LinkButtonProps
                 editor.chain().focus().setLink({ href: link }).run()
               })(event)
             }}
-            className="space-y-4"
+            className="space-y-2"
           >
             <FormFieldWithController
               name="link"

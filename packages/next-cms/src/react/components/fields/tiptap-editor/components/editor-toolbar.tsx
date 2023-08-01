@@ -32,7 +32,7 @@ import {
   TooltipContent,
 } from 'ui'
 import LinkButton from './link-button'
-import TableButton from './table-button'
+import TableMenu from './table-menu'
 
 type EditorToolbarProps = {
   editor: Editor
@@ -200,17 +200,19 @@ export default function EditorToolbar({ editor, className, style }: EditorToolba
         </Tooltip>
       </TooltipProvider>
       <LinkButton editor={editor} />
-      <TableButton editor={editor} />
-      <Toggle
-        variant="outline"
-        pressed={false}
-        disabled={!editor.isActive('link')}
-        onPressedChange={() => {
-          editor.chain().focus().unsetLink().run()
-        }}
-      >
-        <Unlink className="h-4 w-4" />
-      </Toggle>
+      {editor.isActive('link') ? (
+        <Toggle
+          variant="outline"
+          pressed={false}
+          disabled={!editor.isActive('link')}
+          onPressedChange={() => {
+            editor.chain().focus().unsetLink().run()
+          }}
+        >
+          <Unlink className="h-4 w-4" />
+        </Toggle>
+      ) : null}
+      <TableMenu editor={editor} />
       <Toggle
         onPressedChange={() => {
           editor.chain().focus().undo().run()
