@@ -1,13 +1,17 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { cn } from 'ui'
 import { EditorContent, useEditor } from '@tiptap/react'
-import Underline from '@tiptap/extension-underline'
 import { StarterKit } from '@tiptap/starter-kit'
+import Underline from '@tiptap/extension-underline'
 import TextStyle from '@tiptap/extension-text-style'
 import Color from '@tiptap/extension-color'
 import LinkExtension from '@tiptap/extension-link'
-import { useEffect, useState } from 'react'
+import Table from '@tiptap/extension-table'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
+import TableRow from '@tiptap/extension-table-row'
 import EditorToolbar, { HEADING_LEVELS } from './components/editor-toolbar'
 
 type TiptapEditorProps = {
@@ -47,6 +51,15 @@ export default function TiptapEditor({ value, onChange, className, style }: Tipt
           target: '_blank',
         },
       }),
+      Table.configure({
+        resizable: true,
+        HTMLAttributes: {
+          class: 'table-fixed',
+        },
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
     ],
     onUpdate: () => {
       const html = editor?.getHTML()

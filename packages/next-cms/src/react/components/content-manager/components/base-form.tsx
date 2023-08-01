@@ -27,16 +27,16 @@ import {
   useToast,
 } from 'ui'
 import { getValidationSchemaForSchema } from '../../../../core/validation'
-import ImageUploader from '../../fields/image-uploader'
-import SlugInput from '../../fields/slug-input/slug-input'
-import IconSelector from '../../fields/icon-selector'
-import { ContentManagerProps } from '../types'
 import InputField from '../../input-field'
 import { parseDate, stringifyDate } from '../../../../utils/date'
 import { pick } from '../../../../utils/object'
+import { ContentManagerProps } from '../types'
 import { CMSField } from '../../../../types/field'
+import ImageUploader from '../../fields/image-uploader'
+import SlugInput from '../../fields/slug-input/slug-input'
+import IconSelector from '../../fields/icon-selector'
 import VideoUploader from '../../fields/video-uploader'
-import TiptapEditor from '../../tiptap-editor'
+import TiptapEditor from '../../fields/tiptap-editor'
 
 export type BaseFormProps = Omit<ContentManagerProps, 'config' | 'onUpdate' | 'redirectToOnSave'> & {
   onSubmit: (data: any) => void

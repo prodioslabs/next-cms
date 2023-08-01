@@ -32,6 +32,7 @@ import {
   TooltipContent,
 } from 'ui'
 import LinkButton from './link-button'
+import TableButton from './table-button'
 
 type EditorToolbarProps = {
   editor: Editor
@@ -199,6 +200,7 @@ export default function EditorToolbar({ editor, className, style }: EditorToolba
         </Tooltip>
       </TooltipProvider>
       <LinkButton editor={editor} />
+      <TableButton editor={editor} />
       <Toggle
         variant="outline"
         pressed={false}
