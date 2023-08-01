@@ -1,7 +1,9 @@
+'use client'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Editor } from '@tiptap/react'
 import { Table } from 'lucide-react'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   Button,
@@ -33,26 +35,26 @@ import { z } from 'zod'
 
 export const TABLE_SIZES = [
   {
-    columns: 3,
+    cols: 3,
     rows: 4,
   },
   {
-    columns: 4,
+    cols: 4,
     rows: 4,
   },
   {
-    columns: 5,
+    cols: 5,
     rows: 4,
   },
   {
-    columns: 6,
+    cols: 6,
     rows: 4,
   },
 ]
 
 const validationSchema = z.object({
   rows: z.number().int().positive().min(1),
-  columns: z.number().int().positive().min(1),
+  cols: z.number().int().positive().min(1),
 })
 
 type TableMenuProps = {
@@ -66,11 +68,21 @@ export default function TableMenu({ editor, className, style }: TableMenuProps) 
     resolver: zodResolver(validationSchema),
     defaultValues: {
       rows: 1,
-      columns: 1,
+      cols: 1,
     },
   })
 
   const [dialogOpen, setDialogOpen] = useState(false)
+
+  const handleInsertTable = useCallback(
+    (rows: number, cols: number) => {
+      editor.chain().focus().insertTable({ rows, cols, withHeaderRow: true }).run()
+      setTimeout(() => {
+        editor.chain().focus().run()
+      })
+    },
+    [editor],
+  )
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -85,16 +97,12 @@ export default function TableMenu({ editor, className, style }: TableMenuProps) 
               <MenubarSubContent>
                 {TABLE_SIZES.map((tableSize) => (
                   <MenubarItem
-                    key={`${tableSize.rows}x${tableSize.columns}`}
+                    key={`${tableSize.rows}x${tableSize.cols}`}
                     onClick={() => {
-                      editor
-                        .chain()
-                        .focus()
-                        .insertTable({ rows: tableSize.rows, cols: tableSize.columns, withHeaderRow: true })
-                        .run()
+                      handleInsertTable(tableSize.rows, tableSize.cols)
                     }}
                   >
-                    {tableSize.rows} x {tableSize.columns}
+                    {tableSize.rows} x {tableSize.cols}
                   </MenubarItem>
                 ))}
                 <MenubarSeparator />
@@ -186,14 +194,14 @@ export default function TableMenu({ editor, className, style }: TableMenuProps) 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Create custom table</DialogTitle>
-          <DialogDescription>Add rows and columns size</DialogDescription>
+          <DialogDescription>Add rows and cols size</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
             onSubmit={(event) => {
               event.stopPropagation()
-              form.handleSubmit(({ rows, columns }) => {
-                editor.chain().focus().insertTable({ rows, cols: columns, withHeaderRow: true }).run()
+              form.handleSubmit(({ rows, cols }) => {
+                handleInsertTable(rows, cols)
               })(event)
             }}
             className="space-y-4"
@@ -221,15 +229,15 @@ export default function TableMenu({ editor, className, style }: TableMenuProps) 
               }}
             />
             <FormFieldWithController
-              name="columns"
+              name="cols"
               control={form.control}
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>Columns</FormLabel>
+                    <FormLabel>cols</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Columns"
+                        placeholder="cols"
                         {...field}
                         type="number"
                         onChange={(event) => {
