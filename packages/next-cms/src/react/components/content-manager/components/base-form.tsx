@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { FileWarning } from 'lucide-react'
 import slugify from 'slugify'
-import dynamic from 'next/dynamic'
 import deepEqual from 'fast-deep-equal/es6'
 import {
   cn,
@@ -25,7 +24,6 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Loader,
   useToast,
 } from 'ui'
 import { getValidationSchemaForSchema } from '../../../../core/validation'
@@ -38,11 +36,7 @@ import { parseDate, stringifyDate } from '../../../../utils/date'
 import { pick } from '../../../../utils/object'
 import { CMSField } from '../../../../types/field'
 import VideoUploader from '../../fields/video-uploader'
-
-const Editor = dynamic(() => import('../../fields/editor'), {
-  ssr: false,
-  loading: () => <Loader message="Loading Editor..." variant="outline" />,
-})
+import TiptapEditor from '../../tiptap-editor'
 
 export type BaseFormProps = Omit<ContentManagerProps, 'config' | 'onUpdate' | 'redirectToOnSave'> & {
   onSubmit: (data: any) => void
@@ -131,7 +125,7 @@ export default function BaseForm({
                           fieldName={fieldName}
                           control={form.control}
                           renderInput={(props) => {
-                            return <Editor {...props} />
+                            return <TiptapEditor {...props} />
                           }}
                           cmsField={fieldSchema}
                           plugins={pluginsToRender}

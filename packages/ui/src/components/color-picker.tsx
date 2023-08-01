@@ -8,6 +8,7 @@ import { cn } from '../lib/utils'
 type ColorPickerProps = {
   value?: string
   onChange?: (value: string) => void
+  showColor?: boolean
   className?: string
   style?: React.CSSProperties
 }
@@ -106,7 +107,7 @@ const COLORS = [
   },
 ]
 
-export function ColorPicker({ value, onChange, className, style }: ColorPickerProps) {
+export function ColorPicker({ value, onChange, showColor = true, className, style }: ColorPickerProps) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -119,7 +120,7 @@ export function ColorPicker({ value, onChange, className, style }: ColorPickerPr
           className={cn('font-mono', className)}
           style={style}
         >
-          {value ?? 'Select Color'}
+          {value ? (showColor ? value : undefined) : 'Select Color'}
         </Button>
       </PopoverTrigger>
       <PopoverContent>
