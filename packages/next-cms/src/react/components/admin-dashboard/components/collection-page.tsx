@@ -43,7 +43,12 @@ export default function CollectionPage({ collection, collectionName, className, 
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
               </div>
             </Link>
-            <DeleteCollectionItem elementId={itemId} />
+            <DeleteCollectionItem
+              elementId={itemId}
+              onDelete={() => {
+                query.refetch()
+              }}
+            />
           </div>
         )
       })

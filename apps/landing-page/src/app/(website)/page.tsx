@@ -9,7 +9,7 @@ const BlogsCollection = createCollectionReader(config, 'blogs')
 
 export default function Home() {
   return (
-    <div className="space-y-8 p-8">
+    <div className="space-y-12 px-4 py-4 sm:px-6 lg:px-8">
       <HomePageHeroSectionSingleton
         renderItem={({ data: { title, content, callToAction, callToActionIcon, coverImage } }) => {
           return (
@@ -27,34 +27,28 @@ export default function Home() {
         type="list"
         renderItems={({ items: blogs }) => {
           return (
-            <div className="mx-auto max-w-screen-2xl rounded-md bg-primary p-8">
-              <div className="mb-2 text-center text-2xl font-semibold text-primary-foreground">Blogs</div>
-              <div className="mb-4 flex items-center justify-center">
-                <Link href="/blogs" className="mx-auto flex items-center text-sm text-muted-foreground">
-                  Read more blogs...
-                </Link>
-              </div>
-              <div className="grid grid-cols-3 gap-4">
+            <div className="mx-auto max-w-screen-xl rounded-md">
+              <div className="text-2xl font-semibold text-foreground">Blogs</div>
+              <Link href="/blogs" className="mb-4 block text-sm text-muted-foreground">
+                Read more blogs...
+              </Link>
+              <div className="md:grid-col-2 grid grid-cols-1 gap-4 lg:grid-cols-3">
                 {blogs.map((blog, index) => {
                   return (
                     <Link
                       href={`/blogs/${blog.elementSlug}`}
                       key={index}
-                      className="overflow-hidden rounded-md bg-primary"
+                      className="block overflow-hidden rounded-xl border p-3"
                     >
                       <Image
                         width={blog.data.coverImage.width}
                         height={blog.data.coverImage.height}
                         src={blog.data.coverImage.url}
                         alt={blog.data.title}
-                        className="h-48 w-full object-cover"
+                        className="mb-4 block aspect-video w-full rounded-2xl object-cover"
                       />
-                      <div className="bg-background p-4">
-                        <div
-                          dangerouslySetInnerHTML={{ __html: blog.data.content }}
-                          className="prose-sm line-clamp-2 text-sm text-muted-foreground"
-                        />
-                      </div>
+                      <div className="mb-1 text-lg font-medium text-foreground">{blog.data.title}</div>
+                      <div className="line-clamp-2 text-sm text-muted-foreground">{blog.data.shortContent}</div>
                     </Link>
                   )
                 })}
