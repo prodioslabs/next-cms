@@ -199,7 +199,13 @@ export default function BaseForm({
                           fieldName={fieldName}
                           control={form.control}
                           renderInput={({ value, onChange }) => {
-                            return <ImageUploader uploadedImage={value} onChange={onChange} field={fieldSchema} />
+                            return (
+                              <ImageUploader
+                                uploadedImage={value}
+                                onChange={onChange}
+                                required={fieldSchema.required ?? false}
+                              />
+                            )
                           }}
                           cmsField={fieldSchema}
                           plugins={pluginsToRender}

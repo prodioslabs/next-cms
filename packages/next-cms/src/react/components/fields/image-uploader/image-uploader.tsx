@@ -5,18 +5,18 @@ import Image from 'next/image'
 import { Loader2, Trash } from 'lucide-react'
 import { useState } from 'react'
 import { Uploader, Button, cn } from 'ui'
-import { CMSImageData, CMSImageField } from '../../../../types/field'
+import { CMSImageData } from '../../../../types/field'
 import { uploadImage } from './queries'
 
 type ImageUploaderProps = {
-  field: CMSImageField
+  required: boolean
   uploadedImage?: CMSImageData
   onChange?: (uploadImage: CMSImageData | null) => void
   className?: string
   style?: React.CSSProperties
 }
 
-export default function ImageUploader({ field, uploadedImage, onChange, className, style }: ImageUploaderProps) {
+export default function ImageUploader({ required, uploadedImage, onChange, className, style }: ImageUploaderProps) {
   const [progress, setProgress] = useState(0)
   const mutation = useMutation(
     (file: File) =>
@@ -64,7 +64,7 @@ export default function ImageUploader({ field, uploadedImage, onChange, classNam
               {uploadedImage.width}x{uploadedImage.height}
             </div>
           </div>
-          {!field.required ? (
+          {!required ? (
             <Button
               icon={<Trash />}
               size="icon"

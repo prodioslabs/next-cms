@@ -30,6 +30,7 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
+  DialogClose,
 } from 'ui'
 import { z } from 'zod'
 
@@ -72,8 +73,6 @@ export default function TableMenu({ editor, className, style }: TableMenuProps) 
     },
   })
 
-  const [dialogOpen, setDialogOpen] = useState(false)
-
   const handleInsertTable = useCallback(
     (rows: number, cols: number) => {
       editor.chain().focus().insertTable({ rows, cols, withHeaderRow: true }).run()
@@ -84,8 +83,10 @@ export default function TableMenu({ editor, className, style }: TableMenuProps) 
     [editor],
   )
 
+  const [customTableDialogOpen, setCustomTableDialogOpen] = useState(false)
+
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+    <Dialog open={customTableDialogOpen} onOpenChange={setCustomTableDialogOpen}>
       <Menubar className="border-none p-0">
         <MenubarMenu>
           <MenubarTrigger asChild>
@@ -202,6 +203,7 @@ export default function TableMenu({ editor, className, style }: TableMenuProps) 
               event.stopPropagation()
               form.handleSubmit(({ rows, cols }) => {
                 handleInsertTable(rows, cols)
+                setCustomTableDialogOpen(false)
               })(event)
             }}
             className="space-y-4"
@@ -251,14 +253,9 @@ export default function TableMenu({ editor, className, style }: TableMenuProps) 
               }}
             />
             <DialogFooter>
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  setDialogOpen(false)
-                }}
-              >
-                Cancel
-              </Button>
+              <DialogClose asChild>
+                <Button variant="ghost">Cancel</Button>
+              </DialogClose>
               <Button type="submit">Submit</Button>
             </DialogFooter>
           </form>
