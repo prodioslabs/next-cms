@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import React from 'react'
-import { Markdown } from 'next-cms/react'
 import { type CMSImageData } from 'next-cms'
 import { cn, Button, LucideIcon } from 'ui'
 
@@ -28,11 +27,11 @@ export default function HeroSection({
       {/** Grid */}
       <div className="grid gap-4 md:grid-cols-2 md:items-center md:gap-8 xl:gap-20">
         <div>
-          <h1 className="block text-3xl font-bold text-gray-800 dark:text-white sm:text-4xl lg:text-6xl lg:leading-tight">
-            <Markdown>{title}</Markdown>
+          <h1 className="block text-3xl font-bold text-foreground sm:text-4xl lg:text-6xl lg:leading-tight">
+            <div dangerouslySetInnerHTML={{ __html: title }} />
           </h1>
-          <div className="mt-3 text-lg text-gray-800 dark:text-gray-400">
-            <Markdown>{description}</Markdown>
+          <div className="mt-3 text-lg text-muted-foreground">
+            <div dangerouslySetInnerHTML={{ __html: description }} />
           </div>
 
           {/** Buttons */}

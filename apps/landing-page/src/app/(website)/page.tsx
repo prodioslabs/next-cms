@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Markdown, createCollectionReader, createSingletonReader } from 'next-cms/react'
+import { createCollectionReader, createSingletonReader } from 'next-cms/react'
 import config from '~/cms.config'
 import HeroSection from '~/components/hero-section'
 
@@ -50,10 +50,10 @@ export default function Home() {
                         className="h-48 w-full object-cover"
                       />
                       <div className="bg-background p-4">
-                        <div className="line-clamp-2 font-medium text-foreground">{blog.data.title}</div>
-                        <div className="line-clamp-2 text-sm text-muted-foreground">
-                          <Markdown>{blog.data.content}</Markdown>
-                        </div>
+                        <div
+                          dangerouslySetInnerHTML={{ __html: blog.data.content }}
+                          className="prose-sm line-clamp-2 text-sm text-muted-foreground"
+                        />
                       </div>
                     </Link>
                   )
