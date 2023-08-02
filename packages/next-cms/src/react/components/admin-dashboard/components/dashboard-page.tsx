@@ -11,6 +11,7 @@ import CollectionNewItemContentManager from './collection-new-item-content-manag
 import CollectionPageLayout from './collection-page-layout'
 import CollectionElementPage from './collection-element-page'
 import LoginPage from './login-page'
+import MediaLibrary from './media-library'
 
 export default function createDashboardPage<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
@@ -46,6 +47,12 @@ export default function createDashboardPage<
     switch (pageType) {
       case 'login': {
         return <LoginPage />
+      }
+
+      case 'media-library': {
+        const parentFolderId = slug[1]
+
+        return <MediaLibrary folderId={parentFolderId} />
       }
 
       case 'singleton': {

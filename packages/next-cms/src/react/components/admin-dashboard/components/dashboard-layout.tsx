@@ -53,6 +53,13 @@ export default function createDashboardLayout<
         <div className="flex">
           <div className="sticky top-0 flex h-screen w-[240px] flex-col border-r">
             <div className="flex-1 space-y-4 overflow-auto px-2 py-4">
+              <NavLink
+                href="/cms/admin/media-library"
+                className="block rounded-md border border-transparent p-2 text-sm text-muted-foreground hover:border-border hover:bg-muted"
+                activeClassName="text-secondary-foreground border-border bg-muted"
+              >
+                Media Library
+              </NavLink>
               <div className="space-y-2">
                 <div className="flex items-center px-2 text-xs uppercase text-secondary-foreground">
                   <FolderOpen className="mr-1 h-4 w-4" />
