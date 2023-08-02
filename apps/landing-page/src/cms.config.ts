@@ -108,6 +108,11 @@ const config = createCMSConfig({
           from: 'title',
           required: true,
         },
+        shortContent: {
+          label: 'Short Content',
+          type: 'text',
+          required: true,
+        },
         content: {
           label: 'Content',
           type: 'rich-text',

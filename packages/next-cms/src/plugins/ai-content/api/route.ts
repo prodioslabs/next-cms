@@ -18,7 +18,7 @@ export async function generateAIContent(request: Request) {
     const promptTemplate =
       fieldType === 'text'
         ? 'You are a professional chatbot meant to help the user of a CMS generate content for their website. Generate the content based on Message. Limit the content to no more than 1 paragraph.\n\nMessage: {message}\n\nContent:'
-        : 'You are a professional chatbot meant to help the user of a CMS generate content for their website. Generate the content in markdown based on the Message. Limit the content to no more than 2 paragraphs.\n\nMessage: {message}\n\nContent:'
+        : 'You are a professional chatbot meant to help the user of a CMS generate content for their website. Generate the content in html based on the Message.\n\nMessage: {message}\n\nContent:'
 
     const prompt = new PromptTemplate({ template: promptTemplate, inputVariables: ['message'] })
     const chain = new LLMChain({ llm, prompt })

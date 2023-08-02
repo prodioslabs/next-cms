@@ -23,14 +23,14 @@ export default function HeroSection({
   ...rest
 }: HeroSectionProps) {
   return (
-    <div className={cn('mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8', className)} {...rest}>
+    <div className={cn('mx-auto max-w-screen-xl', className)} {...rest}>
       {/** Grid */}
       <div className="grid gap-4 md:grid-cols-2 md:items-center md:gap-8 xl:gap-20">
         <div>
           <h1 className="block text-3xl font-bold text-foreground sm:text-4xl lg:text-6xl lg:leading-tight">
             <div dangerouslySetInnerHTML={{ __html: title }} />
           </h1>
-          <div className="mt-3 text-lg text-muted-foreground">
+          <div className="mt-3 text-base text-muted-foreground lg:text-lg">
             <div dangerouslySetInnerHTML={{ __html: description }} />
           </div>
 

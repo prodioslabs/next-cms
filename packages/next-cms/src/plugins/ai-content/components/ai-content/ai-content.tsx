@@ -6,7 +6,6 @@ import { Sparkles, Trash2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useMutation } from '@tanstack/react-query'
-import ReactMarkdown from 'react-markdown'
 import {
   Button,
   Form,
@@ -129,9 +128,10 @@ export default function AIContent({ field, updateField }: CMSPluginComponentProp
                   {messages.map((message, index) => {
                     return (
                       <div key={`${message.slice(100)}-${index}`} className="space-y-4 rounded-md border p-4">
-                        <ReactMarkdown className="prose prose-sm text-sm text-muted-foreground dark:prose-invert">
-                          {message}
-                        </ReactMarkdown>
+                        <div
+                          className="prose prose-sm text-sm text-muted-foreground dark:prose-invert"
+                          dangerouslySetInnerHTML={{ __html: message }}
+                        />
                         <div className="flex space-x-2">
                           <Button
                             variant="secondary"
