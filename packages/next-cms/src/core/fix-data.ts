@@ -24,7 +24,11 @@ export function generateDummyDataForField(field: CMSField) {
       return faker.lorem.sentence()
 
     case 'rich-text':
-      return faker.lorem.paragraphs()
+      return faker.lorem
+        .paragraphs(2)
+        .split('\n')
+        .map((content) => `<p>${content}</p>`)
+        .join('')
 
     case 'number':
       return faker.number.int()

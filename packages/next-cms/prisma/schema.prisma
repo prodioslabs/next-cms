@@ -43,3 +43,22 @@ model SingletonData {
   mode DataMode @default(DRAFT)
   data Json
 }
+
+// Media Library
+model Folder {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  parent   Folder?  @relation("NestedFolder", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  parentId String?  @db.ObjectId
+  children Folder[] @relation("NestedFolder")
+  file     File[]
+}
+
+// Media Library
+model File {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  path     String
+  name     String
+  parent   Folder? @relation(fields: [parentId], references: [id])
+  parentId String? @db.ObjectId
+}
