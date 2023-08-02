@@ -33,6 +33,7 @@ import {
 } from 'ui'
 import LinkButton from './link-button'
 import TableMenu from './table-menu'
+import ImageButton from './image-button'
 
 type EditorToolbarProps = {
   editor: Editor
@@ -213,6 +214,7 @@ export default function EditorToolbar({ editor, className, style }: EditorToolba
         </Toggle>
       ) : null}
       <TableMenu editor={editor} />
+      <ImageButton editor={editor} />
       <Toggle
         onPressedChange={() => {
           editor.chain().focus().undo().run()
