@@ -12,7 +12,6 @@
     "packages/*",
     "apps/*"
   ],
-  "dependencies": {},
   "devDependencies": {
     "turbo": "^1.10.12"
   }

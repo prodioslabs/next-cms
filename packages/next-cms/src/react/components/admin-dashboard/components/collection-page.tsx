@@ -52,6 +52,7 @@ export default function CollectionPage({ collection, collectionName, className, 
 
   return (
     <>
+      <title>Content Manager - {collection.label}</title>
       <div className={cn('space-y-4', className)} style={style}>
         <div className="flex items-center">
           <div className="flex-1 text-base font-medium text-foreground">Items</div>

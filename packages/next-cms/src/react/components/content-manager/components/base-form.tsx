@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { FileWarning } from 'lucide-react'
 import slugify from 'slugify'
-import dynamic from 'next/dynamic'
 import deepEqual from 'fast-deep-equal/es6'
 import {
   cn,
@@ -25,24 +24,19 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Loader,
   useToast,
 } from 'ui'
 import { getValidationSchemaForSchema } from '../../../../core/validation'
-import ImageUploader from '../../fields/image-uploader'
-import SlugInput from '../../fields/slug-input/slug-input'
-import IconSelector from '../../fields/icon-selector'
-import { ContentManagerProps } from '../types'
 import InputField from '../../input-field'
 import { parseDate, stringifyDate } from '../../../../utils/date'
 import { pick } from '../../../../utils/object'
+import { ContentManagerProps } from '../types'
 import { CMSField } from '../../../../types/field'
+import ImageUploader from '../../fields/image-uploader'
+import SlugInput from '../../fields/slug-input/slug-input'
+import IconSelector from '../../fields/icon-selector'
 import VideoUploader from '../../fields/video-uploader'
-
-const Editor = dynamic(() => import('../../fields/editor'), {
-  ssr: false,
-  loading: () => <Loader message="Loading Editor..." variant="outline" />,
-})
+import TiptapEditor from '../../fields/tiptap-editor'
 
 export type BaseFormProps = Omit<ContentManagerProps, 'config' | 'onUpdate' | 'redirectToOnSave'> & {
   onSubmit: (data: any) => void
@@ -131,7 +125,7 @@ export default function BaseForm({
                           fieldName={fieldName}
                           control={form.control}
                           renderInput={(props) => {
-                            return <Editor {...props} />
+                            return <TiptapEditor {...props} />
                           }}
                           cmsField={fieldSchema}
                           plugins={pluginsToRender}
@@ -205,7 +199,13 @@ export default function BaseForm({
                           fieldName={fieldName}
                           control={form.control}
                           renderInput={({ value, onChange }) => {
-                            return <ImageUploader uploadedImage={value} onChange={onChange} field={fieldSchema} />
+                            return (
+                              <ImageUploader
+                                uploadedImage={value}
+                                onChange={onChange}
+                                required={fieldSchema.required ?? false}
+                              />
+                            )
                           }}
                           cmsField={fieldSchema}
                           plugins={pluginsToRender}
