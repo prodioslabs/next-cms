@@ -10,7 +10,8 @@
   },
   "scripts": {
     "build": "tsup ./src/index.ts",
-    "test": "vitest"
+    "test": "vitest",
+    "db:push": "prisma db push"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
