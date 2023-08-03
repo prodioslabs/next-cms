@@ -35,8 +35,7 @@ yarn-error.log*
 next-env.d.ts
 
 # CMS content
-/public/uploads
-content/**/data.json
+**/public/uploads
 
 # env
 .env
