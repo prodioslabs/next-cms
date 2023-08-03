@@ -9,9 +9,9 @@ import {
   updateFolderSchema,
 } from './media.schema'
 
-export const FOLDER_SELECT_FIELDS = {
+export const FOLDER_INCLUDE_FIELDS = {
   parent: true,
-} as const satisfies Prisma.FolderSelect
+} as const satisfies Prisma.FolderInclude
 
 export function createFolder(input: z.infer<typeof createFolderSchema>, prisma: PrismaClient) {
   return prisma.folder.create({
@@ -25,7 +25,7 @@ export function createFolder(input: z.infer<typeof createFolderSchema>, prisma: 
           }
         : undefined,
     },
-    select: FOLDER_SELECT_FIELDS,
+    include: FOLDER_INCLUDE_FIELDS,
   })
 }
 
@@ -42,7 +42,7 @@ export function updateFolder(input: z.infer<typeof updateFolderSchema>, prisma: 
           }
         : undefined,
     },
-    select: FOLDER_SELECT_FIELDS,
+    include: FOLDER_INCLUDE_FIELDS,
   })
 }
 
@@ -51,13 +51,13 @@ export function deleteFolder(input: z.infer<typeof deleteFolderSchema>, prisma: 
     where: {
       id: input.id,
     },
-    select: FOLDER_SELECT_FIELDS,
+    include: FOLDER_INCLUDE_FIELDS,
   })
 }
 
-export const FILE_SELECT_FIELDS = {
+export const FILE_INCLUDE_FIELDS = {
   parent: true,
-} as const satisfies Prisma.FileSelect
+} as const satisfies Prisma.FileInclude
 
 export function createFile(input: z.infer<typeof createFileSchema>, prisma: PrismaClient) {
   return prisma.file.create({
@@ -66,7 +66,7 @@ export function createFile(input: z.infer<typeof createFileSchema>, prisma: Pris
       path: input.path,
       parent: input.folder ? { connect: { id: input.folder } } : undefined,
     },
-    select: FILE_SELECT_FIELDS,
+    include: FILE_INCLUDE_FIELDS,
   })
 }
 
@@ -80,7 +80,7 @@ export function updateFile(input: z.infer<typeof updateFileSchema>, prisma: Pris
       path: input.path,
       parent: input.folder ? { connect: { id: input.folder } } : undefined,
     },
-    select: FILE_SELECT_FIELDS,
+    include: FILE_INCLUDE_FIELDS,
   })
 }
 
@@ -89,12 +89,12 @@ export function deleteFile(input: z.infer<typeof updateFileSchema>, prisma: Pris
     where: {
       id: input.id,
     },
-    select: FILE_SELECT_FIELDS,
+    include: FILE_INCLUDE_FIELDS,
   })
 }
 
-export function getFolderContent(input: z.infer<typeof getFolderContentSchema>, prisma: PrismaClient) {
-  return Promise.all([
+export async function getFolderContent(input: z.infer<typeof getFolderContentSchema>, prisma: PrismaClient) {
+  const [folders, files] = await Promise.all([
     prisma.folder.findMany({
       where: {
         parentId: input.id,
@@ -106,4 +106,5 @@ export function getFolderContent(input: z.infer<typeof getFolderContentSchema>, 
       },
     }),
   ])
+  return { folders, files }
 }

@@ -61,4 +61,5 @@ model File {
   name     String
   parent   Folder? @relation(fields: [parentId], references: [id])
   parentId String? @db.ObjectId
+  metadata Json?
 }
