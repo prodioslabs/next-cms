@@ -1,10 +1,11 @@
 'use client'
 
 import { Button, Loader, PageHeading, useToast } from 'ui'
-import { Folder, Image, PackageOpen, Plus, Upload } from 'lucide-react'
+import { Image, PackageOpen, Plus, Upload } from 'lucide-react'
 import { useMemo } from 'react'
 import { api } from '../../../../server/api'
 import CreateFolder from './create-folder'
+import FolderCard from './folder-card'
 
 type MediaLibraryProps = {
   folderId?: string
@@ -44,10 +45,16 @@ export default function MediaLibrary({ folderId }: MediaLibraryProps) {
         <div className="grid grid-cols-4 gap-4">
           {folderContentQuery.data.folders.map((folder) => {
             return (
-              <div className="flex items-center space-x-2 rounded-md border bg-background px-4 py-3" key={folder.id}>
-                <Folder className="h-4 w-4 text-muted-foreground" />
-                <div className="flex-1 truncate text-sm text-foreground">{folder.name}</div>
-              </div>
+              <FolderCard
+                key={folder.id}
+                folder={folder}
+                onDelete={() => {
+                  folderContentQuery.refetch()
+                }}
+                onRename={() => {
+                  folderContentQuery.refetch()
+                }}
+              />
             )
           })}
         </div>
