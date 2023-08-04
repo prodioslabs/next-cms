@@ -5,7 +5,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:push": "env-cmd npm --workspace=next-cms run db:push"
+    "db:push": "env-cmd npm --workspace=next-cms run db:push",
+    "prettier": "prettier --write ./src/*/*.{ts,tsx} --ignore-path=../../.prettierignore"
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.6.0",

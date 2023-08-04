@@ -3,7 +3,8 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
-    "build": "tsup ./src/index.ts"
+    "build": "tsup ./src/index.ts",
+    "format": "prettier --write ./src/*/*.{ts,tsx} --ignore-path=../../.prettierignore"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.0.4",
