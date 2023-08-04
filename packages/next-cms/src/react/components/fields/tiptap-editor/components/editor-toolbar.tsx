@@ -12,28 +12,14 @@ import {
   TerminalSquare,
   Underline,
   Quote,
-  RemoveFormatting,
   Undo,
   Redo,
-  Unlink,
 } from 'lucide-react'
-import {
-  Toggle,
-  cn,
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectValue,
-  SelectItem,
-  ColorPicker,
-  TooltipProvider,
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from 'ui'
+import { Toggle, cn, Select, SelectTrigger, SelectContent, SelectValue, SelectItem } from 'ui'
 import LinkButton from './link-button'
 import TableMenu from './table-menu'
 import ImageButton from './image-button'
+import ColorButton from './color-button'
 
 type EditorToolbarProps = {
   editor: Editor
@@ -177,42 +163,8 @@ export default function EditorToolbar({ editor, className, style }: EditorToolba
           })}
         </SelectContent>
       </Select>
-      <ColorPicker
-        showColor={false}
-        value={editor.getAttributes('textStyle')?.color as string | undefined}
-        onChange={(value) => {
-          editor.chain().focus().setColor(value).run()
-        }}
-      />
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Toggle
-              onPressedChange={() => {
-                editor.chain().focus().unsetColor().run()
-              }}
-              pressed={false}
-              variant="outline"
-            >
-              <RemoveFormatting className="h-4 w-4" />
-            </Toggle>
-          </TooltipTrigger>
-          <TooltipContent>Remove Color</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <ColorButton editor={editor} />
       <LinkButton editor={editor} />
-      {editor.isActive('link') ? (
-        <Toggle
-          variant="outline"
-          pressed={false}
-          disabled={!editor.isActive('link')}
-          onPressedChange={() => {
-            editor.chain().focus().unsetLink().run()
-          }}
-        >
-          <Unlink className="h-4 w-4" />
-        </Toggle>
-      ) : null}
       <TableMenu editor={editor} />
       <ImageButton editor={editor} />
       <Toggle

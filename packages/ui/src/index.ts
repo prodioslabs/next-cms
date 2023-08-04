@@ -2,6 +2,7 @@
 export * from './components/button'
 export * from './components/calendar'
 export * from './components/checkbox'
+export * from './components/color-palette'
 export * from './components/color-picker'
 export * from './components/command'
 export * from './components/context-menu'
