@@ -510,3 +510,66 @@ test('should fix multiple deeply nested object data when partial data is present
     'fixedData.objectField.imageField.url should of type string',
   )
 })
+
+test('should fix object data when string data is present', () => {
+  const schema = {
+    objectField: {
+      label: 'Object Field',
+      type: 'object',
+      required: true,
+      multiple: true,
+      schema: {
+        stringField: {
+          label: 'String Field',
+          type: 'text',
+        },
+      },
+    },
+  } satisfies Schema
+
+  const data = { objectField: ['invalid data'] }
+
+  const validationSchema = getValidationSchemaForSchema(schema)
+
+  const result = validationSchema.safeParse(data)
+  assert(result.success === false, 'data should be invalid')
+
+  const fixedData = fixData(schema, data, result.error)
+  assert(typeof fixedData.objectField[0] === 'object', 'fixedData.objectField should of type object')
+  assert(
+    typeof fixedData.objectField[0].stringField === 'string',
+    'fixedData.objectField.stringField should of type string',
+  )
+})
+
+test('should fix object data when invalid object data is present', () => {
+  const schema = {
+    objectField: {
+      label: 'Object Field',
+      type: 'object',
+      required: true,
+      multiple: true,
+      schema: {
+        stringField: {
+          label: 'String Field',
+          type: 'text',
+          required: true,
+        },
+      },
+    },
+  } satisfies Schema
+
+  const data = { objectField: [{ invalidField: 'invalidData' }] }
+
+  const validationSchema = getValidationSchemaForSchema(schema)
+
+  const result = validationSchema.safeParse(data)
+  assert(result.success === false, 'data should be invalid')
+
+  const fixedData = fixData(schema, data, result.error)
+  assert(typeof fixedData.objectField[0] === 'object', 'fixedData.objectField should of type object')
+  assert(
+    typeof fixedData.objectField[0].stringField === 'string',
+    'fixedData.objectField.stringField should of type string',
+  )
+})
