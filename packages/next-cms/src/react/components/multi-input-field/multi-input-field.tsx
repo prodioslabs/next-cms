@@ -24,7 +24,7 @@ function MultiInputField(
   { fieldName, control, renderInput, cmsField, plugins, className, style }: MultiInputFieldProps,
   ref: React.ForwardedRef<HTMLDivElement>,
 ) {
-  const { fields, append, remove, swap } = useFieldArray({ name: fieldName, control })
+  const { fields, append, remove, move } = useFieldArray({ name: fieldName, control })
   return (
     <div className={cn('space-y-4', className)} ref={ref}>
       <SortableList
@@ -35,7 +35,7 @@ function MultiInputField(
           const fromIndex = fields?.findIndex((item) => item.id === active.id)
           const toIndex = fields?.findIndex((item) => item.id === over!.id)
           if (typeof fromIndex !== 'undefined' && typeof toIndex !== 'undefined') {
-            swap(fromIndex, toIndex)
+            move(fromIndex, toIndex)
           }
         }}
         renderItem={({ id }, index) => {
