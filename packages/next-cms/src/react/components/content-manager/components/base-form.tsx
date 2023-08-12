@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { FileWarning } from 'lucide-react'
 import slugify from 'slugify'
-import deepEqual from 'fast-deep-equal/es6'
 import {
   cn,
   Form,
@@ -29,7 +28,6 @@ import {
 import { getValidationSchemaForSchema } from '../../../../core/validation'
 import InputField from '../../input-field'
 import { parseDate, stringifyDate } from '../../../../utils/date'
-import { pick } from '../../../../utils/object'
 import { ContentManagerProps } from '../types'
 import { CMSField } from '../../../../types/field'
 import ImageUploader from '../../fields/image-uploader'
@@ -62,13 +60,6 @@ export default function BaseForm({
     resolver: zodResolver(validationSchema),
     defaultValues: initialData,
   })
-  const values = form.watch()
-
-  const isDataChanged = useMemo(() => {
-    const schemaKeys = Object.keys(schema)
-    // only compare the values which are present in schema
-    return !deepEqual(pick(values, schemaKeys), pick(initialData, schemaKeys))
-  }, [values, initialData, schema])
 
   const { toast } = useToast()
 
@@ -327,7 +318,7 @@ export default function BaseForm({
 
   return (
     <>
-      <title>{`${isDataChanged ? '🟡 ' : ''}Content Manager${title ? ` | ${title}` : ''}`}</title>
+      <title>{`${form.formState.isDirty ? '🟡 ' : ''}Content Manager${title ? ` | ${title}` : ''}`}</title>
       <div className={cn('rounded-md border', className)} style={style}>
         <Form {...form}>
           <form
@@ -338,7 +329,7 @@ export default function BaseForm({
           >
             <div className="space-y-8 p-4">{renderForm(schema)}</div>
             <div className="flex items-center justify-end space-x-4 border-t bg-muted px-4 py-2">
-              {isDataChanged ? (
+              {form.formState.isDirty ? (
                 <div className="flex items-center text-sm text-muted-foreground">
                   <FileWarning className="mr-1 h-5 w-5" />
                   Unsaved Changes

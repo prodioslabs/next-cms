@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import { DndContext, KeyboardSensor, PointerSensor, UniqueIdentifier, useSensor, useSensors } from '@dnd-kit/core'
 import type { Active, DragEndEvent } from '@dnd-kit/core'
-import { SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
+import { SortableContext, rectSortingStrategy, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import { Slot } from '@radix-ui/react-slot'
 import SortableOverlay from './components/sortable-overlay'
 import SortableItem from './components/sortable-item'
@@ -53,7 +53,7 @@ export default function SortableList<T extends any>({
         setActive(undefined)
       }}
     >
-      <SortableContext items={items}>
+      <SortableContext items={items} strategy={rectSortingStrategy}>
         <div className={className} style={style}>
           {items.map((item, index) => (
             <Slot key={item.id}>{renderItem(item, index)}</Slot>
