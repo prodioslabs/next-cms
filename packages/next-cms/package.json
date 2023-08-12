@@ -9,7 +9,6 @@
     "./plugins": "./src/plugins/index.ts"
   },
   "scripts": {
-    "build": "tsup ./src/index.ts",
     "test": "vitest",
     "db:push": "prisma db push",
     "format": "prettier --write ./src/*/*.{ts,tsx} --ignore-path=../../.prettierignore"
