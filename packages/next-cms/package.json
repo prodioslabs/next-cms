@@ -63,7 +63,7 @@
     "slugify": "^1.6.6",
     "superjson": "^1.13.1",
     "tiny-invariant": "^1.3.1",
-    "ui": "*",
+    "ui": "workspace:*",
     "unsplash-js": "^7.0.18",
     "use-debounce": "^9.0.4",
     "zod": "^3.21.4"
@@ -71,11 +71,11 @@
   "devDependencies": {
     "@types/react": "^18.2.14",
     "autoprefixer": "10.4.14",
-    "eslint-custom-config": "*",
+    "eslint-custom-config": "workspace:*",
     "postcss": "^8.4.27",
-    "prettier-config": "*",
+    "prettier-config": "workspace:*",
     "prisma": "^5.0.0",
-    "tailwind-config": "*",
+    "tailwind-config": "workspace:*",
     "tsup": "^7.1.0",
     "typescript": "^5.1.3",
     "vitest": "^0.33.0"

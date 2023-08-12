@@ -32,10 +32,10 @@
     "@tailwindcss/typography": "^0.5.9",
     "@types/react": "^18.2.14",
     "autoprefixer": "10.4.14",
-    "eslint-custom-config": "*",
+    "eslint-custom-config": "workspace:*",
     "postcss": "^8.4.27",
-    "prettier-config": "*",
-    "tailwind-config": "*",
+    "prettier-config": "workspace:*",
+    "tailwind-config": "workspace:*",
     "tailwindcss": "^3.3.3",
     "tsup": "^7.1.0",
     "typescript": "^5.1.3"

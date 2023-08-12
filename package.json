@@ -8,11 +8,6 @@
     "lint": "turbo lint",
     "format": "turbo format"
   },
-  "private": true,
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
   "devDependencies": {
     "turbo": "^1.10.12"
   }
