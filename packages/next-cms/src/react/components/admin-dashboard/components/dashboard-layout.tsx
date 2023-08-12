@@ -9,6 +9,7 @@ import Providers from './providers'
 import { authOptions } from '../../../../core/auth'
 import DashboardPanel from './dashboard-panel'
 import DashboardMenu from './dashboard-menu'
+import SidebarLabel from './sidebar-label'
 
 async function getServerSession() {
   try {
@@ -54,47 +55,32 @@ export default function createDashboardLayout<
           sidebar={
             <div className="flex h-full flex-col">
               <div className="flex-1 space-y-4 overflow-y-auto overflow-x-hidden px-2 py-4">
-                <NavLink
-                  href="/cms/admin/media-library"
-                  className="flex items-center space-x-2 truncate rounded-md border border-transparent p-1.5 text-sm text-muted-foreground hover:border-border hover:bg-muted"
-                  activeClassName="text-secondary-foreground border-border bg-muted"
-                >
-                  <Image className="h-4 w-4 flex-shrink-0" />
-                  <span className="flex-1 truncate">Media Library</span>
-                </NavLink>
+                <NavLink href="/cms/admin/media-library" icon={<Image />} label="Media Library" />
                 <div className="border-b border-border" />
                 <div className="space-y-2">
-                  <div className="flex items-center px-1.5 text-xs uppercase text-secondary-foreground">
-                    Collections
-                  </div>
+                  <SidebarLabel>Collections</SidebarLabel>
                   {Object.entries(config.collections).map(([collectionKey, collection]) => {
                     return (
                       <NavLink
                         href={`/cms/admin/collection/${collectionKey}`}
                         key={collectionKey}
-                        className="flex items-center space-x-2 truncate rounded-md border border-transparent p-1.5 text-sm text-muted-foreground hover:border-border hover:bg-muted"
-                        activeClassName="text-secondary-foreground border-border bg-muted"
-                      >
-                        <FolderOpen className="h-4 w-4 flex-shrink-0" />
-                        <span className="flex-1 truncate">{collection.label}</span>
-                      </NavLink>
+                        icon={<FolderOpen />}
+                        label={collection.label}
+                      />
                     )
                   })}
                 </div>
                 <div className="border-b border-border" />
                 <div className="space-y-2">
-                  <div className="flex items-center px-1.5 text-xs uppercase text-secondary-foreground">Singletons</div>
+                  <SidebarLabel>Singletons</SidebarLabel>
                   {Object.entries(config.singletons).map(([singletonName, singleton]) => {
                     return (
                       <NavLink
                         href={`/cms/admin/singleton/${singletonName}`}
                         key={singletonName}
-                        className="flex items-center space-x-2 truncate rounded-md border border-transparent p-1.5 text-sm text-muted-foreground hover:border-border hover:bg-muted"
-                        activeClassName="text-secondary-foreground border-border bg-muted"
-                      >
-                        <File className="h-4 w-4 flex-shrink-0" />
-                        <span className="flex-1 truncate">{singleton.label}</span>
-                      </NavLink>
+                        icon={<File />}
+                        label={singleton.label}
+                      />
                     )
                   })}
                 </div>

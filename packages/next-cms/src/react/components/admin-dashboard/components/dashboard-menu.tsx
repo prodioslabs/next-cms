@@ -16,8 +16,11 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from 'ui'
+import { useStore } from '../../../stores'
 
 export default function DashboardMenu() {
+  const sidebarCollapsed = useStore((store) => store.sidebarCollapsed)
+
   const mutation = useMutation(() => signOut({ redirect: false, callbackUrl: '/' }), {
     onSuccess: (result) => {
       if (result.url) {
@@ -33,7 +36,7 @@ export default function DashboardMenu() {
       <MenubarMenu>
         <MenubarTrigger asChild>
           <Button icon={<Settings />} variant="outline" className="w-full">
-            Settings
+            {sidebarCollapsed ? null : 'Settings'}
           </Button>
         </MenubarTrigger>
         <MenubarContent>
