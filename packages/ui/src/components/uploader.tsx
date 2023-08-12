@@ -1,3 +1,5 @@
+'use client'
+
 import { DropzoneOptions, useDropzone } from 'react-dropzone'
 import { Upload } from 'lucide-react'
 import { cn } from '../lib/utils'

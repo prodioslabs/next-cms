@@ -1,16 +1,16 @@
-import * as LucideIcons from 'lucide-react'
+import { icons } from 'lucide-react'
 
-type LucideIconProps = React.ComponentProps<(typeof LucideIcons)['Accessibility']> & {
-  name: string
+type LucideIconProps = React.ComponentProps<typeof icons.Accessibility> & {
+  name: keyof typeof icons
 }
 
 export function LucideIcon({ name, ...rest }: LucideIconProps) {
-  if (name in LucideIcons && name !== 'createLucideIcon') {
-    const Icon = LucideIcons[name as Exclude<keyof typeof LucideIcons, 'createLucideIcon'>]
+  if (name in icons) {
+    const Icon = icons[name]
     return <Icon {...rest} />
   }
 
   // eslint-disable-next-line no-console
   console.warn(`Icon "${name}" does not exist. Using default ShieldQuestion icon`)
-  return <LucideIcons.ShieldQuestion {...rest} />
+  return <icons.ShieldQuestion {...rest} />
 }
