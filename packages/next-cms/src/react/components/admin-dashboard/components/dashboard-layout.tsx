@@ -52,15 +52,15 @@ export default function createDashboardLayout<
       <Providers session={session}>
         <DashboardPanel
           sidebar={
-            <div className="sticky top-0 flex h-screen w-[240px] flex-col border-r">
-              <div className="flex-1 space-y-4 overflow-auto px-2 py-4">
+            <div className="flex h-full flex-col">
+              <div className="flex-1 space-y-4 overflow-y-auto overflow-x-hidden px-2 py-4">
                 <NavLink
                   href="/cms/admin/media-library"
-                  className="flex items-center space-x-2 rounded-md border border-transparent p-1.5 text-sm text-muted-foreground hover:border-border hover:bg-muted"
+                  className="flex items-center space-x-2 truncate rounded-md border border-transparent p-1.5 text-sm text-muted-foreground hover:border-border hover:bg-muted"
                   activeClassName="text-secondary-foreground border-border bg-muted"
                 >
-                  <Image className="h-4 w-4" />
-                  <span>Media Library</span>
+                  <Image className="h-4 w-4 flex-shrink-0" />
+                  <span className="flex-1 truncate">Media Library</span>
                 </NavLink>
                 <div className="border-b border-border" />
                 <div className="space-y-2">
@@ -72,11 +72,11 @@ export default function createDashboardLayout<
                       <NavLink
                         href={`/cms/admin/collection/${collectionKey}`}
                         key={collectionKey}
-                        className="flex items-center space-x-2 rounded-md border border-transparent p-1.5 text-sm text-muted-foreground hover:border-border hover:bg-muted"
+                        className="flex items-center space-x-2 truncate rounded-md border border-transparent p-1.5 text-sm text-muted-foreground hover:border-border hover:bg-muted"
                         activeClassName="text-secondary-foreground border-border bg-muted"
                       >
-                        <FolderOpen className="h-4 w-4" />
-                        <span>{collection.label}</span>
+                        <FolderOpen className="h-4 w-4 flex-shrink-0" />
+                        <span className="flex-1 truncate">{collection.label}</span>
                       </NavLink>
                     )
                   })}
@@ -89,11 +89,11 @@ export default function createDashboardLayout<
                       <NavLink
                         href={`/cms/admin/singleton/${singletonName}`}
                         key={singletonName}
-                        className="flex items-center space-x-2 rounded-md border border-transparent p-1.5 text-sm text-muted-foreground hover:border-border hover:bg-muted"
+                        className="flex items-center space-x-2 truncate rounded-md border border-transparent p-1.5 text-sm text-muted-foreground hover:border-border hover:bg-muted"
                         activeClassName="text-secondary-foreground border-border bg-muted"
                       >
-                        <File className="h-4 w-4" />
-                        <span>{singleton.label}</span>
+                        <File className="h-4 w-4 flex-shrink-0" />
+                        <span className="flex-1 truncate">{singleton.label}</span>
                       </NavLink>
                     )
                   })}
@@ -104,7 +104,7 @@ export default function createDashboardLayout<
               </div>
             </div>
           }
-          content={<div className="flex-1 overflow-auto">{children}</div>}
+          content={<div className="h-full overflow-auto">{children}</div>}
         />
       </Providers>
     )
