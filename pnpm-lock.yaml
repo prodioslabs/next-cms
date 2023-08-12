@@ -207,6 +207,9 @@ importers:
       nanoid:
         specifier: ^4.0.2
         version: 4.0.2
+      next:
+        specifier: 13.4.7
+        version: 13.4.7(react-dom@18.2.0)(react@18.2.0)
       next-auth:
         specifier: ^4.22.1
         version: 4.22.1(next@13.4.7)(react-dom@18.2.0)(react@18.2.0)
@@ -301,6 +304,9 @@ importers:
 
   packages/tailwind-config:
     devDependencies:
+      '@tailwindcss/typography':
+        specifier: ^0.5.9
+        version: 0.5.9(tailwindcss@3.3.3)
       autoprefixer:
         specifier: ^10.4.14
         version: 10.4.14(postcss@8.4.27)
@@ -380,9 +386,6 @@ importers:
         specifier: ^1.13.2
         version: 1.13.2
     devDependencies:
-      '@tailwindcss/typography':
-        specifier: ^0.5.9
-        version: 0.5.9(tailwindcss@3.3.3)
       '@types/react':
         specifier: ^18.2.14
         version: 18.2.14

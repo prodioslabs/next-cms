@@ -1,0 +1,78 @@
+'use client'
+
+import { useMutation } from '@tanstack/react-query'
+import { Settings } from 'lucide-react'
+import { signOut } from 'next-auth/react'
+import { useTheme } from 'next-themes'
+import {
+  Button,
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
+  MenubarTrigger,
+} from 'ui'
+
+export default function DashboardMenu() {
+  const mutation = useMutation(() => signOut({ redirect: false, callbackUrl: '/' }), {
+    onSuccess: (result) => {
+      if (result.url) {
+        window.location.href = result.url
+      }
+    },
+  })
+
+  const { setTheme } = useTheme()
+
+  return (
+    <Menubar className="w-full border-none p-0">
+      <MenubarMenu>
+        <MenubarTrigger asChild>
+          <Button icon={<Settings />} variant="outline" className="w-full">
+            Settings
+          </Button>
+        </MenubarTrigger>
+        <MenubarContent>
+          <MenubarSub>
+            <MenubarSubTrigger>Theme</MenubarSubTrigger>
+            <MenubarSubContent>
+              <MenubarItem
+                onClick={() => {
+                  setTheme('light')
+                }}
+              >
+                Light
+              </MenubarItem>
+              <MenubarItem
+                onClick={() => {
+                  setTheme('dark')
+                }}
+              >
+                Dark
+              </MenubarItem>
+              <MenubarItem
+                onClick={() => {
+                  setTheme('system')
+                }}
+              >
+                System
+              </MenubarItem>
+            </MenubarSubContent>
+          </MenubarSub>
+          <MenubarSeparator />
+          <MenubarItem
+            onClick={() => {
+              mutation.mutate()
+            }}
+          >
+            Logout
+          </MenubarItem>
+        </MenubarContent>
+      </MenubarMenu>
+    </Menubar>
+  )
+}

@@ -29,7 +29,6 @@
     "tailwind-merge": "^1.13.2"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.9",
     "@types/react": "^18.2.14",
     "autoprefixer": "10.4.14",
     "eslint-custom-config": "workspace:*",
