@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.6.0",
-    "next": "13.4.7",
+    "next": "13.4.14-canary.2",
     "next-cms": "workspace:../../packages/next-cms",
     "react": "18.2.0",
     "react-dom": "18.2.0",
