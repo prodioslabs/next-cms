@@ -11,10 +11,10 @@
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.6.0",
     "next": "13.4.19",
-    "next-cms": "workspace:../../packages/next-cms",
+    "@next-cms/cms": "workspace:*",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "ui": "workspace:*",
+    "@next-cms/ui": "workspace:*",
     "zod": "^3.21.4"
   },
   "devDependencies": {

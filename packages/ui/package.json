@@ -1,5 +1,5 @@
 {
-  "name": "ui",
+  "name": "@next-cms/ui",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
