@@ -1,6 +1,6 @@
 {
   "name": "@nextjs-cms/cms",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "./src/index.ts",
   "author": "Abinash Panda",
   "license": "ISC",
@@ -12,7 +12,8 @@
     "./react": "./src/react/index.ts",
     "./core": "./src/core/index.ts",
     "./plugins": "./src/plugins/index.ts",
-    "./ui": "./src/ui/index.ts"
+    "./ui": "./src/ui/index.ts",
+    "./dist/styles.css": "./dist/styles.css"
   },
   "scripts": {
     "test": "vitest",
