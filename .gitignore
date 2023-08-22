@@ -46,3 +46,10 @@ next-env.d.ts
 
 # Rollup
 **/.rollup.cache
+
+# Generated Files
+packages/next-cms/server
+packages/next-cms/react
+packages/next-cms/core
+packages/next-cms/plugins
+packages/next-cms/ui

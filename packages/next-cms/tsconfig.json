@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -20,6 +24,14 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "./src/server/index.ts",
+    "./src/core/index.ts",
+    "./src/plugins/index.ts",
+    "./src/react/index.ts",
+    "./src/ui/index.ts",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

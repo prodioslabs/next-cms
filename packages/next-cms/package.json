@@ -12,7 +12,9 @@
   "scripts": {
     "test": "vitest",
     "db:push": "prisma db push",
+    "prebuild": "rimraf server",
     "build": "rollup --config rollup.config.ts --configPlugin typescript",
+    "postbuild": "pnpm tsc --project tsconfig.json --outDir .",
     "format": "prettier --write ./src/*/*.{ts,tsx} --ignore-path=../../.prettierignore"
   },
   "dependencies": {
