@@ -16,7 +16,7 @@ import {
   cn,
 } from 'ui'
 import { CMSIconData } from '../../../../types/field'
-import { lucideIconNames, LucideIcon } from '../../../../ui/components/lucide-icon'
+import { lucideIconNames, LucideIcon } from '../../lucide-icon'
 
 type IconSelectorProps = {
   icon?: CMSIconData

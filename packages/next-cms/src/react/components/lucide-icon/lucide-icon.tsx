@@ -16,6 +16,7 @@ export function LucideIcon({ name, ...props }: IconProps) {
     })
     return <Icon {...props} />
   }
+  // eslint-disable-next-line no-console
   console.warn(`Icon "${name}" is not supported. Falling back to Shield icon.`)
   return <Shield {...props} />
 }

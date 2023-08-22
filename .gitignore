@@ -52,4 +52,6 @@ packages/next-cms/server
 packages/next-cms/react
 packages/next-cms/core
 packages/next-cms/plugins
-packages/next-cms/ui
+packages/next-cms/utils
+packages/next-cms/types
+packages/next-cms/*.d.ts

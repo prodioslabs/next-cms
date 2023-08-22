@@ -10,7 +10,6 @@
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
     "esModuleInterop": true,
     "module": "ESNext",
     "moduleResolution": "node",
@@ -22,16 +21,27 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "baseUrl": ".",
+    "rootDir": "src",
+    "outDir": ".",
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "paths": {
+      "next": [
+        "node_modules/next"
+      ],
+      "react": [
+        "node_modules/react"
+      ]
+    }
   },
   "include": [
-    "./src/server/index.ts",
-    "./src/core/index.ts",
-    "./src/plugins/index.ts",
-    "./src/react/index.ts",
-    "./src/ui/index.ts",
+    "./src/**/*.ts",
+    "./src/**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "./*.d.ts",
   ]
 }
