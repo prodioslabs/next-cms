@@ -1,6 +1,6 @@
 {
   "name": "@nextjs-cms/cms",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "./src/index.ts",
   "author": "Abinash Panda",
   "license": "ISC",
@@ -20,7 +20,7 @@
     "build:css": "postcss ./src/styles.css -o ./dist/styles.css",
     "prepublish": "pnpm build:css",
     "format": "prettier --write ./src/*/*.{ts,tsx} --ignore-path=../../.prettierignore",
-    "postinstall": "pnpm prisma generate client"
+    "postinstall": "prisma generate client"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
