@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Editor } from '@tiptap/react'
-import { Check, Link } from 'lucide-react'
+import { Check, Link, Unlink } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import {
   Button,
@@ -49,9 +49,9 @@ export default function LinkButton({ editor, className, style }: LinkButtonProps
       }}
     >
       <PopoverTrigger asChild>
-        <Button className={className} style={style} icon={<Link />} size="icon" variant="outline" type="button" />
+        <Button className={className} style={style} icon={<Link />} size="icon" variant="ghost" type="button" />
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent sideOffset={12}>
         <Form {...form}>
           <form
             onSubmit={(event) => {
@@ -60,7 +60,7 @@ export default function LinkButton({ editor, className, style }: LinkButtonProps
                 editor.chain().focus().setLink({ href: link }).run()
               })(event)
             }}
-            className="space-y-2"
+            className="space-y-4"
           >
             <FormFieldWithController
               name="link"
@@ -77,7 +77,18 @@ export default function LinkButton({ editor, className, style }: LinkButtonProps
                 )
               }}
             />
-            <div className="flex items-center justify-end">
+            <div className="flex items-center justify-end space-x-2">
+              {editor.isActive('link') ? (
+                <Button
+                  type="button"
+                  size="icon-sm"
+                  variant="secondary"
+                  icon={<Unlink />}
+                  onClick={() => {
+                    editor.chain().focus().unsetLink().run()
+                  }}
+                />
+              ) : null}
               <Button size="icon-sm" type="submit" icon={<Check />} />
             </div>
           </form>

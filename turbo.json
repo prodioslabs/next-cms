@@ -6,6 +6,7 @@
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "lint": {},
+    "format": {},
     "dev": {
       "dependsOn": [],
       "cache": false,

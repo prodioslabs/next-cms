@@ -15,6 +15,10 @@ import TableRow from '@tiptap/extension-table-row'
 import Image from '@tiptap/extension-image'
 import EditorToolbar, { HEADING_LEVELS } from './components/editor-toolbar'
 
+const CustomTextStyle = TextStyle.extend({
+  priority: 1000,
+})
+
 type TiptapEditorProps = {
   /**
    * HTML String
@@ -41,10 +45,10 @@ export default function TiptapEditor({ value, onChange, className, style }: Tipt
         },
       }),
       Underline,
-      TextStyle,
       Color.configure({
         types: ['textStyle'],
       }),
+      CustomTextStyle,
       LinkExtension.configure({
         openOnClick: false,
         HTMLAttributes: {
@@ -74,7 +78,7 @@ export default function TiptapEditor({ value, onChange, className, style }: Tipt
 
   useEffect(
     function updateContentOnValueChange() {
-      if (value !== internalValue) {
+      if (typeof value === 'string' && value !== internalValue) {
         editor?.commands.setContent(value)
       }
     },

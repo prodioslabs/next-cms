@@ -1,4 +1,4 @@
-import { FolderOpen, File } from 'lucide-react'
+import { FolderOpen, File, Image } from 'lucide-react'
 import { getServerSession as nextAuthGetServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import { CMSConfig } from '../../../../types/config'
@@ -7,8 +7,9 @@ import { CMSField } from '../../../../types/field'
 import NavLink from '../../nav-link'
 import Providers from './providers'
 import { authOptions } from '../../../../core/auth'
-import LogoutButton from './logout-button'
-import ModeToggle from './mode-toggle'
+import DashboardPanel from './dashboard-panel'
+import DashboardMenu from './dashboard-menu'
+import SidebarLabel from './sidebar-label'
 
 async function getServerSession() {
   try {
@@ -50,54 +51,47 @@ export default function createDashboardLayout<
 
     return (
       <Providers session={session}>
-        <div className="flex">
-          <div className="sticky top-0 flex h-screen w-[240px] flex-col border-r">
-            <div className="flex-1 space-y-4 overflow-auto px-2 py-4">
-              <div className="space-y-2">
-                <div className="flex items-center px-2 text-xs uppercase text-secondary-foreground">
-                  <FolderOpen className="mr-1 h-4 w-4" />
-                  Collections
+        <DashboardPanel
+          sidebar={
+            <div className="flex h-full flex-col">
+              <div className="flex-1 space-y-4 overflow-y-auto overflow-x-hidden px-2 py-4">
+                <NavLink href="/cms/admin/media-library" icon={<Image />} label="Media Library" />
+                <div className="border-b border-border" />
+                <div className="space-y-2">
+                  <SidebarLabel>Collections</SidebarLabel>
+                  {Object.entries(config.collections).map(([collectionKey, collection]) => {
+                    return (
+                      <NavLink
+                        href={`/cms/admin/collection/${collectionKey}`}
+                        key={collectionKey}
+                        icon={<FolderOpen />}
+                        label={collection.label}
+                      />
+                    )
+                  })}
                 </div>
-                {Object.entries(config.collections).map(([collectionKey, collection]) => {
-                  return (
-                    <NavLink
-                      href={`/cms/admin/collection/${collectionKey}`}
-                      key={collectionKey}
-                      className="block rounded-md border border-transparent p-2 text-sm text-muted-foreground hover:border-border hover:bg-muted"
-                      activeClassName="text-secondary-foreground border-border bg-muted"
-                    >
-                      {collection.label}
-                    </NavLink>
-                  )
-                })}
+                <div className="border-b border-border" />
+                <div className="space-y-2">
+                  <SidebarLabel>Singletons</SidebarLabel>
+                  {Object.entries(config.singletons).map(([singletonName, singleton]) => {
+                    return (
+                      <NavLink
+                        href={`/cms/admin/singleton/${singletonName}`}
+                        key={singletonName}
+                        icon={<File />}
+                        label={singleton.label}
+                      />
+                    )
+                  })}
+                </div>
               </div>
-              <div className="border-b border-border" />
-              <div className="space-y-2">
-                <div className="flex items-center px-2 text-xs uppercase text-secondary-foreground">
-                  <File className="mr-1 h-4 w-4" />
-                  Singletons
-                </div>
-                {Object.entries(config.singletons).map(([singletonName, singleton]) => {
-                  return (
-                    <NavLink
-                      href={`/cms/admin/singleton/${singletonName}`}
-                      key={singletonName}
-                      className="block rounded-md border border-transparent p-2 text-sm text-muted-foreground hover:border-border hover:bg-muted"
-                      activeClassName="text-secondary-foreground border-border bg-muted"
-                    >
-                      {singleton.label}
-                    </NavLink>
-                  )
-                })}
+              <div className="mx-2 mb-2 flex items-center space-x-2">
+                <DashboardMenu />
               </div>
             </div>
-            <div className="mx-2 mb-2 flex items-center space-x-2">
-              <LogoutButton className="flex-1" />
-              <ModeToggle />
-            </div>
-          </div>
-          <div className="flex-1 overflow-auto">{children}</div>
-        </div>
+          }
+          content={<div className="h-full overflow-auto">{children}</div>}
+        />
       </Providers>
     )
   }

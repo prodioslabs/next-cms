@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from 'react'
 import invariant from 'tiny-invariant'
-import * as LucideIcons from 'lucide-react'
 import { matchSorter } from 'match-sorter'
 import {
   Button,
@@ -11,17 +10,13 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  LucideIcon,
   Popover,
   PopoverContent,
   PopoverTrigger,
   cn,
 } from 'ui'
 import { CMSIconData } from '../../../../types/field'
-
-const iconNames = Object.keys(LucideIcons)
-  .filter((key) => key !== 'createLucideIcon' && key !== 'icons')
-  .filter((key) => !key.startsWith('Lucide') && !key.endsWith('Icon'))
+import { lucideIconNames, LucideIcon } from '../../../../ui/components/lucide-icon'
 
 type IconSelectorProps = {
   icon?: CMSIconData
@@ -36,7 +31,7 @@ export default function IconSelector({ icon, onChange, className, style }: IconS
   const [open, setOpen] = useState(false)
   const [searchText, setSearchText] = useState('')
 
-  const filteredIcons = useMemo(() => matchSorter(iconNames, searchText), [searchText])
+  const filteredIcons = useMemo(() => matchSorter(lucideIconNames, searchText), [searchText])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

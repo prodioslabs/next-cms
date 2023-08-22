@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ChevronRight, Plus } from 'lucide-react'
+import { ChevronRight, PackageOpen, Plus } from 'lucide-react'
 import { useMemo } from 'react'
 import { Button, Loader, cn } from 'ui'
 import DeleteCollectionItem from '../../delete-collection-item'
@@ -25,6 +25,22 @@ export default function CollectionPage({ collection, collectionName, className, 
     }
 
     if (query.data) {
+      if (query.data.length === 0) {
+        return (
+          <div className="flex flex-col items-center justify-center rounded-md border border-dashed p-4">
+            <PackageOpen className="mb-2 h-10 w-10 text-muted-foreground opacity-20" />
+            <div className="mb-2 text-sm text-muted-foreground">
+              No elements found for {collection.label} collection
+            </div>
+            <Link href={`/cms/admin/collection/${collectionName}/new`}>
+              <Button icon={<Plus />} size="sm" variant="outline">
+                Create New Item
+              </Button>
+            </Link>
+          </div>
+        )
+      }
+
       return query.data.map((item, index) => {
         const itemId = item.id
         const itemSlug = item.slug

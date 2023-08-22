@@ -24,7 +24,11 @@ export function generateDummyDataForField(field: CMSField) {
       return faker.lorem.sentence()
 
     case 'rich-text':
-      return faker.lorem.paragraphs()
+      return faker.lorem
+        .paragraphs(2)
+        .split('\n')
+        .map((content) => `<p>${content}</p>`)
+        .join('')
 
     case 'number':
       return faker.number.int()
@@ -141,6 +145,9 @@ export function fixData<Schema extends Record<string, CMSField>>(schema: Schema,
           const issuePathForTheIndex = issuePath.slice(2)
           if (issuePathForTheIndex.length !== 0) {
             fixItemData(itemData[fieldKeyWithIssue][indexWithIssue], issuePathForTheIndex, field.schema)
+          } else {
+            // else the issue must be in the entire item of the array, so we can safely generate the data
+            itemData[fieldKeyWithIssue][indexWithIssue] = generateDummyData(field.schema)
           }
         } else {
           // else the issue must be in the item of the array, so we can safely generate the data

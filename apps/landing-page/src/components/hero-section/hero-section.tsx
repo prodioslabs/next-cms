@@ -3,7 +3,8 @@
 import Image from 'next/image'
 import React from 'react'
 import { type CMSImageData } from 'next-cms'
-import { cn, Button, LucideIcon } from 'ui'
+import { cn, Button } from 'ui'
+import { LucideIcon } from 'next-cms/ui'
 
 type HeroSectionProps = React.HTMLAttributes<HTMLDivElement> & {
   title: string

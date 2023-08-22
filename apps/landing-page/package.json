@@ -5,15 +5,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:push": "env-cmd npm --workspace=next-cms run db:push"
+    "db:push": "env-cmd pnpm --filter=next-cms run db:push",
+    "prettier": "prettier --write ./src/*/*.{ts,tsx} --ignore-path=../../.prettierignore"
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.6.0",
-    "next": "13.4.7",
-    "next-cms": "*",
+    "next": "13.4.19",
+    "next-cms": "workspace:../../packages/next-cms",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "ui": "*",
+    "ui": "workspace:*",
     "zod": "^3.21.4"
   },
   "devDependencies": {
@@ -22,10 +23,10 @@
     "@types/react-dom": "18.2.6",
     "autoprefixer": "^10.4.14",
     "env-cmd": "^10.1.0",
-    "eslint-custom-config": "*",
+    "eslint-custom-config": "workspace:*",
     "postcss": "^8.4.27",
-    "prettier-config": "*",
-    "tailwind-config": "*",
+    "prettier-config": "workspace:*",
+    "tailwind-config": "workspace:*",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.3"
   }

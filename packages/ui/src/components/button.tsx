@@ -32,11 +32,11 @@ const buttonVariants = cva(
   },
 )
 
-const iconVariants = cva('', {
+const iconVariants = cva('flex-shrink-0', {
   variants: {
     type: {
-      withChildren: 'w-5 h-5 mr-3',
-      withoutChildren: 'w-4 h-4',
+      withChildren: 'mr-3 h-5 w-5',
+      withoutChildren: 'h-4 w-4',
     },
   },
   defaultVariants: {
@@ -44,34 +44,46 @@ const iconVariants = cva('', {
   },
 })
 
-export interface ButtonProps
+export interface BaseButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  loading?: boolean
-  icon?: React.ReactElement<{ className?: string }>
   asChild?: boolean
-  children?: string
 }
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, loading, icon, children, ...props }, ref) => {
+const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
+  ({ className, variant, size, asChild = false, children, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button'
     return (
-      <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} data-loading={loading} {...props}>
-        {loading ? (
-          <Loader2
-            className={cn(iconVariants({ type: children ? 'withChildren' : 'withoutChildren' }), 'animate-spin')}
-          />
-        ) : icon ? (
-          cloneElement(icon, {
-            className: cn(iconVariants({ type: children ? 'withChildren' : 'withoutChildren' }), icon.props.className),
-          })
-        ) : null}
+      <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
         {children}
       </Comp>
     )
   },
 )
+BaseButton.displayName = 'BaseButton'
+
+type ButtonProps = Omit<BaseButtonProps, 'asChild'> & {
+  loading?: boolean
+  icon?: React.ReactElement<{ className?: string }>
+}
+
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ loading, icon, children, ...props }, ref) => {
+  return (
+    <BaseButton {...props} asChild={false} data-loading={loading} ref={ref}>
+      {loading ? (
+        <Loader2
+          className={cn(iconVariants({ type: children ? 'withChildren' : 'withoutChildren' }), 'animate-spin')}
+        />
+      ) : icon ? (
+        cloneElement(icon, {
+          className: cn(iconVariants({ type: children ? 'withChildren' : 'withoutChildren' }), icon.props.className),
+        })
+      ) : null}
+      {children}
+    </BaseButton>
+  )
+})
+
 Button.displayName = 'Button'
 
-export { Button, buttonVariants }
+export { BaseButton, Button, buttonVariants }

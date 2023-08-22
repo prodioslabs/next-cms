@@ -12,8 +12,8 @@
 **/public/uploads
 
 # next.js
-.next/
-dist/
+**/.next/
+**/dist/
 
 # production
 /build
@@ -38,9 +38,11 @@ yarn-error.log*
 next-env.d.ts
 
 # CMS content
-/public/uploads
-content/**/data.json
+**/public/uploads
 
 # env
 .env
 .env.development
+
+# turbo
+**/.turbo

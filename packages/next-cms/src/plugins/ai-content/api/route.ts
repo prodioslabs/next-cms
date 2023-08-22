@@ -1,6 +1,3 @@
-import { LLMChain } from 'langchain/chains'
-import { PromptTemplate } from 'langchain/prompts'
-import { ChatOpenAI } from 'langchain/chat_models/openai'
 import { NextResponse } from 'next/server'
 import { generateContentBodyValidationSchema } from './schema'
 import { handleError } from '../../../utils/api'
@@ -8,6 +5,10 @@ import { env } from '../../../env'
 
 export async function generateAIContent(request: Request) {
   try {
+    const { LLMChain } = await import('langchain/chains')
+    const { PromptTemplate } = await import('langchain/prompts')
+    const { ChatOpenAI } = await import('langchain/chat_models/openai')
+
     const { fieldType, message } = generateContentBodyValidationSchema.parse(await request.json())
 
     const llm = new ChatOpenAI({
