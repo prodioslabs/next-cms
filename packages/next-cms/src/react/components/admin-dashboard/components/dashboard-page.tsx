@@ -1,6 +1,6 @@
 'use client'
 
-import { redirect, useParams, useSearchParams } from 'next/navigation'
+import { notFound, useParams, useSearchParams } from 'next/navigation'
 import { CMSConfig } from '../../../../types/config'
 import { CMSCollection, CMSSingleton } from '../../../../types/schema'
 import DashboardHome from './dashboard-home'
@@ -33,7 +33,7 @@ export default function createDashboardPage<
 
   return function Page() {
     const params = useParams()
-    const slug = params.slug ?? []
+    const slug = params.slug
 
     const searchParams = useSearchParams()
     const redirectTo = searchParams.get('redirectTo') ?? '/'
@@ -58,12 +58,12 @@ export default function createDashboardPage<
       case 'singleton': {
         const singletonName = slug[1]
         if (!singletonName) {
-          redirect('/404')
+          return notFound()
         }
 
         const singleton = clientSideConfig.singletons[singletonName]
         if (!singleton) {
-          redirect('/404')
+          return notFound()
         }
 
         return (
@@ -79,12 +79,12 @@ export default function createDashboardPage<
       case 'collection': {
         const collectionName = slug[1]
         if (!collectionName) {
-          redirect('/404')
+          return notFound()
         }
 
         const collection = clientSideConfig.collections[collectionName]
         if (!collection) {
-          redirect('/404')
+          return notFound()
         }
 
         const collectionElementId = slug[2]
@@ -124,7 +124,7 @@ export default function createDashboardPage<
       }
 
       default: {
-        redirect('/404')
+        return notFound()
       }
     }
   }

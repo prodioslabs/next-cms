@@ -1,6 +1,5 @@
 {
   "name": "next-cms",
-  "version": "0.1.0",
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",

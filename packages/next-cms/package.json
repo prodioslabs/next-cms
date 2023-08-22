@@ -1,6 +1,6 @@
 {
   "name": "@nextjs-cms/cms",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "./src/index.ts",
   "author": "Abinash Panda",
   "license": "ISC",
@@ -19,7 +19,8 @@
     "db:push": "prisma db push",
     "build:css": "postcss ./src/styles.css -o ./dist/styles.css",
     "prepublish": "pnpm build:css",
-    "format": "prettier --write ./src/*/*.{ts,tsx} --ignore-path=../../.prettierignore"
+    "format": "prettier --write ./src/*/*.{ts,tsx} --ignore-path=../../.prettierignore",
+    "postinstall": "pnpm prisma generate client"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
@@ -28,8 +29,7 @@
     "@floating-ui/dom": "^1.4.3",
     "@hookform/resolvers": "^3.1.1",
     "@next-auth/prisma-adapter": "^1.0.7",
-    "@nextjs-cms/ui": "workspace:*",
-    "@prisma/client": "^4.16.2",
+    "@prisma/client": "^5.2.0",
     "@t3-oss/env-nextjs": "^0.6.0",
     "@tanstack/react-query": "^4.32.0",
     "@tiptap/extension-color": "^2.0.4",
@@ -90,5 +90,8 @@
     "tsup": "^7.1.0",
     "typescript": "^5.1.3",
     "vitest": "^0.33.0"
+  },
+  "peerDependencies": {
+    "@nextjs-cms/ui": "workspace:*"
   }
 }
