@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 import ReactPlayer from 'react-player'
 import { Loader2, Trash } from 'lucide-react'
 import { useState } from 'react'
-import { Uploader, Button, cn } from 'ui'
+import { Uploader, Button, cn } from '@next-cms/ui'
 import { CMSVideoField } from '../../../../types/field'
 import { uploadVideo } from './queries'
 

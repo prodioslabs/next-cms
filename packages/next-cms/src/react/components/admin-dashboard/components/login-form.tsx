@@ -6,7 +6,19 @@ import { useMutation } from '@tanstack/react-query'
 import { signIn } from 'next-auth/react'
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
-import { Button, Input, PasswordInput, cn, useToast, Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from 'ui'
+import {
+  Button,
+  Input,
+  PasswordInput,
+  cn,
+  useToast,
+  Form,
+  FormControl,
+  FormFieldWithController,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@next-cms/ui'
 
 type LoginFormProps = {
   className?: string

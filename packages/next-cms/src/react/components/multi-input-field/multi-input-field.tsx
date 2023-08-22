@@ -3,7 +3,7 @@
 import { Plus, Trash } from 'lucide-react'
 import { forwardRef } from 'react'
 import { Control, useFieldArray } from 'react-hook-form'
-import { Button, cn } from 'ui'
+import { Button, cn } from '@next-cms/ui'
 import { CMSField } from '../../../types/field'
 import { CMSPlugin } from '../../../types/plugin'
 import SortableList from '../sortable-list'

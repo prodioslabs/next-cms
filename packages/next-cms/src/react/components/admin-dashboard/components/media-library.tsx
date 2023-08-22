@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Loader, PageHeading, useToast } from 'ui'
+import { Button, Loader, PageHeading, useToast } from '@next-cms/ui'
 import { Image, PackageOpen, Plus, Upload } from 'lucide-react'
 import { useMemo } from 'react'
 import { api } from '../../../../server/api'

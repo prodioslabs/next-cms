@@ -1,5 +1,5 @@
 import { forwardRef } from 'react'
-import { cn, Input, InputProps, Button } from 'ui'
+import { cn, Input, InputProps, Button } from '@next-cms/ui'
 
 type SlugInputProps = InputProps & {
   onGenerateSlug: () => void

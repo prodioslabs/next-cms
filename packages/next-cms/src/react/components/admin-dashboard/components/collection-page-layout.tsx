@@ -1,7 +1,7 @@
 'use client'
 
 import { FolderOpen } from 'lucide-react'
-import { PageHeading } from 'ui'
+import { PageHeading } from '@next-cms/ui'
 import { CMSField } from '../../../../types/field'
 import { CMSCollection } from '../../../../types/schema'
 

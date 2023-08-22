@@ -2,7 +2,7 @@
 
 import { useContext } from 'react'
 import { Grip } from 'lucide-react'
-import { Button, cn } from 'ui'
+import { Button, cn } from '@next-cms/ui'
 import { SortableItemContext } from '../context'
 
 type DragHandleProps = {

@@ -24,7 +24,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from 'ui'
+} from '@next-cms/ui'
 import { CMSPluginComponentProps } from '../../../../types/plugin'
 import { searchImage } from './queries'
 

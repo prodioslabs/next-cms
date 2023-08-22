@@ -15,7 +15,7 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from 'ui'
+} from '@next-cms/ui'
 import { useStore } from '../../../stores'
 
 export default function DashboardMenu() {

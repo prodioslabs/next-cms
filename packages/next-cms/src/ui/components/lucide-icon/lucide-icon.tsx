@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic'
 import { LucideProps, Shield } from 'lucide-react'
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
-import { Skeleton } from 'ui'
+import { Skeleton } from '@next-cms/ui'
 
 interface IconProps extends LucideProps {
   name: string

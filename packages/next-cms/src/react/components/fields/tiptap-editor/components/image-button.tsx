@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from 'ui'
+} from '@next-cms/ui'
 import { useState } from 'react'
 import ImageUploader from '../../image-uploader'
 import { CMSImageData } from '../../../../../types'

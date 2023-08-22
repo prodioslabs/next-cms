@@ -16,7 +16,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from 'ui'
+} from '@next-cms/ui'
 import { z } from 'zod'
 
 type LinkButtonProps = {

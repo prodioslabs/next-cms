@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cloneElement, useMemo } from 'react'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, cn } from 'ui'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, cn } from '@next-cms/ui'
 import { useStore } from '../../stores'
 
 type NavLinkProps = React.ComponentProps<typeof Link> & {

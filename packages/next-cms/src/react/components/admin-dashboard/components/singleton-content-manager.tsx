@@ -2,7 +2,7 @@
 
 import { File } from 'lucide-react'
 import { useMemo } from 'react'
-import { PageHeading, cn, Loader } from 'ui'
+import { PageHeading, cn, Loader } from '@next-cms/ui'
 import { CMSSingleton } from '../../../../types/schema'
 import ContentManager from '../../content-manager'
 import { CMSField } from '../../../../types/field'

@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 import Image from 'next/image'
 import { Loader2, Trash } from 'lucide-react'
 import { useState } from 'react'
-import { Uploader, Button, cn } from 'ui'
+import { Uploader, Button, cn } from '@next-cms/ui'
 import { CMSImageData } from '../../../../types/field'
 import { uploadImage } from './queries'
 

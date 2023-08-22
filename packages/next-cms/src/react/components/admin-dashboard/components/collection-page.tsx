@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { ChevronRight, PackageOpen, Plus } from 'lucide-react'
 import { useMemo } from 'react'
-import { Button, Loader, cn } from 'ui'
+import { Button, Loader, cn } from '@next-cms/ui'
 import DeleteCollectionItem from '../../delete-collection-item'
 import { CMSCollection } from '../../../../types/schema'
 import { CMSField } from '../../../../types/field'

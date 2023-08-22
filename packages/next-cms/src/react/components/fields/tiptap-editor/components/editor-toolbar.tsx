@@ -15,7 +15,7 @@ import {
   Undo,
   Redo,
 } from 'lucide-react'
-import { Toggle, cn, Select, SelectTrigger, SelectContent, SelectValue, SelectItem } from 'ui'
+import { Toggle, cn, Select, SelectTrigger, SelectContent, SelectValue, SelectItem } from '@next-cms/ui'
 import LinkButton from './link-button'
 import TableMenu from './table-menu'
 import ImageButton from './image-button'

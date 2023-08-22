@@ -2,7 +2,7 @@
 
 import { createElement, forwardRef } from 'react'
 import { Control, Controller } from 'react-hook-form'
-import { cn } from 'ui'
+import { cn } from '@next-cms/ui'
 import { CMSField } from '../../../types/field'
 import { CMSPlugin } from '../../../types/plugin'
 

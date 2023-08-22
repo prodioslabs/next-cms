@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
-import { cn } from 'ui'
+import { cn } from '@next-cms/ui'
 import { CMSField } from '../../../../types/field'
 import { CMSCollection } from '../../../../types/schema'
 import ContentManager from '../../content-manager'

@@ -2,7 +2,14 @@
 
 import { Folder } from '@prisma/client'
 import { FolderIcon } from 'lucide-react'
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuTrigger, cn } from 'ui'
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+  cn,
+} from '@next-cms/ui'
 
 type FolderCardProps = {
   folder: Folder

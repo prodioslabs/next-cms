@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from 'ui'
+import { cn } from '@next-cms/ui'
 import { useStore } from '../../../stores'
 
 type SidebarLabelProps = {
