@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
   useToast,
-} from '@next-cms/ui'
+} from '@nextjs-cms/ui'
 import { getValidationSchemaForSchema } from '../../../../core/validation'
 import InputField from '../../input-field'
 import { parseDate, stringifyDate } from '../../../../utils/date'

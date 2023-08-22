@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useToast, ToastAction } from '@next-cms/ui'
+import { useToast, ToastAction } from '@nextjs-cms/ui'
 import BaseForm from './base-form'
 import { api } from '../../../../server/api'
 import { ContentManagerProps } from '../types'

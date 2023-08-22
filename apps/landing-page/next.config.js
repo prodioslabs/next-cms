@@ -22,7 +22,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  transpilePackages: ['@next-cms/cms', '@next-cms/ui'],
+  transpilePackages: ['@nextjs-cms/cms', '@nextjs-cms/ui'],
 }
 
 module.exports = nextConfig

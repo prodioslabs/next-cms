@@ -1,6 +1,6 @@
 'use client'
 
-import { createDashboardPage } from '@next-cms/cms/react'
+import { createDashboardPage } from '@nextjs-cms/cms/react'
 import config from '~/cms.config'
 
 const Page = createDashboardPage(config)

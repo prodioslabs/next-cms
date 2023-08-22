@@ -14,10 +14,10 @@ importers:
 
   apps/landing-page:
     dependencies:
-      '@next-cms/cms':
+      '@nextjs-cms/cms':
         specifier: workspace:*
         version: link:../../packages/next-cms
-      '@next-cms/ui':
+      '@nextjs-cms/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       '@t3-oss/env-nextjs':
@@ -120,7 +120,7 @@ importers:
       '@next-auth/prisma-adapter':
         specifier: ^1.0.7
         version: 1.0.7(@prisma/client@4.16.2)(next-auth@4.22.1)
-      '@next-cms/ui':
+      '@nextjs-cms/ui':
         specifier: workspace:*
         version: link:../ui
       '@prisma/client':

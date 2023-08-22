@@ -27,7 +27,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
   useToast,
-} from '@next-cms/ui'
+} from '@nextjs-cms/ui'
 import { generateContent } from './queries'
 import { CMSPluginComponentProps } from '../../../../types/plugin'
 

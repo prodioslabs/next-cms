@@ -18,7 +18,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@next-cms/ui'
+} from '@nextjs-cms/ui'
 
 type LoginFormProps = {
   className?: string

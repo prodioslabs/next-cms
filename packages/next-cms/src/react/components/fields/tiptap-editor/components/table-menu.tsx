@@ -31,7 +31,7 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
   DialogClose,
-} from '@next-cms/ui'
+} from '@nextjs-cms/ui'
 import { z } from 'zod'
 
 export const TABLE_SIZES = [

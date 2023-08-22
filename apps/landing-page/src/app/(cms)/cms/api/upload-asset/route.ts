@@ -1,1 +1,1 @@
-export { uploadAssetHandler as POST } from '@next-cms/cms/server'
+export { uploadAssetHandler as POST } from '@nextjs-cms/cms/server'

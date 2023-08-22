@@ -14,7 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   cn,
-} from '@next-cms/ui'
+} from '@nextjs-cms/ui'
 import { CMSIconData } from '../../../../types/field'
 import { lucideIconNames, LucideIcon } from '../../../../ui/components/lucide-icon'
 

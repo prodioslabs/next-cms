@@ -20,7 +20,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
-} from '@next-cms/ui'
+} from '@nextjs-cms/ui'
 import { z } from 'zod'
 import { useState } from 'react'
 import { api } from '../../../../server/api'

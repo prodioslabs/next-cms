@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { cn } from '@next-cms/ui'
+import { cn } from '@nextjs-cms/ui'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
