@@ -43,3 +43,6 @@ next-env.d.ts
 
 # turbo
 **/.turbo
+
+# Rollup
+**/.rollup.cache
