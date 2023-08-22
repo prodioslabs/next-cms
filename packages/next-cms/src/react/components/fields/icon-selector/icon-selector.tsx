@@ -10,14 +10,13 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  LucideIcon,
-  lucideIconNames,
   Popover,
   PopoverContent,
   PopoverTrigger,
   cn,
 } from 'ui'
 import { CMSIconData } from '../../../../types/field'
+import { lucideIconNames, LucideIcon } from '../../../../ui/components/lucide-icon'
 
 type IconSelectorProps = {
   icon?: CMSIconData

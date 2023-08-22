@@ -6,7 +6,8 @@
     "./server": "./src/server/index.ts",
     "./react": "./src/react/index.ts",
     "./core": "./src/core/index.ts",
-    "./plugins": "./src/plugins/index.ts"
+    "./plugins": "./src/plugins/index.ts",
+    "./ui": "./src/ui/index.ts"
   },
   "scripts": {
     "test": "vitest",
