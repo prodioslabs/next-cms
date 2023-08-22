@@ -32,7 +32,7 @@ const buttonVariants = cva(
   },
 )
 
-const iconVariants = cva('', {
+const iconVariants = cva('flex-shrink-0', {
   variants: {
     type: {
       withChildren: 'mr-3 h-5 w-5',

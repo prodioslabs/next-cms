@@ -21,7 +21,7 @@ export default function UpdateSingletonForm({
   const mutation = api.singleton.updateSingleton.useMutation({
     onSuccess: (singleton) => {
       toast({
-        title: `${singleton.name} content updated successfully`,
+        title: `${singleton.label} content updated successfully`,
         description: 'Refresh page to see the updated content',
         action: (
           <ToastAction asChild altText="View Page">

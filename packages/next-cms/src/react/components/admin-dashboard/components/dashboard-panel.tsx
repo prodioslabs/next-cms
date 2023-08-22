@@ -9,9 +9,7 @@ type DashboardPanelProps = {
 }
 
 export default function DashboardPanel({ sidebar, content }: DashboardPanelProps) {
-  const defaultLayout = useStore((store) => store.layout)
-  const saveLayout = useStore((store) => store.saveLayout)
-  const setSidebarCollapsed = useStore((store) => store.setSidebarCollapsed)
+  const { layout: defaultLayout, saveLayout, setSidebarCollapsed } = useStore()
 
   return (
     <PanelGroup
@@ -25,7 +23,7 @@ export default function DashboardPanel({ sidebar, content }: DashboardPanelProps
         defaultSize={defaultLayout[0]}
         className="h-screen"
         collapsible
-        collapsedSize={3}
+        collapsedSize={4}
         onCollapse={setSidebarCollapsed}
       >
         {sidebar}

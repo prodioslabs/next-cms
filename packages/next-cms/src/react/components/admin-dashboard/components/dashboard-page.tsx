@@ -33,7 +33,7 @@ export default function createDashboardPage<
 
   return function Page() {
     const params = useParams()
-    const slug = params.slug?.split('/')
+    const slug = params.slug ?? []
 
     const searchParams = useSearchParams()
     const redirectTo = searchParams.get('redirectTo') ?? '/'
