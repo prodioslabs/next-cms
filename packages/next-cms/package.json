@@ -1,6 +1,6 @@
 {
   "name": "@nextjs-cms/cms",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "./src/index.ts",
   "author": "Abinash Panda",
   "license": "ISC",
@@ -62,6 +62,7 @@
     "next": "13.4.19",
     "next-auth": "^4.22.1",
     "next-themes": "^0.2.1",
+    "prisma": "^5.0.0",
     "react": "18.2.0",
     "react-colorful": "^5.6.1",
     "react-day-picker": "^8.8.0",
@@ -85,7 +86,6 @@
     "postcss": "^8.4.27",
     "postcss-cli": "^10.1.0",
     "prettier-config": "workspace:*",
-    "prisma": "^5.0.0",
     "tailwind-config": "workspace:*",
     "tsup": "^7.1.0",
     "typescript": "^5.1.3",
