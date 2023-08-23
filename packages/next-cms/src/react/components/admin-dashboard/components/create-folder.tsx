@@ -3,8 +3,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Folder } from '@prisma/client'
 import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { useState } from 'react'
+import { api } from '../../../../server/api'
 import {
-  Button,
   Dialog,
   DialogClose,
   DialogContent,
@@ -13,17 +15,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  Form,
-  FormControl,
-  FormFieldWithController,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Input,
-} from '@nextjs-cms/ui'
-import { z } from 'zod'
-import { useState } from 'react'
-import { api } from '../../../../server/api'
+} from '../../../ui/dialog'
+import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '../../../ui/form'
+import { Input } from '../../../ui/input'
+import { Button } from '../../../ui/button'
 
 const validationSchema = z.object({
   name: z.string().nonempty(),

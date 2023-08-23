@@ -4,9 +4,11 @@ import { useMutation } from '@tanstack/react-query'
 import ReactPlayer from 'react-player'
 import { Loader2, Trash } from 'lucide-react'
 import { useState } from 'react'
-import { Uploader, Button, cn } from '@nextjs-cms/ui'
 import { CMSVideoField } from '../../../../types/field'
 import { uploadVideo } from './queries'
+import { Uploader } from '../../../ui/uploader'
+import { Button } from '../../../ui/button'
+import { cn } from '../../../lib/utils'
 
 type VideoUploaderProps = {
   field: CMSVideoField

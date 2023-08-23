@@ -2,8 +2,9 @@
 
 import { useContext } from 'react'
 import { Grip } from 'lucide-react'
-import { Button, cn } from '@nextjs-cms/ui'
 import { SortableItemContext } from '../context'
+import { Button } from '../../../ui/button'
+import { cn } from '../../../lib/utils'
 
 type DragHandleProps = {
   className?: string

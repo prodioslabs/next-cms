@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@nextjs-cms/ui'
+import { cn } from '../../../lib/utils'
 import { useStore } from '../../../stores'
 
 type SidebarLabelProps = {

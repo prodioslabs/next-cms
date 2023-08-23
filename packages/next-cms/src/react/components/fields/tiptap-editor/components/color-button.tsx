@@ -4,7 +4,10 @@ import { useCallback } from 'react'
 import { Editor } from '@tiptap/react'
 import { Baseline, RemoveFormatting } from 'lucide-react'
 import { useDebouncedCallback } from 'use-debounce'
-import { Button, ColorPalette, Popover, PopoverContent, PopoverTrigger, Toggle } from '@nextjs-cms/ui'
+import { Popover, PopoverContent, PopoverTrigger } from '../../../../ui/popover'
+import { Toggle } from '../../../../ui/toggle'
+import { ColorPalette } from '../../../../ui/color-palette'
+import { Button } from '../../../../ui/button'
 
 type ColorButtonProps = {
   editor: Editor

@@ -8,8 +8,8 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
-  cn,
-} from '@nextjs-cms/ui'
+} from '../../../ui/context-menu'
+import { cn } from '../../../lib/utils'
 
 type FolderCardProps = {
   folder: Folder

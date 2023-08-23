@@ -2,8 +2,10 @@
 
 import { Editor } from '@tiptap/react'
 import { Image } from 'lucide-react'
+import { useState } from 'react'
+import ImageUploader from '../../image-uploader'
+import { CMSImageData } from '../../../../../types'
 import {
-  Button,
   Dialog,
   DialogClose,
   DialogContent,
@@ -12,10 +14,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@nextjs-cms/ui'
-import { useState } from 'react'
-import ImageUploader from '../../image-uploader'
-import { CMSImageData } from '../../../../../types'
+} from '../../../../ui/dialog'
+import { Button } from '../../../../ui/button'
 
 type ImageButtonProps = {
   editor: Editor

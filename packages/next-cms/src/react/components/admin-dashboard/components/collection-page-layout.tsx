@@ -1,9 +1,9 @@
 'use client'
 
 import { FolderOpen } from 'lucide-react'
-import { PageHeading } from '@nextjs-cms/ui'
 import { CMSField } from '../../../../types/field'
 import { CMSCollection } from '../../../../types/schema'
+import { PageHeading } from '../../../ui/page-heading'
 
 type CollectionPageLayoutProps = {
   collection: CMSCollection<Record<string, CMSField>>

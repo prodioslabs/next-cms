@@ -2,12 +2,14 @@
 
 import { File } from 'lucide-react'
 import { useMemo } from 'react'
-import { PageHeading, cn, Loader } from '@nextjs-cms/ui'
 import { CMSSingleton } from '../../../../types/schema'
 import ContentManager from '../../content-manager'
 import { CMSField } from '../../../../types/field'
 import { CMSPlugin } from '../../../../types/plugin'
 import { api } from '../../../../server/api'
+import { Loader } from '../../../ui/loader'
+import { PageHeading } from '../../../ui/page-heading'
+import { cn } from '../../../lib/utils'
 
 type SingletonContentManagerProps = {
   singleton: CMSSingleton<Record<string, CMSField>>

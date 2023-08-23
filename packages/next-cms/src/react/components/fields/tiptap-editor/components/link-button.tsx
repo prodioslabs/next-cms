@@ -4,20 +4,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Editor } from '@tiptap/react'
 import { Check, Link, Unlink } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import {
-  Button,
-  Form,
-  FormControl,
-  FormFieldWithController,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Input,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@nextjs-cms/ui'
 import { z } from 'zod'
+import { Popover, PopoverContent, PopoverTrigger } from '../../../../ui/popover'
+import { Button } from '../../../../ui/button'
+import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '../../../../ui/form'
+import { Input } from '../../../../ui/input'
 
 type LinkButtonProps = {
   editor: Editor

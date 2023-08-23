@@ -5,34 +5,12 @@ import { Editor } from '@tiptap/react'
 import { Table } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-  Form,
-  FormControl,
-  FormFieldWithController,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Input,
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
-  MenubarTrigger,
-  DialogClose,
-} from '@nextjs-cms/ui'
 import { z } from 'zod'
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../../../../ui/dialog'
+import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger } from '../../../../ui/menu-bar'
+import { Button } from '../../../../ui/button'
+import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '../../../../ui/form'
+import { Input } from '../../../../ui/input'
 
 export const TABLE_SIZES = [
   {

@@ -3,20 +3,12 @@
 import { useMemo, useState } from 'react'
 import invariant from 'tiny-invariant'
 import { matchSorter } from 'match-sorter'
-import {
-  Button,
-  Command,
-  CommandEmpty,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  cn,
-} from '@nextjs-cms/ui'
 import { CMSIconData } from '../../../../types/field'
 import { lucideIconNames, LucideIcon } from '../../../../ui/components/lucide-icon'
+import { Popover, PopoverContent, PopoverTrigger } from '../../../ui/popover'
+import { Button } from '../../../ui/button'
+import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '../../../ui/command'
+import { cn } from '../../../lib/utils'
 
 type IconSelectorProps = {
   icon?: CMSIconData

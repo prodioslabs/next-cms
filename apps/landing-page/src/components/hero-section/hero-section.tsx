@@ -3,8 +3,8 @@
 import Image from 'next/image'
 import React from 'react'
 import { type CMSImageData } from '@nextjs-cms/cms'
-import { cn, Button } from '@nextjs-cms/ui'
 import { LucideIcon } from '@nextjs-cms/cms/ui'
+import { cn } from '~/lib/utils'
 
 type HeroSectionProps = React.HTMLAttributes<HTMLDivElement> & {
   title: string
@@ -37,7 +37,10 @@ export default function HeroSection({
 
           {/** Buttons */}
           <div className="mt-7 grid w-full gap-3 sm:inline-flex">
-            <Button icon={callToActionIcon ? <LucideIcon name={callToActionIcon} /> : undefined}>{callToAction}</Button>
+            <button>
+              {callToActionIcon ? <LucideIcon name={callToActionIcon} /> : null}
+              <span>{callToAction}</span>
+            </button>
           </div>
           {/** End Buttons */}
         </div>

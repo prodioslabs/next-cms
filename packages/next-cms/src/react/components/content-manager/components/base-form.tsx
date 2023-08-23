@@ -6,25 +6,6 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { FileWarning } from 'lucide-react'
 import slugify from 'slugify'
-import {
-  cn,
-  Form,
-  FormControl,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  FormField,
-  Button,
-  Input,
-  DatePicker,
-  ColorPicker,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  useToast,
-} from '@nextjs-cms/ui'
 import { getValidationSchemaForSchema } from '../../../../core/validation'
 import InputField from '../../input-field'
 import { parseDate, stringifyDate } from '../../../../utils/date'
@@ -35,6 +16,14 @@ import SlugInput from '../../fields/slug-input/slug-input'
 import IconSelector from '../../fields/icon-selector'
 import VideoUploader from '../../fields/video-uploader'
 import TiptapEditor from '../../fields/tiptap-editor'
+import { useToast } from '../../../hooks/use-toast'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../../../ui/form'
+import { Input } from '../../../ui/input'
+import { DatePicker } from '../../../ui/date-picker'
+import { ColorPicker } from '../../../ui/color-picker'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../ui/select'
+import { cn } from '../../../lib/utils'
+import { Button } from '../../../ui/button'
 
 export type BaseFormProps = Omit<ContentManagerProps, 'config' | 'onUpdate' | 'redirectToOnSave'> & {
   onSubmit: (data: any) => void

@@ -15,11 +15,13 @@ import {
   Undo,
   Redo,
 } from 'lucide-react'
-import { Toggle, cn, Select, SelectTrigger, SelectContent, SelectValue, SelectItem } from '@nextjs-cms/ui'
 import LinkButton from './link-button'
 import TableMenu from './table-menu'
 import ImageButton from './image-button'
 import ColorButton from './color-button'
+import { Toggle } from '../../../../ui/toggle'
+import { cn } from '../../../../lib/utils'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../../ui/select'
 
 type EditorToolbarProps = {
   editor: Editor

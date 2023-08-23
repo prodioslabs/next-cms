@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { cn } from '@nextjs-cms/ui'
 import { EditorContent, useEditor } from '@tiptap/react'
 import { StarterKit } from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
@@ -14,6 +13,7 @@ import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import Image from '@tiptap/extension-image'
 import EditorToolbar, { HEADING_LEVELS } from './components/editor-toolbar'
+import { cn } from '../../../lib/utils'
 
 const CustomTextStyle = TextStyle.extend({
   priority: 1000,

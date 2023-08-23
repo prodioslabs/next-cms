@@ -9,11 +9,13 @@
     "prettier": "prettier --write ./src/*/*.{ts,tsx} --ignore-path=../../.prettierignore"
   },
   "dependencies": {
-    "@t3-oss/env-nextjs": "^0.6.0",
-    "next": "13.4.19",
     "@nextjs-cms/cms": "workspace:*",
+    "@t3-oss/env-nextjs": "^0.6.0",
+    "clsx": "^2.0.0",
+    "next": "13.4.19",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "tailwind-merge": "^1.14.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {

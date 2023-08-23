@@ -4,8 +4,8 @@ import { useMutation } from '@tanstack/react-query'
 import { Settings } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import { useTheme } from 'next-themes'
+import { useStore } from '../../../stores'
 import {
-  Button,
   Menubar,
   MenubarContent,
   MenubarItem,
@@ -15,8 +15,8 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from '@nextjs-cms/ui'
-import { useStore } from '../../../stores'
+} from '../../../ui/menu-bar'
+import { Button } from '../../../ui/button'
 
 export default function DashboardMenu() {
   const sidebarCollapsed = useStore((store) => store.sidebarCollapsed)

@@ -6,27 +6,20 @@ import { useForm } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
 import Image from 'next/image'
+import { CMSPluginComponentProps } from '../../../../types/plugin'
+import { searchImage } from './queries'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../../../react/ui/tooltip'
 import {
-  Button,
-  Form,
-  FormControl,
-  FormFieldWithController,
-  FormItem,
-  FormMessage,
-  Input,
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@nextjs-cms/ui'
-import { CMSPluginComponentProps } from '../../../../types/plugin'
-import { searchImage } from './queries'
+} from '../../../../react/ui/sheet'
+import { Button } from '../../../../react/ui/button'
+import { Form, FormControl, FormFieldWithController, FormItem, FormMessage } from '../../../../react/ui/form'
+import { Input } from '../../../../react/ui/input'
 
 const validationSchema = z.object({
   query: z.string().min(1),

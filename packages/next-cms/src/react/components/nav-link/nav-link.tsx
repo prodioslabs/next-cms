@@ -3,8 +3,9 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cloneElement, useMemo } from 'react'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, cn } from '@nextjs-cms/ui'
 import { useStore } from '../../stores'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../ui/tooltip'
+import { cn } from '../../lib/utils'
 
 type NavLinkProps = React.ComponentProps<typeof Link> & {
   icon: React.ReactElement<{ className?: string }>

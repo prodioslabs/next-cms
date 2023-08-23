@@ -6,14 +6,11 @@ import { Sparkles, Trash2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useMutation } from '@tanstack/react-query'
+import { generateContent } from './queries'
+import { CMSPluginComponentProps } from '../../../../types/plugin'
+import { useToast } from '../../../../react/hooks/use-toast'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../../../react/ui/tooltip'
 import {
-  Button,
-  Form,
-  FormControl,
-  FormFieldWithController,
-  FormItem,
-  FormLabel,
-  FormMessage,
   Sheet,
   SheetClose,
   SheetContent,
@@ -21,15 +18,10 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  Textarea,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-  useToast,
-} from '@nextjs-cms/ui'
-import { generateContent } from './queries'
-import { CMSPluginComponentProps } from '../../../../types/plugin'
+} from '../../../../react/ui/sheet'
+import { Button } from '../../../../react/ui/button'
+import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '../../../../react/ui/form'
+import { Textarea } from '../../../../react/ui/textarea'
 
 const validationSchema = z.object({
   message: z.string(),

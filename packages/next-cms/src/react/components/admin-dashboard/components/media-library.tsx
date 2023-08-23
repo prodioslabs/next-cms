@@ -1,11 +1,14 @@
 'use client'
 
-import { Button, Loader, PageHeading, useToast } from '@nextjs-cms/ui'
 import { Image, PackageOpen, Plus, Upload } from 'lucide-react'
 import { useMemo } from 'react'
 import { api } from '../../../../server/api'
 import CreateFolder from './create-folder'
 import FolderCard from './folder-card'
+import { Loader } from '../../../ui/loader'
+import { useToast } from '../../../hooks/use-toast'
+import { Button } from '../../../ui/button'
+import { PageHeading } from '../../../ui/page-heading'
 
 type MediaLibraryProps = {
   folderId?: string

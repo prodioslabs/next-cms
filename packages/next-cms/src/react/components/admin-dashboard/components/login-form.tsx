@@ -6,19 +6,12 @@ import { useMutation } from '@tanstack/react-query'
 import { signIn } from 'next-auth/react'
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
-import {
-  Button,
-  Input,
-  PasswordInput,
-  cn,
-  useToast,
-  Form,
-  FormControl,
-  FormFieldWithController,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@nextjs-cms/ui'
+import { useToast } from '../../../hooks/use-toast'
+import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '../../../ui/form'
+import { cn } from '../../../lib/utils'
+import { Input } from '../../../ui/input'
+import { PasswordInput } from '../../../ui/password-input'
+import { Button } from '../../../ui/button'
 
 type LoginFormProps = {
   className?: string
