@@ -1,7 +1,7 @@
 'use client'
 
 import { HexColorPicker } from 'react-colorful'
-import colors from 'tailwindcss/colors'
+import colors from '../lib/colors.json'
 import { cn } from '../lib/utils'
 
 type ColorPaletteProps = {

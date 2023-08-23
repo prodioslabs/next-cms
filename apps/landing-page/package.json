@@ -14,7 +14,6 @@
     "@nextjs-cms/cms": "workspace:*",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "@nextjs-cms/ui": "workspace:*",
     "zod": "^3.21.4"
   },
   "devDependencies": {
