@@ -28,8 +28,8 @@ export default function Home() {
         renderItems={({ items: blogs }) => {
           return (
             <div className="mx-auto max-w-screen-xl rounded-md">
-              <div className="text-2xl font-semibold text-foreground">Blogs</div>
-              <Link href="/blogs" className="mb-4 block text-sm text-muted-foreground">
+              <div className="text-2xl font-semibold text-zinc-950">Blogs</div>
+              <Link href="/blogs" className="mb-4 block text-sm text-zinc-500">
                 Read more blogs...
               </Link>
               <div className="md:grid-col-2 grid grid-cols-1 gap-4 lg:grid-cols-3">
@@ -47,8 +47,8 @@ export default function Home() {
                         alt={blog.data.title}
                         className="mb-4 block aspect-video w-full rounded-2xl object-cover"
                       />
-                      <div className="mb-1 text-lg font-medium text-foreground">{blog.data.title}</div>
-                      <div className="line-clamp-2 text-sm text-muted-foreground">{blog.data.shortContent}</div>
+                      <div className="mb-1 text-lg font-medium text-zinc-950">{blog.data.title}</div>
+                      <div className="line-clamp-2 text-sm text-zinc-500">{blog.data.shortContent}</div>
                     </Link>
                   )
                 })}

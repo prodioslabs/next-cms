@@ -19,6 +19,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.9",
     "@types/node": "20.3.1",
     "@types/react": "^18.2.14",
     "@types/react-dom": "18.2.6",
@@ -27,8 +28,8 @@
     "eslint-custom-config": "workspace:*",
     "postcss": "^8.4.27",
     "prettier-config": "workspace:*",
-    "tailwind-config": "workspace:*",
     "tailwindcss": "^3.3.3",
+    "tailwindcss-animate": "^1.0.6",
     "typescript": "^5.1.3"
   }
 }

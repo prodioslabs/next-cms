@@ -1,5 +1,10 @@
 import { Inter } from 'next/font/google'
-import './globals.css'
+/**
+ * As this is a demo app in the same monorepo, we can import the tailwind styles directly.
+ * But in the real world, you should import the styles from the package:
+ * import '@nextjs-cms/cms/dist/styles.css'
+ */
+import '@nextjs-cms/cms/styles.css'
 
 const inter = Inter({ subsets: ['latin'] })
 

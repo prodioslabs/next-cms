@@ -28,17 +28,17 @@ export default function HeroSection({
       {/** Grid */}
       <div className="grid gap-4 md:grid-cols-2 md:items-center md:gap-8 xl:gap-20">
         <div>
-          <h1 className="block text-3xl font-bold text-foreground sm:text-4xl lg:text-6xl lg:leading-tight">
+          <h1 className="block text-3xl font-bold text-zinc-950 sm:text-4xl lg:text-6xl lg:leading-tight">
             <div dangerouslySetInnerHTML={{ __html: title }} />
           </h1>
-          <div className="mt-3 text-base text-muted-foreground lg:text-lg">
+          <div className="mt-3 text-base text-zinc-500 lg:text-lg">
             <div dangerouslySetInnerHTML={{ __html: description }} />
           </div>
 
           {/** Buttons */}
           <div className="mt-7 grid w-full gap-3 sm:inline-flex">
-            <button>
-              {callToActionIcon ? <LucideIcon name={callToActionIcon} /> : null}
+            <button className="flex items-center space-x-2 rounded-md bg-blue-500 px-3 py-2 text-blue-50">
+              {callToActionIcon ? <LucideIcon name={callToActionIcon} className="h-5 w-5" /> : null}
               <span>{callToAction}</span>
             </button>
           </div>
