@@ -1,6 +1,6 @@
 {
   "name": "@nextjs-cms/cms",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "./src/index.ts",
   "author": "Abinash Panda",
   "license": "ISC",
@@ -24,9 +24,10 @@
   "scripts": {
     "test": "vitest",
     "db:push": "prisma db push",
+    "prebuild:css": "rimraf dist",
     "build:css": "postcss ./src/styles.css -o ./dist/styles.css",
     "watch:css": "postcss --watch ./src/styles.css -o ./dist/styles.css",
-    "prepublish": "pnpm build:css",
+    "prepare": "pnpm build:css",
     "format": "prettier --write ./src/*/*.{ts,tsx} --ignore-path=../../.prettierignore",
     "postinstall": "prisma generate client"
   },
@@ -112,6 +113,7 @@
     "postcss-cli": "^10.1.0",
     "prettier-config": "workspace:*",
     "react-dom": "18.2.0",
+    "rimraf": "^5.0.1",
     "tailwindcss": "^3.3.3",
     "tailwindcss-animate": "^1.0.6",
     "typescript": "^5.1.3",
