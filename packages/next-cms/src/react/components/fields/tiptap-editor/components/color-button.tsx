@@ -2,12 +2,12 @@
 
 import { useCallback } from 'react'
 import { Editor } from '@tiptap/react'
-import { Baseline, RemoveFormatting } from 'lucide-react'
 import { useDebouncedCallback } from 'use-debounce'
 import { Popover, PopoverContent, PopoverTrigger } from '../../../../ui/popover'
 import { Toggle } from '../../../../ui/toggle'
 import { ColorPalette } from '../../../../ui/color-palette'
 import { Button } from '../../../../ui/button'
+import { LucideIcon } from '../../../../../ui'
 
 type ColorButtonProps = {
   editor: Editor
@@ -33,7 +33,7 @@ export default function ColorButton({ editor, className, style }: ColorButtonPro
     <Popover>
       <PopoverTrigger asChild>
         <Toggle className={className} style={style} variant="outline">
-          <Baseline className="h-4 w-4" style={{ color: colorActive }} />
+          <LucideIcon name="baseline" className="h-4 w-4" style={{ color: colorActive }} />
         </Toggle>
       </PopoverTrigger>
       <PopoverContent sideOffset={12}>
@@ -53,7 +53,7 @@ export default function ColorButton({ editor, className, style }: ColorButtonPro
               <div className="border-b" />
               <Button
                 variant="outline"
-                icon={<RemoveFormatting />}
+                icon={<LucideIcon name="remove-formatting" />}
                 size="sm"
                 onClick={() => {
                   editor.chain().focus().unsetColor().run()

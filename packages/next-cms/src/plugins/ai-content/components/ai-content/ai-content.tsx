@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Sparkles, Trash2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useMutation } from '@tanstack/react-query'
@@ -22,6 +21,7 @@ import {
 import { Button } from '../../../../react/ui/button'
 import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '../../../../react/ui/form'
 import { Textarea } from '../../../../react/ui/textarea'
+import { LucideIcon } from '../../../../ui'
 
 const validationSchema = z.object({
   message: z.string(),
@@ -61,7 +61,7 @@ export default function AIContent({ field, updateField }: CMSPluginComponentProp
         <Sheet open={open} onOpenChange={setOpen}>
           <TooltipTrigger asChild>
             <SheetTrigger asChild>
-              <Button icon={<Sparkles />} variant="outline" size="icon" />
+              <Button icon={<LucideIcon name="sparkles" />} variant="outline" size="icon" />
             </SheetTrigger>
           </TooltipTrigger>
           <SheetContent className="space-y-4 overflow-auto">
@@ -137,7 +137,7 @@ export default function AIContent({ field, updateField }: CMSPluginComponentProp
                           </Button>
                           <Button
                             variant="ghost"
-                            icon={<Trash2 />}
+                            icon={<LucideIcon name="trash-2" />}
                             size="icon"
                             onClick={() => {
                               setMessages((prevState) => prevState.filter((_, i) => i !== index))

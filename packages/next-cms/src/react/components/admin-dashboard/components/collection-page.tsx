@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { ChevronRight, PackageOpen, Plus } from 'lucide-react'
 import { useMemo } from 'react'
 import DeleteCollectionItem from '../../delete-collection-item'
 import { CMSCollection } from '../../../../types/schema'
@@ -10,6 +9,7 @@ import { api } from '../../../../server/api'
 import { Loader } from '../../../ui/loader'
 import { Button } from '../../../ui/button'
 import { cn } from '../../../lib/utils'
+import { LucideIcon } from '../../../../ui'
 
 type CollectionPageProps = {
   collection: CMSCollection<Record<string, CMSField>>
@@ -30,12 +30,12 @@ export default function CollectionPage({ collection, collectionName, className, 
       if (query.data.length === 0) {
         return (
           <div className="flex flex-col items-center justify-center rounded-md border border-dashed p-4">
-            <PackageOpen className="mb-2 h-10 w-10 text-muted-foreground opacity-20" />
+            <LucideIcon name="package-open" className="mb-2 h-10 w-10 text-muted-foreground opacity-20" />
             <div className="mb-2 text-sm text-muted-foreground">
               No elements found for {collection.label} collection
             </div>
             <Link href={`/cms/admin/collection/${collectionName}/new`}>
-              <Button icon={<Plus />} size="sm" variant="outline">
+              <Button icon={<LucideIcon name="plus" />} size="sm" variant="outline">
                 Create New Item
               </Button>
             </Link>
@@ -58,7 +58,7 @@ export default function CollectionPage({ collection, collectionName, className, 
               </div>
               <div className="flex items-center text-xs text-muted-foreground">
                 <span>Edit</span>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                <LucideIcon name="chevron-right" className="h-4 w-4 text-muted-foreground" />
               </div>
             </Link>
             <DeleteCollectionItem
@@ -80,7 +80,7 @@ export default function CollectionPage({ collection, collectionName, className, 
         <div className="flex items-center">
           <div className="flex-1 text-base font-medium text-foreground">Items</div>
           <Link href={`/cms/admin/collection/${collectionName}/new`}>
-            <Button icon={<Plus />}>Create New Item</Button>
+            <Button icon={<LucideIcon name="plus" />}>Create New Item</Button>
           </Link>
         </div>
         {content}

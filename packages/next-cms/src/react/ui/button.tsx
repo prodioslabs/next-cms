@@ -1,8 +1,8 @@
 import { cloneElement, forwardRef } from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { Loader2 } from 'lucide-react'
 import { cn } from '../lib/utils'
+import { LucideIcon } from '../../ui'
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center rounded-md text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[loading=true]:opacity-50',
@@ -71,7 +71,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ loading, icon, chil
   return (
     <BaseButton {...props} asChild={false} data-loading={loading} ref={ref}>
       {loading ? (
-        <Loader2
+        <LucideIcon
+          name="loader-2"
           className={cn(iconVariants({ type: children ? 'withChildren' : 'withoutChildren' }), 'animate-spin')}
         />
       ) : icon ? (

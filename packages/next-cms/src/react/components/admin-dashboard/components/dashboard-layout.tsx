@@ -1,4 +1,3 @@
-import { FolderOpen, File, Image } from 'lucide-react'
 import { getServerSession as nextAuthGetServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import { CMSConfig } from '../../../../types/config'
@@ -10,6 +9,7 @@ import { authOptions } from '../../../../core/auth'
 import DashboardPanel from './dashboard-panel'
 import DashboardMenu from './dashboard-menu'
 import SidebarLabel from './sidebar-label'
+import { LucideIcon } from '../../../../ui'
 
 async function getServerSession() {
   try {
@@ -55,7 +55,7 @@ export default function createDashboardLayout<
           sidebar={
             <div className="flex h-full flex-col">
               <div className="flex-1 space-y-4 overflow-y-auto overflow-x-hidden px-2 py-4">
-                <NavLink href="/cms/admin/media-library" icon={<Image />} label="Media Library" />
+                <NavLink href="/cms/admin/media-library" icon={<LucideIcon name="image" />} label="Media Library" />
                 <div className="border-b border-border" />
                 <div className="space-y-2">
                   <SidebarLabel>Collections</SidebarLabel>
@@ -64,7 +64,7 @@ export default function createDashboardLayout<
                       <NavLink
                         href={`/cms/admin/collection/${collectionKey}`}
                         key={collectionKey}
-                        icon={<FolderOpen />}
+                        icon={<LucideIcon name="folder-open" />}
                         label={collection.label}
                       />
                     )
@@ -78,7 +78,7 @@ export default function createDashboardLayout<
                       <NavLink
                         href={`/cms/admin/singleton/${singletonName}`}
                         key={singletonName}
-                        icon={<File />}
+                        icon={<LucideIcon name="file" />}
                         label={singleton.label}
                       />
                     )

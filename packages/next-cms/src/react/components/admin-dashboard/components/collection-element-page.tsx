@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { ChevronLeft } from 'lucide-react'
 import { useMemo } from 'react'
 import ContentManager from '../../content-manager'
 import { CMSCollection } from '../../../../types/schema'
@@ -10,6 +9,7 @@ import { CMSPlugin } from '../../../../types/plugin'
 import { api } from '../../../../server/api'
 import { Loader } from '../../../ui/loader'
 import { cn } from '../../../lib/utils'
+import { LucideIcon } from '../../../../ui'
 
 type CollectionElementPageProps = {
   collection: CMSCollection<Record<string, CMSField>>
@@ -75,7 +75,7 @@ export default function CollectionElementPage({
           href={`/cms/admin/collection/${collectionName}`}
           className="flex items-center text-sm text-muted-foreground"
         >
-          <ChevronLeft className="mr-2 h-5 w-5" />
+          <LucideIcon name="chevron-left" className="mr-2 h-5 w-5" />
           Show all items
         </Link>
       </div>

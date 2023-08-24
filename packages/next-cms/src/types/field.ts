@@ -44,8 +44,8 @@ export type CMSIconField = CMSBaseField & {
 }
 
 export type CMSIconData = {
-  name: string
-  iconLib: string
+  name: keyof typeof import('lucide-react/dynamicIconImports').default
+  iconLib: 'lucide'
 }
 
 export type CMSColorField = CMSBaseField & {

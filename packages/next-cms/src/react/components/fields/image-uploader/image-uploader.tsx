@@ -2,13 +2,13 @@
 
 import { useMutation } from '@tanstack/react-query'
 import Image from 'next/image'
-import { Loader2, Trash } from 'lucide-react'
 import { useState } from 'react'
 import { CMSImageData } from '../../../../types/field'
 import { uploadImage } from './queries'
 import { cn } from '../../../lib/utils'
 import { Uploader } from '../../../ui/uploader'
 import { Button } from '../../../ui/button'
+import { LucideIcon } from '../../../../ui'
 
 type ImageUploaderProps = {
   required: boolean
@@ -50,7 +50,9 @@ export default function ImageUploader({ required, uploadedImage, onChange, class
           mutation.mutate(acceptedFile[0])
         }}
       />
-      {mutation.isLoading ? <Loader2 className="absolute right-3 top-3 h-6 w-6 animate-spin" /> : null}
+      {mutation.isLoading ? (
+        <LucideIcon name="loader-2" className="absolute right-3 top-3 h-6 w-6 animate-spin" />
+      ) : null}
       {uploadedImage ? (
         <div key={uploadedImage.url} className="mt-2 flex items-center space-x-2 truncate rounded-md border p-2">
           <Image
@@ -68,7 +70,7 @@ export default function ImageUploader({ required, uploadedImage, onChange, class
           </div>
           {!required ? (
             <Button
-              icon={<Trash />}
+              icon={<LucideIcon name="trash" />}
               size="icon"
               variant="destructive-outline"
               type="button"

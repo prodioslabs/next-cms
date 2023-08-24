@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useCallback, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { FileWarning } from 'lucide-react'
 import slugify from 'slugify'
 import { getValidationSchemaForSchema } from '../../../../core/validation'
 import InputField from '../../input-field'
@@ -24,6 +23,7 @@ import { ColorPicker } from '../../../ui/color-picker'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../ui/select'
 import { cn } from '../../../lib/utils'
 import { Button } from '../../../ui/button'
+import { LucideIcon } from '../../../../ui'
 
 export type BaseFormProps = Omit<ContentManagerProps, 'config' | 'onUpdate' | 'redirectToOnSave'> & {
   onSubmit: (data: any) => void
@@ -320,7 +320,7 @@ export default function BaseForm({
             <div className="flex items-center justify-end space-x-4 border-t bg-muted px-4 py-2">
               {form.formState.isDirty ? (
                 <div className="flex items-center text-sm text-muted-foreground">
-                  <FileWarning className="mr-1 h-5 w-5" />
+                  <LucideIcon name="file-warning" className="mr-1 h-5 w-5" />
                   Unsaved Changes
                 </div>
               ) : null}

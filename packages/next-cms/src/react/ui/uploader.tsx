@@ -1,8 +1,8 @@
 'use client'
 
 import { DropzoneOptions, useDropzone } from 'react-dropzone'
-import { Upload } from 'lucide-react'
 import { cn } from '../lib/utils'
+import { LucideIcon } from '../../ui'
 
 type UploaderProps = DropzoneOptions & {
   description?: string
@@ -32,7 +32,7 @@ export function Uploader({ description, className, style, ...options }: Uploader
     >
       <input {...getInputProps()} />
       <div className="flex h-full flex-col items-center justify-center">
-        <Upload className="mb-2 h-6 w-6 text-muted-foreground" />
+        <LucideIcon name="upload" className="mb-2 h-6 w-6 text-muted-foreground" />
         <div className="text-sm text-muted-foreground">
           {isDragActive ? (
             <>Drop the files here ...</>

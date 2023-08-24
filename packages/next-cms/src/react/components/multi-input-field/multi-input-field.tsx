@@ -1,6 +1,5 @@
 'use client'
 
-import { Plus, Trash } from 'lucide-react'
 import { forwardRef } from 'react'
 import { Control, useFieldArray } from 'react-hook-form'
 import { CMSField } from '../../../types/field'
@@ -10,6 +9,7 @@ import SingleInputField from '../single-input-field'
 import { generateDummyDataForField } from '../../../core/fix-data'
 import { Button } from '../../ui/button'
 import { cn } from '../../lib/utils'
+import { LucideIcon } from '../../../ui'
 
 export type MultiInputFieldProps = {
   fieldName: string
@@ -54,7 +54,7 @@ function MultiInputField(
               <div className="h-10 border-r border-dashed" />
               <Button
                 type="button"
-                icon={<Trash />}
+                icon={<LucideIcon name="trash" />}
                 variant="destructive-outline"
                 size="icon"
                 className="opacity-30 hover:opacity-100"
@@ -70,7 +70,7 @@ function MultiInputField(
         <Button
           type="button"
           variant="outline"
-          icon={<Plus />}
+          icon={<LucideIcon name="plus" />}
           onClick={() => {
             append(generateDummyDataForField(cmsField))
           }}

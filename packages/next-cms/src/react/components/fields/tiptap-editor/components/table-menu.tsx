@@ -2,15 +2,34 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Editor } from '@tiptap/react'
-import { Table } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../../../../ui/dialog'
-import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger } from '../../../../ui/menu-bar'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../../../../ui/dialog'
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
+  MenubarTrigger,
+} from '../../../../ui/menu-bar'
 import { Button } from '../../../../ui/button'
 import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '../../../../ui/form'
 import { Input } from '../../../../ui/input'
+import { LucideIcon } from '../../../../../ui'
 
 export const TABLE_SIZES = [
   {
@@ -68,7 +87,14 @@ export default function TableMenu({ editor, className, style }: TableMenuProps) 
       <Menubar className="border-none p-0">
         <MenubarMenu>
           <MenubarTrigger asChild>
-            <Button variant="outline" size="icon" icon={<Table />} type="button" className={className} style={style} />
+            <Button
+              variant="outline"
+              size="icon"
+              icon={<LucideIcon name="table" />}
+              type="button"
+              className={className}
+              style={style}
+            />
           </MenubarTrigger>
           <MenubarContent>
             <MenubarSub>

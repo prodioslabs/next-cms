@@ -5,8 +5,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { ChevronRight } from 'lucide-react'
 import { cn } from '../../lib/utils'
+import { LucideIcon } from '../../../ui'
 
 type EditableLinkProps = {
   url: string
@@ -108,7 +108,7 @@ function EditableLinkComponent({ url, label, containerElementId }: EditableLinkP
             onMouseLeave={handleMouseLeave}
           >
             Edit {label}
-            <ChevronRight className="ml-2 h-4 w-4" />
+            <LucideIcon name="chevron-right" className="ml-2 h-4 w-4" />
           </Link>
           {containerBBox ? (
             <div

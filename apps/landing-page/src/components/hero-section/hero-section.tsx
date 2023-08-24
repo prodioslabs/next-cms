@@ -3,14 +3,14 @@
 import Image from 'next/image'
 import React from 'react'
 import { type CMSImageData } from '@nextjs-cms/cms'
-import { LucideIcon } from '@nextjs-cms/cms/ui'
+import { LucideIcon, LucideIconName } from '@nextjs-cms/cms/ui'
 import { cn } from '~/lib/utils'
 
 type HeroSectionProps = React.HTMLAttributes<HTMLDivElement> & {
   title: string
   description: string
   image: CMSImageData
-  callToActionIcon?: string
+  callToActionIcon?: LucideIconName
   callToAction?: string
 }
 

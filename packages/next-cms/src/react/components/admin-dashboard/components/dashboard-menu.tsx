@@ -1,7 +1,6 @@
 'use client'
 
 import { useMutation } from '@tanstack/react-query'
-import { Settings } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import { useTheme } from 'next-themes'
 import { useStore } from '../../../stores'
@@ -17,6 +16,7 @@ import {
   MenubarTrigger,
 } from '../../../ui/menu-bar'
 import { Button } from '../../../ui/button'
+import { LucideIcon } from '../../../../ui'
 
 export default function DashboardMenu() {
   const sidebarCollapsed = useStore((store) => store.sidebarCollapsed)
@@ -35,7 +35,7 @@ export default function DashboardMenu() {
     <Menubar className="w-full border-none p-0">
       <MenubarMenu>
         <MenubarTrigger asChild>
-          <Button icon={<Settings />} variant="outline" className="w-full">
+          <Button icon={<LucideIcon name="settings" />} variant="outline" className="w-full">
             {sidebarCollapsed ? null : 'Settings'}
           </Button>
         </MenubarTrigger>

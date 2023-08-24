@@ -1,6 +1,6 @@
 'use client'
 
-import { Atom } from 'lucide-react'
+import { LucideIcon } from '../../../../ui'
 import LoginForm from './login-form'
 
 export default function LoginPage() {
@@ -13,7 +13,7 @@ export default function LoginPage() {
       <div className="bg-muted-background flex h-screen items-center justify-center">
         <div className="w-[480px] rounded-md border bg-primary-foreground p-6">
           <div className="mb-4 flex items-center space-x-4">
-            <Atom className="h-10 w-10 text-foreground" />
+            <LucideIcon name="atom" className="h-10 w-10 text-foreground" />
             <div className="flex-1">
               <div className="text-xl font-semibold text-foreground">Admin Login</div>
               <div className="text-sm text-muted-foreground">

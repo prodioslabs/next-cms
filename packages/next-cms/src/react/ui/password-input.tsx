@@ -1,8 +1,8 @@
 'use client'
 
-import { Eye, EyeOff } from 'lucide-react'
 import { forwardRef, useState } from 'react'
 import { cn } from '../lib/utils'
+import { LucideIcon } from '../../ui'
 
 export interface PasswordInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {}
 
@@ -30,7 +30,11 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({ classN
           setPasswordVisible((prevState) => !prevState)
         }}
       >
-        {passwordVisible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+        {passwordVisible ? (
+          <LucideIcon name="eye-off" className="h-4 w-4" />
+        ) : (
+          <LucideIcon name="eye" className="h-4 w-4" />
+        )}
       </button>
     </div>
   )
