@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback } from 'react'
-import { Editor } from '@tiptap/react'
+import type { Editor } from '@tiptap/react'
 import { useDebouncedCallback } from 'use-debounce'
 import { Popover, PopoverContent, PopoverTrigger } from '../../../../ui/popover'
 import { Toggle } from '../../../../ui/toggle'

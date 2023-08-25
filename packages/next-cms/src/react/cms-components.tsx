@@ -1,6 +1,4 @@
-import { nanoid } from 'nanoid'
 import { Slot } from '@radix-ui/react-slot'
-import camelCase from 'camelcase'
 import {
   CollectionElementReaderProps,
   CollectionListReaderProps,
@@ -17,6 +15,8 @@ import {
   fetchCollectionElements,
   fetchSingleton,
 } from '../core/data'
+import { generateRandomString } from './lib/random'
+import { pascalCase } from './lib/string'
 
 export function createCollectionReader<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
@@ -34,7 +34,7 @@ export function createCollectionReader<
       'data-cms-label': collection.label,
       'data-cms-id': collectionName as string,
       className: 'group',
-      id: nanoid(),
+      id: generateRandomString(16),
     } as const
 
     const items = await fetchCollectionElements(collection, collectionName)
@@ -58,7 +58,7 @@ export function createCollectionReader<
       </>
     )
   }
-  CollectionListReader.displayName = `${camelCase(collectionName)}ListReader`
+  CollectionListReader.displayName = `${pascalCase(collectionName)}ListReader`
 
   async function CollectionElementReader({
     elementId,
@@ -80,7 +80,7 @@ export function createCollectionReader<
       'data-cms-id': collectionName as string,
       'data-cms-slug': elementSlug,
       className: 'group',
-      id: nanoid(),
+      id: generateRandomString(16),
     } as const
 
     const item = elementSlug
@@ -104,7 +104,7 @@ export function createCollectionReader<
       </>
     )
   }
-  CollectionElementReader.displayName = `${camelCase(collectionName)}ElementReader`
+  CollectionElementReader.displayName = `${pascalCase(collectionName)}ElementReader`
 
   function CollectionReader(props: CollectionReaderProps<CMSCollections[CollectionName]>) {
     switch (props.type) {
@@ -125,7 +125,7 @@ export function createCollectionReader<
       }
     }
   }
-  CollectionReader.displayName = `${camelCase(collectionName)}CollectionReader`
+  CollectionReader.displayName = `${pascalCase(collectionName)}CollectionReader`
   return CollectionReader
 }
 
@@ -145,7 +145,7 @@ export function createSingletonReader<
       'data-cms-label': singleton.label,
       'data-cms-id': singletonName as string,
       className: 'group',
-      id: nanoid(),
+      id: generateRandomString(16),
     } as const
 
     const item = await fetchSingleton(singleton, singletonName)
@@ -163,6 +163,6 @@ export function createSingletonReader<
       </>
     )
   }
-  SingletonReader.displayName = `${camelCase(singletonName)}SingletonReader`
+  SingletonReader.displayName = `${pascalCase(singletonName)}SingletonReader`
   return SingletonReader
 }

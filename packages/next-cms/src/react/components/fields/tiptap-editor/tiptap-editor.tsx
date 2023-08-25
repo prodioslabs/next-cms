@@ -15,6 +15,9 @@ import Image from '@tiptap/extension-image'
 import EditorToolbar, { HEADING_LEVELS } from './components/editor-toolbar'
 import { cn } from '../../../lib/utils'
 
+// const EditorContent = dynamic(() => import('@tiptap/react').then((mod) => mod.EditorContent), { ssr: false })
+// const useEditor = dynamic(() => import('@tiptap/react').then((mod) => mod.useEditor), { ssr: false })
+
 const CustomTextStyle = TextStyle.extend({
   priority: 1000,
 })

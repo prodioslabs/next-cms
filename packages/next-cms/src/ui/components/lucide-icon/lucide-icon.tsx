@@ -9,9 +9,9 @@ interface IconProps extends LucideProps {
   name: keyof typeof dynamicIconImports
 }
 
-export const lucideIconNames = Object.keys(dynamicIconImports)
-
 export type LucideIconName = keyof typeof dynamicIconImports
+
+export const lucideIconNames = Object.keys(dynamicIconImports) as LucideIconName[]
 
 export function LucideIcon({ name, ...props }: IconProps) {
   let iconName = name

@@ -18,6 +18,7 @@ const nextConfig = {
   },
   experimental: {
     instrumentationHook: true,
+    esmExternals: 'loose',
   },
   eslint: {
     ignoreDuringBuilds: true,
