@@ -8,15 +8,15 @@ import {
 import { CMSConfig } from '../types/config'
 import { CMSField } from '../types/field'
 import { CMSCollection, CMSCollectionData, CMSSingleton, CMSSingletonData } from '../types/schema'
-import EditableLink from './components/editable-link'
+import EditableLink from '../dashboard/components/editable-link'
 import {
   fetchCollectionElementById,
   fetchCollectionElementBySlug,
   fetchCollectionElements,
   fetchSingleton,
 } from '../core/data'
-import { generateRandomString } from './lib/random'
-import { pascalCase } from './lib/string'
+import { generateRandomString } from '../dashboard/lib/random'
+import { pascalCase } from '../dashboard/lib/string'
 
 export function createCollectionReader<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
@@ -33,7 +33,6 @@ export function createCollectionReader<
       'data-cms-type': 'collection',
       'data-cms-label': collection.label,
       'data-cms-id': collectionName as string,
-      className: 'group',
       id: generateRandomString(16),
     } as const
 

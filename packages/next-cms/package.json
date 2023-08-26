@@ -29,7 +29,8 @@
     "watch:css": "postcss --watch ./src/styles.css -o ./dist/styles.css",
     "prepare": "pnpm build:css",
     "format": "prettier --write ./src/*/*.{ts,tsx} --ignore-path=../../.prettierignore",
-    "postinstall": "prisma generate client"
+    "postinstall": "prisma generate client",
+    "build": "tsup"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
@@ -106,6 +107,7 @@
     "@types/react": "^18.2.14",
     "@types/react-dom": "18.2.6",
     "autoprefixer": "10.4.14",
+    "concurrently": "^8.2.1",
     "eslint-custom-config": "workspace:*",
     "postcss": "^8.4.27",
     "postcss-cli": "^10.1.0",

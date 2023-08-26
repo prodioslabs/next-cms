@@ -46,3 +46,9 @@ next-env.d.ts
 
 # turbo
 **/.turbo
+
+# Build packages
+packages/next-cms/core
+packages/next-cms/server
+packages/next-cms/react
+packages/next-cms/dashboard

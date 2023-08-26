@@ -8,7 +8,7 @@ import { z } from 'zod'
 import Image from 'next/image'
 import { CMSPluginComponentProps } from '../../../../types/plugin'
 import { searchImage } from './queries'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../../../react/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../../../dashboard/ui/tooltip'
 import {
   Sheet,
   SheetContent,
@@ -16,10 +16,10 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '../../../../react/ui/sheet'
-import { Button } from '../../../../react/ui/button'
-import { Form, FormControl, FormFieldWithController, FormItem, FormMessage } from '../../../../react/ui/form'
-import { Input } from '../../../../react/ui/input'
+} from '../../../../dashboard/ui/sheet'
+import { Button } from '../../../../dashboard/ui/button'
+import { Form, FormControl, FormFieldWithController, FormItem, FormMessage } from '../../../../dashboard/ui/form'
+import { Input } from '../../../../dashboard/ui/input'
 
 const validationSchema = z.object({
   query: z.string().min(1),

@@ -7,8 +7,8 @@ import { z } from 'zod'
 import { useMutation } from '@tanstack/react-query'
 import { generateContent } from './queries'
 import { CMSPluginComponentProps } from '../../../../types/plugin'
-import { useToast } from '../../../../react/hooks/use-toast'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../../../react/ui/tooltip'
+import { useToast } from '../../../../dashboard/hooks/use-toast'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../../../dashboard/ui/tooltip'
 import {
   Sheet,
   SheetClose,
@@ -17,10 +17,17 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '../../../../react/ui/sheet'
-import { Button } from '../../../../react/ui/button'
-import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '../../../../react/ui/form'
-import { Textarea } from '../../../../react/ui/textarea'
+} from '../../../../dashboard/ui/sheet'
+import { Button } from '../../../../dashboard/ui/button'
+import {
+  Form,
+  FormControl,
+  FormFieldWithController,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '../../../../dashboard/ui/form'
+import { Textarea } from '../../../../dashboard/ui/textarea'
 import { LucideIcon } from '../../../../ui'
 
 const validationSchema = z.object({

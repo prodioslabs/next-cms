@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import type { LucideProps } from 'lucide-react'
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
 import { useMemo } from 'react'
-import { Skeleton } from '../../../react/ui/skeleton'
+import { Skeleton } from '../../../dashboard/ui/skeleton'
 
 interface IconProps extends LucideProps {
   name: keyof typeof dynamicIconImports
@@ -22,12 +22,15 @@ export function LucideIcon({ name, ...props }: IconProps) {
     iconName = 'shield'
   }
 
-  const Icon = useMemo(() => dynamic(dynamicIconImports[iconName], {
-    loading: () => <Skeleton className={props.className} style={props.style} />,
-  }),
-  // we can safely ignore this warning, because we only want to render the icon on iconName change
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  [iconName])
+  const Icon = useMemo(
+    () =>
+      dynamic(dynamicIconImports[iconName], {
+        loading: () => <Skeleton className={props.className} style={props.style} />,
+      }),
+    // we can safely ignore this warning, because we only want to render the icon on iconName change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [iconName],
+  )
 
   return <Icon {...props} />
 }
