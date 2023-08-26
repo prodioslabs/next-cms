@@ -1,1 +1,1 @@
-export * from './components/lucide-icon'
+export * from '../element/lucide-icon'

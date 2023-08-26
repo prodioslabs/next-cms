@@ -4,10 +4,5 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      {children}
-      <div id="editable-element-portal" />
-    </>
-  )
+  return <>{children}</>
 }

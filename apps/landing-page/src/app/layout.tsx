@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google'
  * But in the real world, you should import the styles from the package:
  * import '@nextjs-cms/cms/dist/styles.css'
  */
-import '@nextjs-cms/cms/styles.css'
+import '@nextjs-cms/cms/src/styles.css'
 
 const inter = Inter({ subsets: ['latin'] })
 

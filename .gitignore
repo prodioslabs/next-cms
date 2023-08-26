@@ -50,5 +50,7 @@ next-env.d.ts
 # Build packages
 packages/next-cms/core
 packages/next-cms/server
-packages/next-cms/react
+packages/next-cms/component
 packages/next-cms/dashboard
+packages/next-cms/dist
+packages/next-cms/plugins

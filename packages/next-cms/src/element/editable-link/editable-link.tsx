@@ -5,13 +5,20 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { cn } from '../../lib/utils'
-import { LucideIcon } from '../../../ui'
+import { cn } from '../../dashboard/lib/utils'
+import { LucideIcon } from '../../ui'
 
 type EditableLinkProps = {
   url: string
   label: string
   containerElementId: string
+}
+
+let portalContainer = document.getElementById('editable-element-portal')
+if (!portalContainer) {
+  portalContainer = document.createElement('div')
+  portalContainer.id = 'editable-element-portal'
+  document.body.appendChild(portalContainer)
 }
 
 function EditableLinkComponent({ url, label, containerElementId }: EditableLinkProps) {
@@ -122,12 +129,12 @@ function EditableLinkComponent({ url, label, containerElementId }: EditableLinkP
             />
           ) : null}
         </>,
-        document.getElementById('editable-element-portal')!,
+        portalContainer!,
       )
     : null
 }
 
-export default function EditableLink(props: EditableLinkProps) {
+export function EditableLink(props: EditableLinkProps) {
   const [adminAuthenticated, setAdminAuthenticated] = useState(false)
 
   useEffect(function fetchUserSession() {

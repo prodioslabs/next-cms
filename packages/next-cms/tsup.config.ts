@@ -27,11 +27,21 @@ export default defineConfig([
     banner: { js: '"use client";' },
   },
   {
-    entry: ['./src/react/index.ts'],
+    entry: ['./src/plugins/index.ts'],
     target: 'es2019',
-    outDir: './react',
+    outDir: './plugins',
     format: ['cjs', 'esm'],
     dts: true,
     watch: process.env.NODE_ENV === 'development',
+    banner: { js: '"use client";' },
+  },
+  {
+    entry: ['./src/component/index.ts'],
+    target: 'es2019',
+    outDir: './component',
+    format: ['cjs', 'esm'],
+    dts: true,
+    watch: process.env.NODE_ENV === 'development',
+    external: ['@nextjs-cms/cms/core', '@nextjs-cms/cms/element'],
   },
 ])

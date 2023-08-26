@@ -1,22 +1,24 @@
 import { Slot } from '@radix-ui/react-slot'
 import {
+  fetchCollectionElementById,
+  fetchCollectionElementBySlug,
+  fetchCollectionElements,
+  fetchSingleton,
+} from '@nextjs-cms/cms/core'
+import dynamic from 'next/dynamic'
+import { generateRandomString } from '../lib/random'
+import { pascalCase } from '../lib/string'
+import type {
   CollectionElementReaderProps,
   CollectionListReaderProps,
   CollectionReaderProps,
   SingletonReaderProps,
 } from '../types/components'
-import { CMSConfig } from '../types/config'
-import { CMSField } from '../types/field'
-import { CMSCollection, CMSCollectionData, CMSSingleton, CMSSingletonData } from '../types/schema'
-import EditableLink from '../dashboard/components/editable-link'
-import {
-  fetchCollectionElementById,
-  fetchCollectionElementBySlug,
-  fetchCollectionElements,
-  fetchSingleton,
-} from '../core/data'
-import { generateRandomString } from '../dashboard/lib/random'
-import { pascalCase } from '../dashboard/lib/string'
+import type { CMSConfig } from '../types/config'
+import type { CMSField } from '../types/field'
+import type { CMSCollection, CMSCollectionData, CMSSingleton, CMSSingletonData } from '../types/schema'
+
+const EditableLink = dynamic(() => import('@nextjs-cms/cms/element').then((mod) => mod.EditableLink), { ssr: false })
 
 export function createCollectionReader<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,

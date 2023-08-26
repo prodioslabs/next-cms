@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import type { LucideProps } from 'lucide-react'
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
 import { useMemo } from 'react'
-import { Skeleton } from '../../../dashboard/ui/skeleton'
+import { Skeleton } from '../../dashboard/ui/skeleton'
 
 interface IconProps extends LucideProps {
   name: keyof typeof dynamicIconImports
