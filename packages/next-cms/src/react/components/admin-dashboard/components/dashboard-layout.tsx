@@ -1,40 +1,50 @@
-import { getServerSession as nextAuthGetServerSession } from 'next-auth'
+'use client'
+
+import { Session } from 'next-auth'
 import { redirect } from 'next/navigation'
+import { useEffect, useMemo, useState } from 'react'
+import { LoaderIcon } from 'lucide-react'
 import { CMSConfig } from '../../../../types/config'
 import { CMSCollection, CMSSingleton } from '../../../../types/schema'
 import { CMSField } from '../../../../types/field'
 import NavLink from '../../nav-link'
 import Providers from './providers'
-import { authOptions } from '../../../../core/auth'
 import DashboardPanel from './dashboard-panel'
 import DashboardMenu from './dashboard-menu'
 import SidebarLabel from './sidebar-label'
 import { LucideIcon } from '../../../../ui'
 
-async function getServerSession() {
-  try {
-    return await nextAuthGetServerSession(authOptions)
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error)
-    return null
-  }
-}
-
 export default function createDashboardLayout<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
 >(config: CMSConfig<CMSCollections, CMSSingletons>) {
-  async function Layout({ children, params: { slug } }: { children: React.ReactNode; params: { slug?: string } }) {
+  function Layout({ children, params: { slug } }: { children: React.ReactNode; params: { slug?: string } }) {
     /**
      * 1. Check for authentication
      * 2. If the user is not authenticated, the redirect the user to /admin/login
      */
-    const session = await getServerSession()
+    // const session = await getServerSession()
+
+    const [session, setSession] = useState<Session | undefined>(undefined)
+    useEffect(function fetchUserSession() {
+      fetch('/cms/api/auth/session', { cache: 'no-store' })
+        .then((res) => res.json())
+        .then((data) => setSession(data as unknown as Session))
+    }, [])
+
+    const isAuthenticated = useMemo(() => !!Object.keys(session ?? {}).length, [session])
+
+    if (!session) {
+      return (
+        <div className="flex h-screen items-center justify-center">
+          <LoaderIcon className="animate-spin" />
+        </div>
+      )
+    }
 
     // For the login page, we don't need any kind of appshell
     if (slug?.[0] === 'login') {
-      if (session) {
+      if (isAuthenticated) {
         redirect('/cms/admin')
       }
 
@@ -45,7 +55,8 @@ export default function createDashboardLayout<
       )
     }
 
-    if (!session) {
+    // as session is an empty object if the user is not authenticated
+    if (!isAuthenticated) {
       redirect('/cms/admin/login')
     }
 

@@ -2,9 +2,6 @@
   "name": "@nextjs-cms/cms",
   "version": "0.0.8",
   "main": "./src/index.ts",
-  "author": "Abinash Panda",
-  "license": "ISC",
-  "description": "",
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
@@ -21,6 +18,9 @@
       }
     }
   },
+  "author": "Abinash Panda",
+  "license": "ISC",
+  "description": "",
   "scripts": {
     "test": "vitest",
     "db:push": "prisma db push",
@@ -106,14 +106,15 @@
     "@types/react": "^18.2.14",
     "@types/react-dom": "18.2.6",
     "autoprefixer": "10.4.14",
-    "eslint-custom-config": "*",
+    "eslint-custom-config": "workspace:*",
     "postcss": "^8.4.27",
     "postcss-cli": "^10.1.0",
-    "prettier-config": "*",
+    "prettier-config": "workspace:*",
     "react-dom": "18.2.0",
     "rimraf": "^5.0.1",
     "tailwindcss": "^3.3.3",
     "tailwindcss-animate": "^1.0.6",
+    "tsup": "^7.2.0",
     "typescript": "^5.1.3",
     "vitest": "^0.33.0"
   },

@@ -1,6 +1,6 @@
 {
   "name": "prettier-config",
-  "main": "index.js",
+  "main": "./index.js",
   "devDependencies": {
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0"

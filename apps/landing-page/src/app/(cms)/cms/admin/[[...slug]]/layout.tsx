@@ -1,3 +1,5 @@
+'use client'
+
 import { createDashboardLayout } from '@nextjs-cms/cms/react'
 import config from '~/cms.config'
 
