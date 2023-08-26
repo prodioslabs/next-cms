@@ -5,7 +5,7 @@ import {
   fetchCollectionElements,
   fetchSingleton,
 } from '@nextjs-cms/cms/core'
-import dynamic from 'next/dynamic'
+import { EditableLink } from '@nextjs-cms/cms/element'
 import { generateRandomString } from '../lib/random'
 import { pascalCase } from '../lib/string'
 import type {
@@ -17,8 +17,6 @@ import type {
 import type { CMSConfig } from '../types/config'
 import type { CMSField } from '../types/field'
 import type { CMSCollection, CMSCollectionData, CMSSingleton, CMSSingletonData } from '../types/schema'
-
-const EditableLink = dynamic(() => import('@nextjs-cms/cms/element').then((mod) => mod.EditableLink), { ssr: false })
 
 export function createCollectionReader<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,

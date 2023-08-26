@@ -1,36 +1,25 @@
-'use client'
+import * as LucideIcons from 'lucide-react'
 
-import dynamic from 'next/dynamic'
-import type { LucideProps } from 'lucide-react'
-import dynamicIconImports from 'lucide-react/dynamicIconImports'
-import { useMemo } from 'react'
-import { Skeleton } from '../../dashboard/ui/skeleton'
-
-interface IconProps extends LucideProps {
-  name: keyof typeof dynamicIconImports
+interface IconProps extends LucideIcons.LucideProps {
+  name: string
 }
 
-export type LucideIconName = keyof typeof dynamicIconImports
+export type LucideIconName = keyof typeof LucideIcons.icons
 
-export const lucideIconNames = Object.keys(dynamicIconImports) as LucideIconName[]
+export const lucideIconNames = Object.keys(LucideIcons.icons) as LucideIconName[]
 
 export function LucideIcon({ name, ...props }: IconProps) {
   let iconName = name
-  if (!(iconName in dynamicIconImports)) {
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join('') as LucideIconName
+  if (!(iconName in LucideIcons.icons)) {
     // eslint-disable-next-line no-console
     console.warn(`Icon "${name}" is not supported. Falling back to Shield icon.`)
-    iconName = 'shield'
+    iconName = 'Shield'
   }
 
-  const Icon = useMemo(
-    () =>
-      dynamic(dynamicIconImports[iconName], {
-        loading: () => <Skeleton className={props.className} style={props.style} />,
-      }),
-    // we can safely ignore this warning, because we only want to render the icon on iconName change
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [iconName],
-  )
+  const Icon = LucideIcons.icons[iconName]
 
   return <Icon {...props} />
 }

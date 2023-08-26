@@ -44,7 +44,7 @@ export type CMSIconField = CMSBaseField & {
 }
 
 export type CMSIconData = {
-  name: keyof typeof import('lucide-react/dynamicIconImports').default
+  name: string
   iconLib: 'lucide'
 }
 

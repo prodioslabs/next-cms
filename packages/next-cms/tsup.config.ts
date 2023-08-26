@@ -8,6 +8,7 @@ export default defineConfig([
     format: ['cjs', 'esm'],
     dts: true,
     watch: process.env.NODE_ENV === 'development',
+    // external: ['next'],
   },
   {
     entry: ['./src/server/index.ts'],
@@ -16,6 +17,7 @@ export default defineConfig([
     format: ['cjs', 'esm'],
     dts: true,
     watch: process.env.NODE_ENV === 'development',
+    // external: ['next'],
   },
   {
     entry: ['./src/dashboard/index.ts'],
@@ -25,6 +27,17 @@ export default defineConfig([
     dts: true,
     watch: process.env.NODE_ENV === 'development',
     banner: { js: '"use client";' },
+    // external: ['next', 'react', 'react-dom'],
+  },
+  {
+    entry: ['./src/element/index.ts'],
+    target: 'es2019',
+    outDir: './element',
+    format: ['cjs', 'esm'],
+    dts: true,
+    watch: process.env.NODE_ENV === 'development',
+    banner: { js: '"use client";' },
+    // external: ['next', 'react', 'react-dom'],
   },
   {
     entry: ['./src/plugins/index.ts'],
@@ -34,6 +47,7 @@ export default defineConfig([
     dts: true,
     watch: process.env.NODE_ENV === 'development',
     banner: { js: '"use client";' },
+    // external: ['next', 'react', 'react-dom'],
   },
   {
     entry: ['./src/component/index.ts'],
@@ -43,5 +57,6 @@ export default defineConfig([
     dts: true,
     watch: process.env.NODE_ENV === 'development',
     external: ['@nextjs-cms/cms/core', '@nextjs-cms/cms/element'],
+    onSuccess: 'node ./scripts/postbuild.cjs',
   },
 ])

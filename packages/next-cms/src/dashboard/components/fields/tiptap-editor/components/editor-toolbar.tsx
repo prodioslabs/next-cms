@@ -2,6 +2,19 @@
 
 import { Editor } from '@tiptap/react'
 import { Level } from '@tiptap/extension-heading'
+import {
+  Bold,
+  Code,
+  Italic,
+  List,
+  ListOrdered,
+  Quote,
+  Redo,
+  Strikethrough,
+  TerminalSquare,
+  Underline,
+  Undo,
+} from 'lucide-react'
 import LinkButton from './link-button'
 import TableMenu from './table-menu'
 import ImageButton from './image-button'
@@ -9,7 +22,6 @@ import ColorButton from './color-button'
 import { Toggle } from '../../../../ui/toggle'
 import { cn } from '../../../../lib/utils'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../../ui/select'
-import { LucideIcon } from '../../../../../ui'
 
 type EditorToolbarProps = {
   editor: Editor
@@ -30,7 +42,7 @@ export default function EditorToolbar({ editor, className, style }: EditorToolba
         pressed={editor.isActive('bold')}
         variant="outline"
       >
-        <LucideIcon name="bold" className="h-4 w-4" />
+        <Bold className="h-4 w-4" />
       </Toggle>
       <Toggle
         onPressedChange={() => {
@@ -40,7 +52,7 @@ export default function EditorToolbar({ editor, className, style }: EditorToolba
         pressed={editor.isActive('italic')}
         variant="outline"
       >
-        <LucideIcon name="italic" className="h-4 w-4" />
+        <Italic className="h-4 w-4" />
       </Toggle>
       <Toggle
         onPressedChange={() => {
@@ -50,7 +62,7 @@ export default function EditorToolbar({ editor, className, style }: EditorToolba
         pressed={editor.isActive('underline')}
         variant="outline"
       >
-        <LucideIcon name="underline" className="h-4 w-4" />
+        <Underline className="h-4 w-4" />
       </Toggle>
       <Toggle
         onPressedChange={() => {
@@ -60,7 +72,7 @@ export default function EditorToolbar({ editor, className, style }: EditorToolba
         pressed={editor.isActive('strike')}
         variant="outline"
       >
-        <LucideIcon name="strikethrough" className="h-4 w-4" />
+        <Strikethrough className="h-4 w-4" />
       </Toggle>
       <Toggle
         onPressedChange={() => {
@@ -70,7 +82,7 @@ export default function EditorToolbar({ editor, className, style }: EditorToolba
         pressed={editor.isActive('code')}
         variant="outline"
       >
-        <LucideIcon name="code" className="h-4 w-4" />
+        <Code className="h-4 w-4" />
       </Toggle>
       <Toggle
         onPressedChange={() => {
@@ -80,7 +92,7 @@ export default function EditorToolbar({ editor, className, style }: EditorToolba
         pressed={editor.isActive('codeBlock')}
         variant="outline"
       >
-        <LucideIcon name="terminal-square" className="h-4 w-4" />
+        <TerminalSquare className="h-4 w-4" />
       </Toggle>
       <Toggle
         onPressedChange={() => {
@@ -90,7 +102,7 @@ export default function EditorToolbar({ editor, className, style }: EditorToolba
         pressed={editor.isActive('bulletList')}
         variant="outline"
       >
-        <LucideIcon name="list" className="h-4 w-4" />
+        <List className="h-4 w-4" />
       </Toggle>
       <Toggle
         onPressedChange={() => {
@@ -100,7 +112,7 @@ export default function EditorToolbar({ editor, className, style }: EditorToolba
         pressed={editor.isActive('orderedList')}
         variant="outline"
       >
-        <LucideIcon name="list-ordered" className="h-4 w-4" />
+        <ListOrdered className="h-4 w-4" />
       </Toggle>
       <Toggle
         onPressedChange={() => {
@@ -110,7 +122,7 @@ export default function EditorToolbar({ editor, className, style }: EditorToolba
         pressed={editor.isActive('blockqoute')}
         variant="outline"
       >
-        <LucideIcon name="quote" className="h-4 w-4" />
+        <Quote className="h-4 w-4" />
       </Toggle>
       <Select
         value={`${editor.getAttributes('heading')?.level ?? 'normal'}`}
@@ -165,7 +177,7 @@ export default function EditorToolbar({ editor, className, style }: EditorToolba
         pressed={false}
         variant="outline"
       >
-        <LucideIcon name="undo" className="h-4 w-4" />
+        <Undo className="h-4 w-4" />
       </Toggle>
       <Toggle
         onPressedChange={() => {
@@ -175,7 +187,7 @@ export default function EditorToolbar({ editor, className, style }: EditorToolba
         pressed={false}
         variant="outline"
       >
-        <LucideIcon name="redo" className="h-4 w-4" />
+        <Redo className="h-4 w-4" />
       </Toggle>
     </div>
   )

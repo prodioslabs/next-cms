@@ -18,12 +18,10 @@ const nextConfig = {
   },
   experimental: {
     instrumentationHook: true,
-    esmExternals: 'loose',
   },
   eslint: {
     ignoreDuringBuilds: true,
   },
-  transpilePackages: ['@nextjs-cms/cms'],
 }
 
 module.exports = nextConfig

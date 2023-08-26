@@ -3,7 +3,7 @@
 import { ComputePositionReturn, autoPlacement, autoUpdate, computePosition, offset } from '@floating-ui/dom'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { cn } from '../../dashboard/lib/utils'
 import { LucideIcon } from '../../ui'
@@ -14,14 +14,20 @@ type EditableLinkProps = {
   containerElementId: string
 }
 
-let portalContainer = document.getElementById('editable-element-portal')
-if (!portalContainer) {
-  portalContainer = document.createElement('div')
-  portalContainer.id = 'editable-element-portal'
-  document.body.appendChild(portalContainer)
-}
-
 function EditableLinkComponent({ url, label, containerElementId }: EditableLinkProps) {
+  const portalContainer = useMemo(() => {
+    if (typeof window !== 'undefined') {
+      let portalContainer = document.getElementById('editable-element-portal') ?? undefined
+      if (!portalContainer) {
+        portalContainer = document.createElement('div')
+        portalContainer.id = 'editable-element-portal'
+        document.body.appendChild(portalContainer)
+      }
+      return portalContainer
+    }
+    return undefined
+  }, [])
+
   const [visible, setVisible] = useState(false)
   const [computedPosition, setComputedPosition] = useState<ComputePositionReturn | undefined>(undefined)
   const [containerBBox, setContainerBBox] = useState<DOMRect | undefined>()
@@ -94,7 +100,7 @@ function EditableLinkComponent({ url, label, containerElementId }: EditableLinkP
     [containerElementId, handleMouseOver, handleMouseLeave],
   )
 
-  return visible
+  return visible && portalContainer
     ? createPortal(
         <>
           <Link
@@ -129,7 +135,7 @@ function EditableLinkComponent({ url, label, containerElementId }: EditableLinkP
             />
           ) : null}
         </>,
-        portalContainer!,
+        portalContainer,
       )
     : null
 }

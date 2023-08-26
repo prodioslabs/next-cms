@@ -1,11 +1,11 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { Trash } from 'lucide-react'
 import { api } from '../../../server/api'
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '../../ui/popover'
 import { Button } from '../../ui/button'
 import { useToast } from '../../hooks/use-toast'
-import { LucideIcon } from '../../../ui'
 
 type DeleteCollectionItemProps = {
   elementId: string
@@ -40,13 +40,7 @@ export default function DeleteCollectionItem({ elementId, onDelete, className, s
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button
-          size="icon"
-          icon={<LucideIcon name="trash" />}
-          variant="secondary"
-          className={className}
-          style={style}
-        />
+        <Button size="icon" icon={<Trash />} variant="secondary" className={className} style={style} />
       </PopoverTrigger>
       <PopoverContent className="w-80" side="bottom" align="end">
         <div className="mb-1 text-base font-medium text-foreground">Delete item?</div>

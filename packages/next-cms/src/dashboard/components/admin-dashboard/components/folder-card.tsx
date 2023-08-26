@@ -1,6 +1,7 @@
 'use client'
 
 import { Folder } from '@prisma/client'
+import { FolderOpen } from 'lucide-react'
 import {
   ContextMenu,
   ContextMenuContent,
@@ -9,7 +10,6 @@ import {
   ContextMenuTrigger,
 } from '../../../ui/context-menu'
 import { cn } from '../../../lib/utils'
-import { LucideIcon } from '../../../../ui'
 
 type FolderCardProps = {
   folder: Folder
@@ -27,7 +27,7 @@ export default function FolderCard({ folder, className, style }: FolderCardProps
           className={cn('flex items-center space-x-2 rounded-md border bg-background px-4 py-3 text-left', className)}
           style={style}
         >
-          <LucideIcon name="folder-open" className="h-4 w-4 text-muted-foreground" />
+          <FolderOpen name="folder-open" className="h-4 w-4 text-muted-foreground" />
           <div className="flex-1 truncate text-sm text-foreground">{folder.name}</div>
         </button>
       </ContextMenuTrigger>

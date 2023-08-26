@@ -3,14 +3,14 @@
 import Image from 'next/image'
 import React from 'react'
 import { type CMSImageData } from '@nextjs-cms/cms'
-import { LucideIcon, LucideIconName } from '@nextjs-cms/cms/ui'
+// import { LucideIcon, LucideIconName } from '@nextjs-cms/cms/element'
 import { cn } from '~/lib/utils'
 
 type HeroSectionProps = React.HTMLAttributes<HTMLDivElement> & {
   title: string
   description: string
   image: CMSImageData
-  callToActionIcon?: LucideIconName
+  // callToActionIcon?: LucideIconName
   callToAction?: string
 }
 
@@ -19,7 +19,7 @@ export default function HeroSection({
   description,
   image,
   callToAction = 'Get Started',
-  callToActionIcon,
+  // callToActionIcon,
   className,
   ...rest
 }: HeroSectionProps) {
@@ -38,7 +38,7 @@ export default function HeroSection({
           {/** Buttons */}
           <div className="mt-7 grid w-full gap-3 sm:inline-flex">
             <button className="flex items-center space-x-2 rounded-md bg-blue-500 px-3 py-2 text-blue-50">
-              {callToActionIcon ? <LucideIcon name={callToActionIcon} className="h-5 w-5" /> : null}
+              {/* {callToActionIcon ? <LucideIcon name={callToActionIcon} className="h-5 w-5" /> : null} */}
               <span>{callToAction}</span>
             </button>
           </div>

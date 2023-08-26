@@ -121,14 +121,14 @@ const config = createCMSConfig({
       },
     },
   },
-  plugins: [
-    createAIContentPlugin({
-      OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
-    }),
-    createUnsplashPlugin({
-      UNSPLASH_ACCESS_KEY: process.env.UNSPLASH_ACCESS_KEY!,
-    }),
-  ],
+  // plugins: [
+  //   createAIContentPlugin({
+  //     OPENAI_API_KEY: process.env.OPENAI_API_KEY!,
+  //   }),
+  //   createUnsplashPlugin({
+  //     UNSPLASH_ACCESS_KEY: process.env.UNSPLASH_ACCESS_KEY!,
+  //   }),
+  // ],
 })
 
 export default config

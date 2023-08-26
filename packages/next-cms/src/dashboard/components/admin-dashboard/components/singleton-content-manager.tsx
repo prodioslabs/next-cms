@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
+import { File } from 'lucide-react'
 import { CMSSingleton } from '../../../../types/schema'
 import ContentManager from '../../content-manager'
 import { CMSField } from '../../../../types/field'
@@ -9,7 +10,6 @@ import { api } from '../../../../server/api'
 import { Loader } from '../../../ui/loader'
 import { PageHeading } from '../../../ui/page-heading'
 import { cn } from '../../../lib/utils'
-import { LucideIcon } from '../../../../ui'
 
 type SingletonContentManagerProps = {
   singleton: CMSSingleton<Record<string, CMSField>>
@@ -56,7 +56,7 @@ export default function SingletonContentManager({
 
   return (
     <div className={cn('space-y-4 p-4', className)} style={style}>
-      <PageHeading title={singleton.label} icon={<LucideIcon name="file" />} />
+      <PageHeading title={singleton.label} icon={<File name="file" />} />
       {content}
     </div>
   )

@@ -3,7 +3,7 @@
 import { Session } from 'next-auth'
 import { redirect } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
-import { LoaderIcon } from 'lucide-react'
+import { FolderOpen, LoaderIcon, Image, File } from 'lucide-react'
 import { CMSConfig } from '../../../../types/config'
 import { CMSCollection, CMSSingleton } from '../../../../types/schema'
 import { CMSField } from '../../../../types/field'
@@ -12,7 +12,6 @@ import Providers from './providers'
 import DashboardPanel from './dashboard-panel'
 import DashboardMenu from './dashboard-menu'
 import SidebarLabel from './sidebar-label'
-import { LucideIcon } from '../../../../ui'
 
 export default function createDashboardLayout<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
@@ -66,7 +65,7 @@ export default function createDashboardLayout<
           sidebar={
             <div className="flex h-full flex-col">
               <div className="flex-1 space-y-4 overflow-y-auto overflow-x-hidden px-2 py-4">
-                <NavLink href="/cms/admin/media-library" icon={<LucideIcon name="image" />} label="Media Library" />
+                <NavLink href="/cms/admin/media-library" icon={<Image />} label="Media Library" />
                 <div className="border-b border-border" />
                 <div className="space-y-2">
                   <SidebarLabel>Collections</SidebarLabel>
@@ -75,7 +74,7 @@ export default function createDashboardLayout<
                       <NavLink
                         href={`/cms/admin/collection/${collectionKey}`}
                         key={collectionKey}
-                        icon={<LucideIcon name="folder-open" />}
+                        icon={<FolderOpen />}
                         label={collection.label}
                       />
                     )
@@ -89,7 +88,7 @@ export default function createDashboardLayout<
                       <NavLink
                         href={`/cms/admin/singleton/${singletonName}`}
                         key={singletonName}
-                        icon={<LucideIcon name="file" />}
+                        icon={<File />}
                         label={singleton.label}
                       />
                     )

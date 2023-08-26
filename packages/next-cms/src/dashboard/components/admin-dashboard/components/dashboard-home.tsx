@@ -1,10 +1,10 @@
 'use client'
 
 import Link from 'next/link'
+import { ChevronRight, FolderOpen, File } from 'lucide-react'
 import { CMSConfig } from '../../../../types/config'
 import { CMSField } from '../../../../types/field'
 import { CMSCollection, CMSSingleton } from '../../../../types/schema'
-import { LucideIcon } from '../../../../ui'
 
 type DashboardHomeProps<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
@@ -25,7 +25,7 @@ export default function DashboardHome<
 
         <div className="space-y-4">
           <div className="flex items-center text-lg font-medium text-secondary-foreground">
-            <LucideIcon name="folder-open" className="mr-2 h-5 w-5" />
+            <FolderOpen className="mr-2 h-5 w-5" />
             Collections
           </div>
           {Object.entries(config.collections).map(([collectionName, collection]) => {
@@ -41,7 +41,7 @@ export default function DashboardHome<
                     <div className="truncate text-xs text-muted-foreground">{collection.description as string}</div>
                   ) : null}
                 </div>
-                <LucideIcon name="chevron-right" className="h-5 w-5 text-muted-foreground" />
+                <ChevronRight className="h-5 w-5 text-muted-foreground" />
               </Link>
             )
           })}
@@ -49,7 +49,7 @@ export default function DashboardHome<
 
         <div className="space-y-4">
           <div className="flex items-center text-lg font-medium text-secondary-foreground">
-            <LucideIcon name="file" className="mr-2 h-5 w-5" />
+            <File className="mr-2 h-5 w-5" />
             Singletons
           </div>
           {Object.entries(config.singletons).map(([singletonName, singleton]) => {
@@ -65,7 +65,7 @@ export default function DashboardHome<
                     <div className="truncate text-xs text-muted-foreground">{singleton.description as string}</div>
                   ) : null}
                 </div>
-                <LucideIcon name="chevron-right" className="h-5 w-5 text-muted-foreground" />
+                <ChevronRight className="h-5 w-5 text-muted-foreground" />
               </Link>
             )
           })}

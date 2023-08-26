@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
+import { Image, PackageOpen, Plus, Upload } from 'lucide-react'
 import { api } from '../../../../server/api'
 import CreateFolder from './create-folder'
 import FolderCard from './folder-card'
@@ -8,7 +9,6 @@ import { Loader } from '../../../ui/loader'
 import { useToast } from '../../../hooks/use-toast'
 import { Button } from '../../../ui/button'
 import { PageHeading } from '../../../ui/page-heading'
-import { LucideIcon } from '../../../../ui'
 
 type MediaLibraryProps = {
   folderId?: string
@@ -28,7 +28,7 @@ export default function MediaLibrary({ folderId }: MediaLibraryProps) {
       if (folderContentQuery.data.folders.length === 0) {
         return (
           <div className="flex flex-col items-center justify-center rounded-md border border-dashed p-4">
-            <LucideIcon name="package-open" className="mb-2 h-10 w-10 text-muted-foreground opacity-20" />
+            <PackageOpen name="package-open" className="mb-2 h-10 w-10 text-muted-foreground opacity-20" />
             <div className="mb-2 text-sm text-muted-foreground">No folders found</div>
             <CreateFolder
               folderId={folderId}
@@ -36,7 +36,7 @@ export default function MediaLibrary({ folderId }: MediaLibraryProps) {
                 folderContentQuery.refetch()
               }}
             >
-              <Button icon={<LucideIcon name="plus" />} size="sm" variant="outline">
+              <Button icon={<Plus name="plus" />} size="sm" variant="outline">
                 Create Folder
               </Button>
             </CreateFolder>
@@ -71,7 +71,7 @@ export default function MediaLibrary({ folderId }: MediaLibraryProps) {
     <>
       <title>Media Library</title>
       <div className="space-y-4 p-4">
-        <PageHeading title="Media Library" icon={<LucideIcon name="image" />} />
+        <PageHeading title="Media Library" icon={<Image />} />
         <div className="relative flex items-center justify-between space-x-4 px-4 before:absolute before:left-0 before:right-0 before:top-1/2 before:-z-10 before:h-px before:bg-muted">
           <div className="bg-background px-1 text-sm font-medium text-muted-foreground">Folders</div>
           <div className="bg-background px-2">
@@ -85,7 +85,7 @@ export default function MediaLibrary({ folderId }: MediaLibraryProps) {
                 })
               }}
             >
-              <Button icon={<LucideIcon name="plus" />} size="sm" variant="outline">
+              <Button icon={<Plus />} size="sm" variant="outline">
                 Create Folder
               </Button>
             </CreateFolder>
@@ -95,7 +95,7 @@ export default function MediaLibrary({ folderId }: MediaLibraryProps) {
         <div className="relative flex items-center justify-between space-x-4 px-4 before:absolute before:left-0 before:right-0 before:top-1/2 before:-z-10 before:h-px before:bg-muted">
           <div className="bg-background px-1 text-sm font-medium text-muted-foreground">Files</div>
           <div className="bg-background px-2">
-            <Button icon={<LucideIcon name="upload" />} size="sm" variant="outline">
+            <Button icon={<Upload />} size="sm" variant="outline">
               Upload File
             </Button>
           </div>

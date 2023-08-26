@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { createCollectionReader, createSingletonReader } from '@nextjs-cms/cms/react'
+import { createCollectionReader, createSingletonReader } from '@nextjs-cms/cms/component'
 import config from '~/cms.config'
 import HeroSection from '~/components/hero-section'
 
@@ -11,16 +11,8 @@ export default function Home() {
   return (
     <div className="space-y-12 px-4 py-4 sm:px-6 lg:px-8">
       <HomePageHeroSectionSingleton
-        renderItem={({ data: { title, content, callToAction, callToActionIcon, coverImage } }) => {
-          return (
-            <HeroSection
-              title={title}
-              description={content}
-              image={coverImage}
-              callToAction={callToAction}
-              callToActionIcon={callToActionIcon.name}
-            />
-          )
+        renderItem={({ data: { title, content, callToAction, coverImage } }) => {
+          return <HeroSection title={title} description={content} image={coverImage} callToAction={callToAction} />
         }}
       />
       <BlogsCollection
