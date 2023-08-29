@@ -19,9 +19,9 @@ import LinkButton from './link-button'
 import TableMenu from './table-menu'
 import ImageButton from './image-button'
 import ColorButton from './color-button'
-import { Toggle } from '../../../../ui/toggle'
+import { Toggle } from '../../../../../ui/toggle'
 import { cn } from '../../../../lib/utils'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../../ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../../../ui/select'
 
 type EditorToolbarProps = {
   editor: Editor

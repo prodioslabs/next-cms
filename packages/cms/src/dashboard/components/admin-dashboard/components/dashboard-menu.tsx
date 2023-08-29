@@ -15,8 +15,8 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from '../../../ui/menu-bar'
-import { Button } from '../../../ui/button'
+} from '../../../../ui/menu-bar'
+import { Button } from '../../../../ui/button'
 
 export default function DashboardMenu() {
   const sidebarCollapsed = useStore((store) => store.sidebarCollapsed)

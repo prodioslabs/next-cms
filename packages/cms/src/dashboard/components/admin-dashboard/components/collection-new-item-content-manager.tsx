@@ -2,11 +2,9 @@
 
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
-import { CMSField } from '../../../../types/field'
-import { CMSCollection } from '../../../../types/schema'
+import type { CMSField, CMSCollection, CMSPlugin } from '@nextjs-cms/core'
+import { generateDummyData } from '@nextjs-cms/core'
 import ContentManager from '../../content-manager'
-import { generateDummyData } from '../../../../core/fix-data'
-import { CMSPlugin } from '../../../../types/plugin'
 import { api } from '../../../../server/api'
 import { cn } from '../../../lib/utils'
 

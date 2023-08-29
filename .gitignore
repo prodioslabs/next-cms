@@ -52,6 +52,6 @@ packages/next-cms/component
 packages/next-cms/core
 packages/next-cms/dashboard
 packages/next-cms/dist
-packages/next-cms/element
+packages/next-cms/internal
 packages/next-cms/plugins
 packages/next-cms/server

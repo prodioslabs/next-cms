@@ -1,4 +1,4 @@
-import { CMSPlugin } from '../../types/plugin'
+import type { CMSPlugin } from '@nextjs-cms/core'
 import UnsplashImageSelector from './components/unsplash-image-selector'
 import { searchImage } from './api/route'
 

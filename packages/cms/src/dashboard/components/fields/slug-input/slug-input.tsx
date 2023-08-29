@@ -1,7 +1,7 @@
 import { forwardRef } from 'react'
 import { cn } from '../../../lib/utils'
-import { Input, InputProps } from '../../../ui/input'
-import { Button } from '../../../ui/button'
+import { Input, InputProps } from '../../../../ui/input'
+import { Button } from '../../../../ui/button'
 
 type SlugInputProps = InputProps & {
   onGenerateSlug: () => void

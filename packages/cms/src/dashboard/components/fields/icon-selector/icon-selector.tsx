@@ -3,12 +3,12 @@
 import { useMemo, useState } from 'react'
 import invariant from 'tiny-invariant'
 import { matchSorter } from 'match-sorter'
-import { CMSIconData } from '../../../../types/field'
-// import { lucideIconNames } from '../../../../element/lucide-icon'
-import { Popover, PopoverContent, PopoverTrigger } from '../../../ui/popover'
-import { Button } from '../../../ui/button'
-import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '../../../ui/command'
-// import { cn } from '../../../lib/utils'
+import type { CMSIconData } from '@nextjs-cms/core'
+import { Popover, PopoverContent, PopoverTrigger } from '../../../../ui/popover'
+import { Button } from '../../../../ui/button'
+import { LucideIcon, lucideIconNames } from '../../../../ui/lucide-icon'
+import { cn } from '../../../lib/utils'
+import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '../../../../ui/command'
 
 type IconSelectorProps = {
   icon?: CMSIconData
@@ -23,15 +23,7 @@ export default function IconSelector({ icon, onChange, className, style }: IconS
   const [open, setOpen] = useState(false)
   const [searchText, setSearchText] = useState('')
 
-  const filteredIcons = useMemo(
-    () =>
-      matchSorter(
-        // lucideIconNames
-        [],
-        searchText,
-      ),
-    [searchText],
-  )
+  const filteredIcons = useMemo(() => matchSorter(lucideIconNames, searchText), [searchText])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -42,7 +34,7 @@ export default function IconSelector({ icon, onChange, className, style }: IconS
           aria-expanded={open}
           className={className}
           style={style}
-          // icon={icon ? <LucideIcon name={icon.name} /> : undefined}
+          icon={icon ? <LucideIcon name={icon.name} /> : undefined}
         >
           {icon ? icon.name : 'Select Icon'}
         </Button>
@@ -68,10 +60,10 @@ export default function IconSelector({ icon, onChange, className, style }: IconS
                   setOpen(false)
                 }}
               >
-                {/* <LucideIcon
+                <LucideIcon
                   name={iconName}
                   className={cn('mr-2 h-4 w-4', icon?.name === iconName ? 'opacity-100' : 'opacity-80')}
-                /> */}
+                />
                 {iconName}
               </CommandItem>
             ))}

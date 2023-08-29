@@ -1,10 +1,10 @@
 'use client'
 
 import { useContext } from 'react'
+import { Grip } from 'lucide-react'
 import { SortableItemContext } from '../context'
-import { Button } from '../../../ui/button'
+import { Button } from '../../../../ui/button'
 import { cn } from '../../../lib/utils'
-import { LucideIcon } from '../../../../ui'
 
 type DragHandleProps = {
   className?: string
@@ -16,7 +16,7 @@ export default function DragHandle({ className, style }: DragHandleProps) {
 
   return (
     <Button
-      icon={<LucideIcon name="grip" />}
+      icon={<Grip />}
       {...attributes}
       {...listeners}
       ref={ref}

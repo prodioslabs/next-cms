@@ -1,4 +1,4 @@
-import { CMSPlugin } from '../../types/plugin'
+import type { CMSPlugin } from '@nextjs-cms/core'
 import AIContent from './components/ai-content'
 import { generateAIContent } from './api/route'
 

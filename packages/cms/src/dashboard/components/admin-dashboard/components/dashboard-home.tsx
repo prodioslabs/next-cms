@@ -2,9 +2,7 @@
 
 import Link from 'next/link'
 import { ChevronRight, FolderOpen, File } from 'lucide-react'
-import { CMSConfig } from '../../../../types/config'
-import { CMSField } from '../../../../types/field'
-import { CMSCollection, CMSSingleton } from '../../../../types/schema'
+import type { CMSConfig, CMSField, CMSCollection, CMSSingleton } from '@nextjs-cms/core'
 
 type DashboardHomeProps<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,

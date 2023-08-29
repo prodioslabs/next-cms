@@ -5,7 +5,7 @@ import BaseForm from './base-form'
 import { api } from '../../../../server/api'
 import { ContentManagerProps } from '../types'
 import { useToast } from '../../../hooks/use-toast'
-import { ToastAction } from '../../../ui/toast'
+import { ToastAction } from '../../../../ui/toast'
 
 type UpdateCollectionElementFormProps = Omit<ContentManagerProps, 'config'> & {
   collectionName: string

@@ -4,11 +4,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Editor } from '@tiptap/react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { Popover, PopoverContent, PopoverTrigger } from '../../../../ui/popover'
-import { Button } from '../../../../ui/button'
-import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '../../../../ui/form'
-import { Input } from '../../../../ui/input'
-import { LucideIcon } from '../../../../../ui'
+import { Check, Link, Unlink } from 'lucide-react'
+import { Popover, PopoverContent, PopoverTrigger } from '../../../../../ui/popover'
+import { Button } from '../../../../../ui/button'
+import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '../../../../../ui/form'
+import { Input } from '../../../../../ui/input'
 
 type LinkButtonProps = {
   editor: Editor
@@ -40,14 +40,7 @@ export default function LinkButton({ editor, className, style }: LinkButtonProps
       }}
     >
       <PopoverTrigger asChild>
-        <Button
-          className={className}
-          style={style}
-          icon={<LucideIcon name="link" />}
-          size="icon"
-          variant="ghost"
-          type="button"
-        />
+        <Button className={className} style={style} icon={<Link />} size="icon" variant="ghost" type="button" />
       </PopoverTrigger>
       <PopoverContent sideOffset={12}>
         <Form {...form}>
@@ -81,13 +74,13 @@ export default function LinkButton({ editor, className, style }: LinkButtonProps
                   type="button"
                   size="icon-sm"
                   variant="secondary"
-                  icon={<LucideIcon name="unlink" />}
+                  icon={<Unlink />}
                   onClick={() => {
                     editor.chain().focus().unsetLink().run()
                   }}
                 />
               ) : null}
-              <Button size="icon-sm" type="submit" icon={<LucideIcon name="check" />} />
+              <Button size="icon-sm" type="submit" icon={<Check />} />
             </div>
           </form>
         </Form>

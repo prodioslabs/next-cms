@@ -7,11 +7,11 @@ import { signIn } from 'next-auth/react'
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
 import { useToast } from '../../../hooks/use-toast'
-import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '../../../ui/form'
+import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '../../../../ui/form'
 import { cn } from '../../../lib/utils'
-import { Input } from '../../../ui/input'
-import { PasswordInput } from '../../../ui/password-input'
-import { Button } from '../../../ui/button'
+import { Input } from '../../../../ui/input'
+import { PasswordInput } from '../../../../ui/password-input'
+import { Button } from '../../../../ui/button'
 
 type LoginFormProps = {
   className?: string

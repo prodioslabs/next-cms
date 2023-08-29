@@ -3,12 +3,12 @@
 import { useMutation } from '@tanstack/react-query'
 import ReactPlayer from 'react-player'
 import { useState } from 'react'
-import { CMSVideoField } from '../../../../types/field'
+import { Loader, Trash } from 'lucide-react'
+import type { CMSVideoField } from '@nextjs-cms/core'
 import { uploadVideo } from './queries'
-import { Uploader } from '../../../ui/uploader'
-import { Button } from '../../../ui/button'
+import { Uploader } from '../../../../ui/uploader'
+import { Button } from '../../../../ui/button'
 import { cn } from '../../../lib/utils'
-import { LucideIcon } from '../../../../ui'
 
 type VideoUploaderProps = {
   field: CMSVideoField
@@ -49,9 +49,7 @@ export default function VideoUploader({ field, uploadedVideo, onChange, classNam
           mutation.mutate(acceptedFile[0])
         }}
       />
-      {mutation.isLoading ? (
-        <LucideIcon name="loader-2" className="absolute right-3 top-3 h-6 w-6 animate-spin" />
-      ) : null}
+      {mutation.isLoading ? <Loader className="absolute right-3 top-3 h-6 w-6 animate-spin" /> : null}
       {uploadedVideo ? (
         <div key={uploadedVideo} className="mt-2 flex items-center space-x-2 truncate rounded-md border p-2">
           <div className="h-10 w-10 overflow-hidden rounded-md">
@@ -62,7 +60,7 @@ export default function VideoUploader({ field, uploadedVideo, onChange, classNam
           </div>
           {!field.required ? (
             <Button
-              icon={<LucideIcon name="trash" />}
+              icon={<Trash />}
               size="icon"
               variant="destructive-outline"
               type="button"

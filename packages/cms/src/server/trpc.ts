@@ -4,7 +4,7 @@ import { ZodError } from 'zod'
 import { type Session } from 'next-auth'
 import { type PrismaClient } from '@prisma/client'
 import { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch'
-import { type CMSConfig } from '../types/config'
+import { type CMSConfig } from '@nextjs-cms/core'
 
 export type CreateContext = (opts: FetchCreateContextFnOptions) => Promise<{
   config: CMSConfig<any, any>

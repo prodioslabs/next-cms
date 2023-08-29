@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { CMSConfig } from '../types/config'
+import type { CMSConfig } from '@nextjs-cms/core'
 
 export function createPluginHandler(config: CMSConfig<any, any>) {
   async function GET(request: Request, { params: { plugin } }: { params: { plugin: string } }) {

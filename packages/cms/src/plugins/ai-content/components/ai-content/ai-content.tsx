@@ -5,10 +5,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useMutation } from '@tanstack/react-query'
+import { Sparkles, Trash } from 'lucide-react'
+import type { CMSPluginComponentProps } from '@nextjs-cms/core'
 import { generateContent } from './queries'
-import { CMSPluginComponentProps } from '../../../../types/plugin'
 import { useToast } from '../../../../dashboard/hooks/use-toast'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../../../dashboard/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../../../ui/tooltip'
 import {
   Sheet,
   SheetClose,
@@ -17,18 +18,10 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '../../../../dashboard/ui/sheet'
-import { Button } from '../../../../dashboard/ui/button'
-import {
-  Form,
-  FormControl,
-  FormFieldWithController,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '../../../../dashboard/ui/form'
-import { Textarea } from '../../../../dashboard/ui/textarea'
-import { LucideIcon } from '../../../../ui'
+} from '../../../../ui/sheet'
+import { Button } from '../../../../ui/button'
+import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '../../../../ui/form'
+import { Textarea } from '../../../../ui/textarea'
 
 const validationSchema = z.object({
   message: z.string(),
@@ -68,7 +61,7 @@ export default function AIContent({ field, updateField }: CMSPluginComponentProp
         <Sheet open={open} onOpenChange={setOpen}>
           <TooltipTrigger asChild>
             <SheetTrigger asChild>
-              <Button icon={<LucideIcon name="sparkles" />} variant="outline" size="icon" />
+              <Button icon={<Sparkles />} variant="outline" size="icon" />
             </SheetTrigger>
           </TooltipTrigger>
           <SheetContent className="space-y-4 overflow-auto">
@@ -144,7 +137,7 @@ export default function AIContent({ field, updateField }: CMSPluginComponentProp
                           </Button>
                           <Button
                             variant="ghost"
-                            icon={<LucideIcon name="trash-2" />}
+                            icon={<Trash />}
                             size="icon"
                             onClick={() => {
                               setMessages((prevState) => prevState.filter((_, i) => i !== index))

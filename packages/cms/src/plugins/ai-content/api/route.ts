@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { generateContentBodyValidationSchema } from './schema'
-import { handleError } from '../../../utils/api'
+import { handleError } from '../../../lib/api'
 import { env } from '../../../env'
 
 export async function generateAIContent(request: Request) {

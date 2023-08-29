@@ -4,10 +4,10 @@ import { useCallback } from 'react'
 import type { Editor } from '@tiptap/react'
 import { useDebouncedCallback } from 'use-debounce'
 import { Baseline, RemoveFormatting } from 'lucide-react'
-import { Popover, PopoverContent, PopoverTrigger } from '../../../../ui/popover'
-import { Toggle } from '../../../../ui/toggle'
-import { ColorPalette } from '../../../../ui/color-palette'
-import { Button } from '../../../../ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '../../../../../ui/popover'
+import { Toggle } from '../../../../../ui/toggle'
+import { ColorPalette } from '../../../../../ui/color-palette'
+import { Button } from '../../../../../ui/button'
 
 type ColorButtonProps = {
   editor: Editor

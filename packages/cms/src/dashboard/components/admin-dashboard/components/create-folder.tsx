@@ -15,10 +15,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../../../ui/dialog'
-import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '../../../ui/form'
-import { Input } from '../../../ui/input'
-import { Button } from '../../../ui/button'
+} from '../../../../ui/dialog'
+import { Form, FormControl, FormFieldWithController, FormItem, FormLabel, FormMessage } from '../../../../ui/form'
+import { Input } from '../../../../ui/input'
+import { Button } from '../../../../ui/button'
 
 const validationSchema = z.object({
   name: z.string().nonempty(),

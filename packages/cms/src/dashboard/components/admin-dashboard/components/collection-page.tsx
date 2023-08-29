@@ -3,12 +3,11 @@
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { ChevronRight, PackageOpen, Plus } from 'lucide-react'
+import type { CMSCollection, CMSField } from '@nextjs-cms/core'
 import DeleteCollectionItem from '../../delete-collection-item'
-import { CMSCollection } from '../../../../types/schema'
-import { CMSField } from '../../../../types/field'
 import { api } from '../../../../server/api'
-import { Loader } from '../../../ui/loader'
-import { Button } from '../../../ui/button'
+import { Loader } from '../../../../ui/loader'
+import { Button } from '../../../../ui/button'
 import { cn } from '../../../lib/utils'
 
 type CollectionPageProps = {

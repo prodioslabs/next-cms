@@ -2,14 +2,13 @@
 
 import { forwardRef } from 'react'
 import { Control, useFieldArray } from 'react-hook-form'
-import { CMSField } from '../../../types/field'
-import { CMSPlugin } from '../../../types/plugin'
+import { Plus, Trash } from 'lucide-react'
+import type { CMSField, CMSPlugin } from '@nextjs-cms/core'
+import { generateDummyDataForField } from '@nextjs-cms/core'
 import SortableList from '../sortable-list'
 import SingleInputField from '../single-input-field'
-import { generateDummyDataForField } from '../../../core/fix-data'
-import { Button } from '../../ui/button'
+import { Button } from '../../../ui/button'
 import { cn } from '../../lib/utils'
-import { LucideIcon } from '../../../ui'
 
 export type MultiInputFieldProps = {
   fieldName: string
@@ -54,7 +53,7 @@ function MultiInputField(
               <div className="h-10 border-r border-dashed" />
               <Button
                 type="button"
-                icon={<LucideIcon name="trash" />}
+                icon={<Trash />}
                 variant="destructive-outline"
                 size="icon"
                 className="opacity-30 hover:opacity-100"
@@ -70,7 +69,7 @@ function MultiInputField(
         <Button
           type="button"
           variant="outline"
-          icon={<LucideIcon name="plus" />}
+          icon={<Plus />}
           onClick={() => {
             append(generateDummyDataForField(cmsField))
           }}

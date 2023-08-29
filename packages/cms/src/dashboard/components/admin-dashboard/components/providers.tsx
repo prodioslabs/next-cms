@@ -5,7 +5,7 @@ import { Session } from 'next-auth'
 import { SessionProvider } from 'next-auth/react'
 import { api, trpcClient } from '../../../../server/api'
 import ThemeProvider from './theme-provider'
-import { Toaster } from '../../../ui/toaster'
+import { Toaster } from '../../../../ui/toaster'
 
 const queryClient = new QueryClient()
 

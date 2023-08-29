@@ -2,8 +2,7 @@
 
 import { createElement, forwardRef } from 'react'
 import { Control, Controller } from 'react-hook-form'
-import { CMSField } from '../../../types/field'
-import { CMSPlugin } from '../../../types/plugin'
+import type { CMSField, CMSPlugin } from '@nextjs-cms/core'
 import { cn } from '../../lib/utils'
 
 export type SingleInputFieldProps = {

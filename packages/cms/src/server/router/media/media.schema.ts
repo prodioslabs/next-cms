@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { objectId } from '../../../utils/validation'
+import { objectId } from '../../../lib/validation'
 
 export const getFolderContentSchema = z.object({
   id: objectId.optional(),

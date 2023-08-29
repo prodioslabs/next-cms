@@ -8,7 +8,7 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
-} from '../../../ui/context-menu'
+} from '../../../../ui/context-menu'
 import { cn } from '../../../lib/utils'
 
 type FolderCardProps = {

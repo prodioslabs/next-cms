@@ -4,11 +4,11 @@ import { useMutation } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useState } from 'react'
 import { Loader, Trash } from 'lucide-react'
-import { CMSImageData } from '../../../../types/field'
+import type { CMSImageData } from '@nextjs-cms/core'
 import { uploadImage } from './queries'
 import { cn } from '../../../lib/utils'
-import { Uploader } from '../../../ui/uploader'
-import { Button } from '../../../ui/button'
+import { Uploader } from '../../../../ui/uploader'
+import { Button } from '../../../../ui/button'
 
 type ImageUploaderProps = {
   required: boolean

@@ -1,6 +1,6 @@
 import { createApi } from 'unsplash-js'
 import { NextResponse } from 'next/server'
-import { handleError } from '../../../utils/api'
+import { handleError } from '../../../lib/api'
 import { searchImageQueryParamsSchema } from './schema'
 import { env } from '../../../env'
 

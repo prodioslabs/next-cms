@@ -3,12 +3,10 @@
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { ChevronLeft } from 'lucide-react'
+import type { CMSCollection, CMSField, CMSPlugin } from '@nextjs-cms/core'
 import ContentManager from '../../content-manager'
-import { CMSCollection } from '../../../../types/schema'
-import { CMSField } from '../../../../types/field'
-import { CMSPlugin } from '../../../../types/plugin'
 import { api } from '../../../../server/api'
-import { Loader } from '../../../ui/loader'
+import { Loader } from '../../../../ui/loader'
 import { cn } from '../../../lib/utils'
 
 type CollectionElementPageProps = {

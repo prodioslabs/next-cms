@@ -6,7 +6,7 @@ import {
   fetchSingleton,
 } from '@nextjs-cms/core'
 import type { CMSConfig, CMSField, CMSCollection, CMSCollectionData, CMSSingleton, CMSSingletonData } from '@nextjs-cms/core'
-import { EditableLink } from '@nextjs-cms/cms/element'
+import { EditableLink } from '@nextjs-cms/cms/internal'
 import { generateRandomString } from './lib/random'
 import { pascalCase } from './lib/string'
 import type {

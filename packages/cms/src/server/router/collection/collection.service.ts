@@ -1,6 +1,16 @@
 import { z } from 'zod'
 import { PrismaClient } from '@prisma/client'
 import { TRPCError } from '@trpc/server'
+import type { CMSConfig } from '@nextjs-cms/core'
+import {
+  createCollectionElement as _createCollectionElement,
+  updateCollectionElementData as _updateCollectionElement,
+  deleteCollectionElement as _deleteCollectionElement,
+  fetchCollectionElements as _fetchCollectionElements,
+  fetchCollectionElementById as _fetchCollectionElementById,
+  fetchCollectionElementBySlug as _fetchCollectionElementBySlug,
+  NotFoundError,
+} from '@nextjs-cms/core'
 import {
   createCollectionElementSchema,
   deleteCollectionElementSchema,
@@ -9,16 +19,6 @@ import {
   fetchCollectionElementBySlugSchema,
   updateCollectionElementSchema,
 } from './collection.schema'
-import { CMSConfig } from '../../../types/config'
-import {
-  createCollectionElement as _createCollectionElement,
-  updateCollectionElementData as _updateCollectionElement,
-  deleteCollectionElement as _deleteCollectionElement,
-  fetchCollectionElements as _fetchCollectionElements,
-  fetchCollectionElementById as _fetchCollectionElementById,
-  fetchCollectionElementBySlug as _fetchCollectionElementBySlug,
-} from '../../../core/data'
-import { NotFoundError } from '../../../core/error'
 
 export function fetchCollectionElements(
   input: z.infer<typeof fetchCollectionElementsSchema>,

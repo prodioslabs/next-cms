@@ -5,6 +5,7 @@
   "license": "ISC",
   "scripts": {
     "test": "vitest",
+    "prebuild": "rimraf .turbo dist",
     "build": "tsup",
     "postinstall": "prisma generate client"
   },

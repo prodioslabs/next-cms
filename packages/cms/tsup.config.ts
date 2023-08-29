@@ -2,22 +2,12 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig([
   {
-    entry: ['./src/core/index.ts'],
-    target: 'es2019',
-    outDir: './core',
-    format: ['cjs', 'esm'],
-    dts: true,
-    watch: process.env.NODE_ENV === 'development',
-    // external: ['next'],
-  },
-  {
     entry: ['./src/server/index.ts'],
     target: 'es2019',
     outDir: './server',
     format: ['cjs', 'esm'],
     dts: true,
     watch: process.env.NODE_ENV === 'development',
-    // external: ['next'],
   },
   {
     entry: ['./src/dashboard/index.ts'],
@@ -27,17 +17,15 @@ export default defineConfig([
     dts: true,
     watch: process.env.NODE_ENV === 'development',
     banner: { js: '"use client";' },
-    // external: ['next', 'react', 'react-dom'],
   },
   {
-    entry: ['./src/element/index.ts'],
+    entry: ['./src/internal/index.ts'],
     target: 'es2019',
-    outDir: './element',
+    outDir: './internal',
     format: ['cjs', 'esm'],
     dts: true,
     watch: process.env.NODE_ENV === 'development',
     banner: { js: '"use client";' },
-    // external: ['next', 'react', 'react-dom'],
   },
   {
     entry: ['./src/plugins/index.ts'],
@@ -47,16 +35,5 @@ export default defineConfig([
     dts: true,
     watch: process.env.NODE_ENV === 'development',
     banner: { js: '"use client";' },
-    // external: ['next', 'react', 'react-dom'],
-  },
-  {
-    entry: ['./src/component/index.ts'],
-    target: 'es2019',
-    outDir: './component',
-    format: ['cjs', 'esm'],
-    dts: true,
-    watch: process.env.NODE_ENV === 'development',
-    external: ['@nextjs-cms/cms/core', '@nextjs-cms/cms/element'],
-    onSuccess: 'node ./scripts/postbuild.cjs',
   },
 ])

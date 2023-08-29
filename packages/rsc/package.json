@@ -4,13 +4,18 @@
   "license": "ISC",
   "main": "./src/index.ts",
   "scripts": {
+    "prebuild": "rimraf .turbo dist",
+    "build": "tsup"
   },
   "dependencies": {
+    "@nextjs-cms/cms": "workspace:*",
     "@nextjs-cms/core": "workspace:*",
     "@radix-ui/react-slot": "^1.0.2",
+    "next": "13.4.19",
     "react": "18.2.0"
   },
   "devDependencies": {
+    "@types/react": "^18.2.14",
     "tsup": "^7.2.0",
     "typescript": "^5.1.3"
   }

@@ -1,10 +1,8 @@
 'use client'
 
 import { notFound, useParams, useSearchParams } from 'next/navigation'
-import { CMSConfig } from '../../../../types/config'
-import { CMSCollection, CMSSingleton } from '../../../../types/schema'
+import type { CMSConfig, CMSCollection, CMSSingleton, CMSField } from '@nextjs-cms/core'
 import DashboardHome from './dashboard-home'
-import { CMSField } from '../../../../types/field'
 import SingletonContentManager from './singleton-content-manager'
 import CollectionPage from './collection-page'
 import CollectionNewItemContentManager from './collection-new-item-content-manager'

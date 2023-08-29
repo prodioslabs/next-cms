@@ -22,21 +22,6 @@
         "name": "next"
       }
     ],
-    "baseUrl": ".",
-    "paths": {
-      "@nextjs-cms/cms/core": [
-        "./src/core"
-      ],
-      "@nextjs-cms/cms/dashboard": [
-        "./src/dashboard"
-      ],
-      "@nextjs-cms/cms/component": [
-        "./src/component"
-      ],
-      "@nextjs-cms/cms/element": [
-        "./src/element"
-      ],
-    },
   },
   "include": [
     "next-env.d.ts",

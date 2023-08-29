@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@nextjs-cms/cms": "workspace:*",
+    "@nextjs-cms/core": "workspace:*",
+    "@nextjs-cms/rsc": "workspace:*",
     "@t3-oss/env-nextjs": "^0.6.0",
     "clsx": "^2.0.0",
     "lucide-react": "0.263.1",
