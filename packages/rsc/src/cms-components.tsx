@@ -16,11 +16,15 @@ import type {
   SingletonReaderProps,
 } from './types/components'
 
+/**
+ * TODO: Figure out how to fix react server components typescript and ts-expect-error
+ */
+
 export function createCollectionReader<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
   CollectionName extends keyof CMSCollections = keyof CMSCollections,
->(config: CMSConfig<CMSCollections, CMSSingletons>, collectionName: CollectionName & string) {
+>(config: CMSConfig<CMSCollections, CMSSingletons>, collectionName: CollectionName & string): React.ComponentType<CollectionReaderProps<CMSCollections[CollectionName]>> {
   async function CollectionListReader({ renderItems }: CollectionListReaderProps<CMSCollections[CollectionName]>) {
     const collection = config.collections?.[collectionName]
     if (!collection) {
@@ -108,12 +112,14 @@ export function createCollectionReader<
       case 'list': {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { type, ...rest } = props
+        // @ts-expect-error
         return <CollectionListReader {...rest} />
       }
 
       case 'element': {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { type, ...rest } = props
+        // @ts-expect-error
         return <CollectionElementReader {...rest} />
       }
 
@@ -130,7 +136,7 @@ export function createSingletonReader<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
   SingletonName extends keyof CMSSingletons = keyof CMSSingletons,
->(config: CMSConfig<CMSCollections, CMSSingletons>, singletonName: SingletonName & string) {
+>(config: CMSConfig<CMSCollections, CMSSingletons>, singletonName: SingletonName & string): React.ComponentType<SingletonReaderProps<CMSSingletons[SingletonName]>> {
   async function SingletonReader({ renderItem }: SingletonReaderProps<CMSSingletons[SingletonName]>) {
     const singleton = config.singletons?.[singletonName]
     if (!singleton) {
@@ -161,5 +167,6 @@ export function createSingletonReader<
     )
   }
   SingletonReader.displayName = `${pascalCase(singletonName)}SingletonReader`
+  // @ts-expect-error
   return SingletonReader
 }

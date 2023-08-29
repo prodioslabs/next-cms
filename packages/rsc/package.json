@@ -2,7 +2,8 @@
   "name": "@nextjs-cms/rsc",
   "version": "0.0.1",
   "license": "ISC",
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./src/index.ts",
   "scripts": {
     "prebuild": "rimraf .turbo dist",
     "build": "tsup"
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.14",
+    "rimraf": "^5.0.1",
     "tsup": "^7.2.0",
     "typescript": "^5.1.3"
   }

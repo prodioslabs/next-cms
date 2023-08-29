@@ -1,5 +1,4 @@
-import { CMSField } from './field'
-import { CMSCollection, CMSCollectionData, CMSSingleton, CMSSingletonData } from './schema'
+import type { CMSField, CMSCollection, CMSCollectionData, CMSSingleton, CMSSingletonData } from '@nextjs-cms/core'
 
 export type CollectionReaderProps<_Collection extends CMSCollection<Record<string, CMSField>>> =
   | ({
