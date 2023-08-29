@@ -8,6 +8,7 @@
     "format": "turbo format"
   },
   "devDependencies": {
+    "eslint-config-custom": "workspace:^",
     "turbo": "^1.10.12"
   }
 }

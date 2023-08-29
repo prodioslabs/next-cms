@@ -1,5 +1,5 @@
 {
-  "name": "eslint-custom-config",
+  "name": "eslint-config-custom",
   "main": "index.js",
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.4.7",
