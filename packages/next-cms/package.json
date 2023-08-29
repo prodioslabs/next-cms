@@ -3,7 +3,6 @@
   "version": "0.0.8",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
-  "author": "Abinash Panda",
   "license": "ISC",
   "description": "",
   "scripts": {
