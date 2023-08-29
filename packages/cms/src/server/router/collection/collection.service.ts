@@ -1,8 +1,6 @@
 import { z } from 'zod'
-import { PrismaClient } from '@prisma/client'
-import { TRPCError } from '@trpc/server'
-import type { CMSConfig } from '@nextjs-cms/core'
 import {
+  PrismaClient,
   createCollectionElement as _createCollectionElement,
   updateCollectionElementData as _updateCollectionElement,
   deleteCollectionElement as _deleteCollectionElement,
@@ -11,6 +9,8 @@ import {
   fetchCollectionElementBySlug as _fetchCollectionElementBySlug,
   NotFoundError,
 } from '@nextjs-cms/core'
+import { TRPCError } from '@trpc/server'
+import type { CMSConfig } from '@nextjs-cms/core'
 import {
   createCollectionElementSchema,
   deleteCollectionElementSchema,

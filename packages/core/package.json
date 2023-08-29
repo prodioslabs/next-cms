@@ -1,8 +1,8 @@
 {
   "name": "@nextjs-cms/core",
   "version": "0.0.1",
-  "main": "./src/index.ts",
-  "license": "ISC",
+  "main": "./dist/index.js",
+  "types": "./src/index.ts",
   "scripts": {
     "test": "vitest",
     "prebuild": "rimraf .turbo dist",

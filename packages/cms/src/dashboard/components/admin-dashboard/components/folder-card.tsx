@@ -1,6 +1,6 @@
 'use client'
 
-import { Folder } from '@prisma/client'
+import { Folder } from '@nextjs-cms/core'
 import { FolderOpen } from 'lucide-react'
 import {
   ContextMenu,

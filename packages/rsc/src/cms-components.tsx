@@ -16,10 +16,6 @@ import type {
   SingletonReaderProps,
 } from './types/components'
 
-/**
- * TODO: Figure out how to fix react server components typescript and ts-expect-error
- */
-
 export function createCollectionReader<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
@@ -136,7 +132,7 @@ export function createSingletonReader<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
   SingletonName extends keyof CMSSingletons = keyof CMSSingletons,
->(config: CMSConfig<CMSCollections, CMSSingletons>, singletonName: SingletonName & string): React.ComponentType<SingletonReaderProps<CMSSingletons[SingletonName]>> {
+>(config: CMSConfig<CMSCollections, CMSSingletons>, singletonName: SingletonName & string) {
   async function SingletonReader({ renderItem }: SingletonReaderProps<CMSSingletons[SingletonName]>) {
     const singleton = config.singletons?.[singletonName]
     if (!singleton) {
@@ -167,6 +163,5 @@ export function createSingletonReader<
     )
   }
   SingletonReader.displayName = `${pascalCase(singletonName)}SingletonReader`
-  // @ts-expect-error
   return SingletonReader
 }

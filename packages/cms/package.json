@@ -3,6 +3,29 @@
   "version": "0.0.8",
   "license": "ISC",
   "description": "",
+  "exports": {
+    "./server": {
+      "require": "./server/index.js",
+      "import": "./server/index.mjs",
+      "types": "./src/server/index.ts"
+    },
+    "./dashboard": {
+      "require": "./dashboard/index.js",
+      "import": "./dashboard/index.mjs",
+      "types": "./src/dashboard/index.ts"
+    },
+    "./plugins": {
+      "require": "./plugins/index.js",
+      "import": "./plugins/index.mjs",
+      "types": "./src/plugins/index.ts"
+    },
+    "./internal": {
+      "require": "./internal/index.js",
+      "import": "./internal/index.mjs",
+      "types": "./src/internal/index.ts"
+    },
+    "./dist/styles.css": "./dist/styles.css"
+  },
   "scripts": {
     "test": "vitest",
     "prebuild:css": "rimraf dist",

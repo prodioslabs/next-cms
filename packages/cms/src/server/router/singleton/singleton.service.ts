@@ -1,8 +1,7 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, updateSingleton as _updateSingleton, fetchSingleton as _fetchSingleton } from '@nextjs-cms/core'
 import type { CMSConfig } from '@nextjs-cms/core'
-import { updateSingleton as _updateSingleton, fetchSingleton as _fetchSingleton } from '@nextjs-cms/core'
 import { fetchSingletonSchema, updateSingletonSchema } from './singleton.schema'
 
 export function fetchSingleton(

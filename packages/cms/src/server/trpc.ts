@@ -2,7 +2,7 @@ import { TRPCError, initTRPC } from '@trpc/server'
 import superjson from 'superjson'
 import { ZodError } from 'zod'
 import { type Session } from 'next-auth'
-import { type PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@nextjs-cms/core'
 import { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch'
 import { type CMSConfig } from '@nextjs-cms/core'
 

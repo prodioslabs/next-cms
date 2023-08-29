@@ -1,6 +1,6 @@
+import { createCollectionReader, createSingletonReader } from '@nextjs-cms/rsc'
 import Image from 'next/image'
 import Link from 'next/link'
-import { createCollectionReader, createSingletonReader } from '@nextjs-cms/rsc'
 import config from '~/cms.config'
 import HeroSection from '~/components/hero-section'
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Folder } from '@prisma/client'
+import { Folder } from '@nextjs-cms/core'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useState } from 'react'

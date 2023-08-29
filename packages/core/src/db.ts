@@ -1,5 +1,15 @@
 import { PrismaClient } from '@prisma/client'
 import { env } from './env'
+export type {
+  Collection,
+  CollectionElement,
+  File,
+  Folder,
+  Prisma,
+  PrismaClient,
+  Singleton,
+  SingletonData,
+} from '@prisma/client'
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
