@@ -5,7 +5,7 @@ import { Trash } from 'lucide-react'
 import { api } from '../../../server/api'
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '../../../ui/popover'
 import { Button } from '../../../ui/button'
-import { useToast } from '../../hooks/use-toast'
+import { useToast } from '../../../ui/use-toast'
 
 type DeleteCollectionItemProps = {
   elementId: string

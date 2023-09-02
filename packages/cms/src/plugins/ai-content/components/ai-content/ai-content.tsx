@@ -8,7 +8,7 @@ import { useMutation } from '@tanstack/react-query'
 import { Sparkles, Trash } from 'lucide-react'
 import type { CMSPluginComponentProps } from '@nextjs-cms/core'
 import { generateContent } from './queries'
-import { useToast } from '../../../../dashboard/hooks/use-toast'
+import { useToast } from '../../../../ui/use-toast'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../../../ui/tooltip'
 import {
   Sheet,

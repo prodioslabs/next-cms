@@ -6,7 +6,7 @@ import { api } from '../../../../server/api'
 import CreateFolder from './create-folder'
 import FolderCard from './folder-card'
 import { Loader } from '../../../../ui/loader'
-import { useToast } from '../../../hooks/use-toast'
+import { useToast } from '../../../../ui/use-toast'
 import { Button } from '../../../../ui/button'
 import { PageHeading } from '../../../../ui/page-heading'
 
