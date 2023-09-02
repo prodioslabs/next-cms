@@ -1,7 +1,11 @@
 {
   "name": "@nextjs-cms/core",
   "version": "0.0.1",
-  "main": "./dist/index.js",
+  "exports": {
+    "require": "./dist/index.js",
+    "import": "./dist/index.mjs",
+    "types": "./src/index.ts"
+  },
   "types": "./src/index.ts",
   "scripts": {
     "test": "vitest",

@@ -143,7 +143,6 @@ export function createSingletonReader<
       'data-cms-type': 'collection',
       'data-cms-label': singleton.label,
       'data-cms-id': singletonName as string,
-      className: 'group',
       id: generateRandomString(16),
     } as const
 
