@@ -8,7 +8,8 @@
     "format": "turbo format"
   },
   "devDependencies": {
-    "eslint-config-custom": "workspace:^",
+    "eslint-config-custom": "workspace:*",
+    "prettier-config": "workspace:*",
     "turbo": "^1.10.12"
   }
 }
