@@ -27,7 +27,7 @@ const authOptions: NextAuthOptions = {
     signOut: '/cms/admin/logout',
   },
   providers: [
-    (CredentialsProvider)({
+    CredentialsProvider({
       credentials: {
         email: { label: 'Email', type: 'text', placeholder: 'abc@xyz.com' },
         password: { label: 'Password', type: 'password' },
@@ -44,9 +44,4 @@ const authOptions: NextAuthOptions = {
 
 const authHandler = NextAuth(authOptions)
 
-export {
-  authOptions,
-  authHandler,
-  getServerSession,
-  Session,
-}
+export { authOptions, authHandler, getServerSession, Session }

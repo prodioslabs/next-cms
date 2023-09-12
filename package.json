@@ -2,10 +2,10 @@
   "name": "next-cms",
   "scripts": {
     "dev": "turbo dev",
-    "build": "turbo build",
     "start": "turbo start",
     "lint": "turbo lint",
-    "format": "turbo format"
+    "format": "turbo format",
+    "build": "turbo build"
   },
   "devDependencies": {
     "eslint-config-custom": "workspace:*",

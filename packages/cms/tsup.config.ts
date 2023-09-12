@@ -6,16 +6,14 @@ export default defineConfig([
     target: 'es2019',
     outDir: './server',
     format: ['cjs', 'esm'],
-    dts: false,
-    watch: process.env.NODE_ENV === 'development',
+    clean: true,
   },
   {
     entry: ['./src/dashboard/index.ts'],
     target: 'es2019',
     outDir: './dashboard',
     format: ['cjs', 'esm'],
-    dts: false,
-    watch: process.env.NODE_ENV === 'development',
+    clean: true,
     banner: { js: '"use client";' },
   },
   {
@@ -23,8 +21,7 @@ export default defineConfig([
     target: 'es2019',
     outDir: './internal',
     format: ['cjs', 'esm'],
-    dts: false,
-    watch: process.env.NODE_ENV === 'development',
+    clean: true,
     banner: { js: '"use client";' },
   },
   {
@@ -32,8 +29,7 @@ export default defineConfig([
     target: 'es2019',
     outDir: './plugins',
     format: ['cjs', 'esm'],
-    dts: false,
-    watch: process.env.NODE_ENV === 'development',
+    clean: true,
     banner: { js: '"use client";' },
   },
 ])
