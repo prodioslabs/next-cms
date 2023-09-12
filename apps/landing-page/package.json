@@ -9,6 +9,7 @@
     "prettier": "prettier --write ./src/*/*.{ts,tsx} --ignore-path=../../.prettierignore"
   },
   "dependencies": {
+    "@nextjs-cms/auth": "workspace:*",
     "@nextjs-cms/cms": "workspace:*",
     "@nextjs-cms/core": "workspace:*",
     "@nextjs-cms/rsc": "workspace:*",

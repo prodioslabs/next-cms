@@ -1,7 +1,7 @@
 'use client'
 
 import { useMutation } from '@tanstack/react-query'
-import { signOut } from 'next-auth/react'
+import { signOut } from '@nextjs-cms/auth/react'
 import { useTheme } from 'next-themes'
 import { Settings } from 'lucide-react'
 import { useStore } from '../../../stores'

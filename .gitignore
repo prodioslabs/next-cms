@@ -48,6 +48,8 @@ next-env.d.ts
 **/.turbo
 
 # Build packages
+packages/auth/dist
+packages/auth/react
 packages/cms/dashboard
 packages/cms/dist
 packages/cms/internal

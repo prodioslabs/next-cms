@@ -1,6 +1,6 @@
 'use client'
 
-import { Session } from 'next-auth'
+import { Session } from '@nextjs-cms/auth'
 import { redirect } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
 import { FolderOpen, LoaderIcon, Image, File } from 'lucide-react'

@@ -1,6 +1,7 @@
-import NextAuth, { type NextAuthOptions, type DefaultSession } from 'next-auth'
+import NextAuth, { getServerSession } from 'next-auth'
+import type { NextAuthOptions, DefaultSession, Session } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { env } from '../env'
+import { env } from './env'
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -20,13 +21,13 @@ declare module 'next-auth' {
  *
  * @see https://next-auth.js.org/configuration/options
  */
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/cms/admin/login',
     signOut: '/cms/admin/logout',
   },
   providers: [
-    CredentialsProvider({
+    (CredentialsProvider)({
       credentials: {
         email: { label: 'Email', type: 'text', placeholder: 'abc@xyz.com' },
         password: { label: 'Password', type: 'password' },
@@ -41,4 +42,11 @@ export const authOptions: NextAuthOptions = {
   ],
 }
 
-export const authHandler = NextAuth(authOptions)
+const authHandler = NextAuth(authOptions)
+
+export {
+  authOptions,
+  authHandler,
+  getServerSession,
+  Session,
+}

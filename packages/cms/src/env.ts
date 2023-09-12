@@ -13,10 +13,6 @@ export const env = createEnv({
      * NextCMS configuration
      */
     DATABASE_URL: z.string().min(1),
-    NEXTAUTH_URL: z.string().min(1),
-    NEXTAUTH_SECRET: z.string().min(1),
-    ADMIN_EMAIL: z.string().email(),
-    ADMIN_PASSWORD: z.string(),
 
     /**
      * AI-Content Plugin
@@ -35,10 +31,6 @@ export const env = createEnv({
     NEXT_RUNTIME: process.env.NEXT_RUNTIME,
 
     DATABASE_URL: process.env.DATABASE_URL,
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
-    NEXTAUTH_URL: process.env.NEXTAUTH_SECRET,
-    ADMIN_EMAIL: process.env.ADMIN_EMAIL,
-    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
 
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
 

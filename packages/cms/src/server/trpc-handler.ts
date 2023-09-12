@@ -1,10 +1,10 @@
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch'
-import { getServerSession } from 'next-auth'
+import { getServerSession, authOptions } from '@nextjs-cms/auth'
 import type { CMSConfig } from '@nextjs-cms/core'
 import { prisma } from '@nextjs-cms/core'
+
 import { CreateContext } from './trpc'
 import { router } from './router'
-import { authOptions } from './auth-handler'
 
 export function createTRPCHandler(config: CMSConfig<any, any>) {
   const createContext: CreateContext = async () => {
