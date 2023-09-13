@@ -3,13 +3,13 @@ import { defineConfig } from 'tsup'
 export default defineConfig([
   {
     entry: ['./src/index.ts'],
-    dts: true,
+    format: ['cjs', 'esm'],
     clean: true,
   },
   {
     entry: ['./src/react/index.ts'],
+    format: ['cjs', 'esm'],
     outDir: './react',
-    dts: true,
     clean: true,
   },
 ])

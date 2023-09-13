@@ -27,7 +27,8 @@ const authOptions: NextAuthOptions = {
     signOut: '/cms/admin/logout',
   },
   providers: [
-    CredentialsProvider({
+    // @ts-expect-error: CredentialsProvider default export is an object on which `default` is a function
+    (CredentialsProvider.default as typeof CredentialsProvider)({
       credentials: {
         email: { label: 'Email', type: 'text', placeholder: 'abc@xyz.com' },
         password: { label: 'Password', type: 'password' },
@@ -42,6 +43,15 @@ const authOptions: NextAuthOptions = {
   ],
 }
 
-const authHandler = NextAuth(authOptions)
+/**
+ * When "type" is set to "module" in "package.json", the "default" export is an object on which
+ * "default" is a function. This is a workaround for esbuild to work with NextAuth.js.
+ *
+ * Read for more details:
+ *  - https://github.com/nextauthjs/next-auth/issues/572
+ *  - https://github.com/evanw/esbuild/issues/1719#issuecomment-953470495
+ */
+// @ts-expect-error: NextAuth default export is an object on which `default` is a function
+const authHandler = (NextAuth.default as typeof NextAuth)(authOptions)
 
 export { authOptions, authHandler, getServerSession, Session }

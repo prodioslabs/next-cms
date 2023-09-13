@@ -5,7 +5,14 @@ import {
   fetchCollectionElements,
   fetchSingleton,
 } from '@nextjs-cms/core'
-import type { CMSConfig, CMSField, CMSCollection, CMSCollectionData, CMSSingleton, CMSSingletonData } from '@nextjs-cms/core'
+import type {
+  CMSConfig,
+  CMSField,
+  CMSCollection,
+  CMSCollectionData,
+  CMSSingleton,
+  CMSSingletonData,
+} from '@nextjs-cms/core'
 import { EditableLink } from '@nextjs-cms/cms/internal'
 import { generateRandomString } from './lib/random'
 import { pascalCase } from './lib/string'
@@ -20,7 +27,10 @@ export function createCollectionReader<
   CMSCollections extends Record<string, CMSCollection<Record<string, CMSField>>>,
   CMSSingletons extends Record<string, CMSSingleton<Record<string, CMSField>>>,
   CollectionName extends keyof CMSCollections = keyof CMSCollections,
->(config: CMSConfig<CMSCollections, CMSSingletons>, collectionName: CollectionName & string): React.ComponentType<CollectionReaderProps<CMSCollections[CollectionName]>> {
+>(
+  config: CMSConfig<CMSCollections, CMSSingletons>,
+  collectionName: CollectionName & string,
+): React.ComponentType<CollectionReaderProps<CMSCollections[CollectionName]>> {
   async function CollectionListReader({ renderItems }: CollectionListReaderProps<CMSCollections[CollectionName]>) {
     const collection = config.collections?.[collectionName]
     if (!collection) {
@@ -106,16 +116,12 @@ export function createCollectionReader<
   function CollectionReader(props: CollectionReaderProps<CMSCollections[CollectionName]>) {
     switch (props.type) {
       case 'list': {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { type, ...rest } = props
-        // @ts-expect-error
         return <CollectionListReader {...rest} />
       }
 
       case 'element': {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { type, ...rest } = props
-        // @ts-expect-error
         return <CollectionElementReader {...rest} />
       }
 

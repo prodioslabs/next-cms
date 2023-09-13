@@ -2,18 +2,19 @@
   "name": "@nextjs-cms/auth",
   "version": "0.0.1",
   "description": "",
+  "type": "module",
   "main": "./dist/index.js",
   "types": "./src/index.ts",
   "exports": {
     ".": {
-      "require": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./src/index.ts"
     },
     "./react": {
-      "require": "./react/index.js",
+      "require": "./react/index.cjs",
       "import": "./react/index.js",
-      "types": "./react/index.d.ts"
+      "types": "./src/react/index.ts"
     }
   },
   "scripts": {
