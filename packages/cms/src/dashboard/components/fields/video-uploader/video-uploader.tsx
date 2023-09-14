@@ -1,7 +1,7 @@
 'use client'
 
 import { useMutation } from '@tanstack/react-query'
-import ReactPlayer from 'react-player'
+import DefaultReactPlayer from 'react-player'
 import { useState } from 'react'
 import { Loader, Trash } from 'lucide-react'
 import type { CMSVideoField } from '@nextjs-cms/core'
@@ -17,6 +17,14 @@ type VideoUploaderProps = {
   className?: string
   style?: React.CSSProperties
 }
+
+// TODO: Remove once `react-player` is fixed.
+/**
+ * This is a workaround for a bug in `react-player` that causes it to have named `default` export.
+ * @see https://github.com/cookpete/react-player/issues/1443
+ */
+const ReactPlayer =
+  'default' in DefaultReactPlayer ? (DefaultReactPlayer.default as typeof DefaultReactPlayer) : DefaultReactPlayer
 
 export default function VideoUploader({ field, uploadedVideo, onChange, className, style }: VideoUploaderProps) {
   const [progress, setProgress] = useState(0)
