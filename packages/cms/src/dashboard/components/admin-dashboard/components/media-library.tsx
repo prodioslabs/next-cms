@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
-import { Image, PackageOpen, Plus, Upload } from 'lucide-react'
+import { Image, PackageOpen, Plus, Upload, File } from 'lucide-react'
 import { api } from '../../../../server/api'
 import CreateFolder from './create-folder'
 import FolderCard from './folder-card'
@@ -9,6 +9,7 @@ import { Loader } from '../../../../ui/loader'
 import { useToast } from '../../../../ui/use-toast'
 import { Button } from '../../../../ui/button'
 import { PageHeading } from '../../../../ui/page-heading'
+import FileCard from './file-card'
 
 type MediaLibraryProps = {
   folderId?: string
@@ -65,7 +66,44 @@ export default function MediaLibrary({ folderId }: MediaLibraryProps) {
     }
   }, [folderId, folderContentQuery])
 
-  const filesContent = useMemo(() => null, [])
+  const filesContent = useMemo(() => {
+    if (folderContentQuery.isLoading) {
+      return <Loader message="Loading Files..." />
+    }
+
+    if (folderContentQuery.data) {
+      if (folderContentQuery.data.files.length === 0) {
+        return (
+          <div className="flex flex-col items-center justify-center rounded-md border border-dashed p-4">
+            <File name="package-open" className="mb-2 h-10 w-10 text-muted-foreground opacity-20" />
+            <div className="mb-2 text-sm text-muted-foreground">No files found</div>
+            <Button icon={<Plus name="plus" />} size="sm" variant="outline">
+              Upload File
+            </Button>
+          </div>
+        )
+      }
+
+      return (
+        <div className="grid grid-cols-4 gap-4">
+          {folderContentQuery.data.files.map((file) => {
+            return (
+              <FileCard
+                key={file.id}
+                file={file}
+                onDelete={() => {
+                  folderContentQuery.refetch()
+                }}
+                onRename={() => {
+                  folderContentQuery.refetch()
+                }}
+              />
+            )
+          })}
+        </div>
+      )
+    }
+  }, [folderContentQuery])
 
   return (
     <>

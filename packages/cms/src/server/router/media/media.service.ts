@@ -97,14 +97,21 @@ export async function getFolderContent(input: z.infer<typeof getFolderContentSch
   const [folders, files] = await Promise.all([
     prisma.folder.findMany({
       where: {
-        parentId: input.id,
+        parentId: {
+          isSet: typeof input.id === 'string',
+          equals: input.id,
+        },
       },
     }),
     prisma.file.findMany({
       where: {
-        parentId: input.id,
+        parentId: {
+          isSet: typeof input.id === 'string',
+          equals: input.id,
+        },
       },
     }),
   ])
+
   return { folders, files }
 }
