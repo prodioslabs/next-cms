@@ -45,6 +45,7 @@ export async function uploadAssetHandler(request: Request) {
         const fileNameWithDimensions = `${width}x${height}_${fileName}`
 
         const filePath = path.resolve(uploadDirectory, fileNameWithDimensions)
+        await fs.writeFile(filePath, fileBuffer)
 
         const assetUrl = getRelativeAssetUrl(basePath, filePath)
 
