@@ -14,7 +14,8 @@
     "dev:js": "tsup --watch",
     "build": "run-s build:*",
     "build:prisma": "prisma generate",
-    "build:js": "tsup"
+    "build:js": "tsup",
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@faker-js/faker": "^8.0.2",

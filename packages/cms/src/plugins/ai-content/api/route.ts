@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server'
 import { generateContentBodyValidationSchema } from './schema'
 import { handleError } from '../../../lib/api'
 import { env } from '../../../env'
@@ -28,7 +27,11 @@ export async function generateAIContent(request: Request) {
       message,
     })
 
-    return NextResponse.json({ fieldType, content: text })
+    return new Response(JSON.stringify({ fieldType, content: text }), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   } catch (error) {
     return handleError(error)
   }

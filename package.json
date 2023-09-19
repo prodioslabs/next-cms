@@ -6,7 +6,8 @@
     "lint": "turbo lint",
     "format": "turbo format",
     "build": "turbo build",
-    "test": "turbo test"
+    "test": "turbo test",
+    "typecheck": "turbo typecheck"
   },
   "devDependencies": {
     "eslint-config-custom": "workspace:*",

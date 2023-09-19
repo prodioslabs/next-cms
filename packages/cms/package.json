@@ -34,7 +34,8 @@
     "build": "run-s build:*",
     "build:css": "postcss ./src/styles.css -o ./dist/styles.css",
     "build:js": "tsup",
-    "format": "prettier --write ./src/*/*.{ts,tsx} --ignore-path=../../.prettierignore"
+    "format": "prettier --write ./src/*/*.{ts,tsx} --ignore-path=../../.prettierignore",
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",

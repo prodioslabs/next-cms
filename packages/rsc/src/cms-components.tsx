@@ -116,11 +116,13 @@ export function createCollectionReader<
   function CollectionReader(props: CollectionReaderProps<CMSCollections[CollectionName]>) {
     switch (props.type) {
       case 'list': {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { type, ...rest } = props
         return <CollectionListReader {...rest} />
       }
 
       case 'element': {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { type, ...rest } = props
         return <CollectionElementReader {...rest} />
       }

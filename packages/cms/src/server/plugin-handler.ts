@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server'
 import type { CMSConfig } from '@nextjs-cms/core'
 
 export function createPluginHandler(config: CMSConfig<any, any>) {
@@ -8,7 +7,12 @@ export function createPluginHandler(config: CMSConfig<any, any>) {
         return pluginConfig?.api?.handler(request)
       }
     }
-    return NextResponse.json({ message: 'Not found' }, { status: 404 })
+    return new Response(JSON.stringify({ message: 'Not found' }), {
+      status: 404,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   }
 
   async function POST(request: Request, { params: { plugin } }: { params: { plugin: string } }) {
@@ -17,7 +21,12 @@ export function createPluginHandler(config: CMSConfig<any, any>) {
         return pluginConfig?.api?.handler(request)
       }
     }
-    return NextResponse.json({ message: 'Not found' }, { status: 404 })
+    return new Response(JSON.stringify({ message: 'Not found' }), {
+      status: 404,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   }
 
   return { GET, POST }

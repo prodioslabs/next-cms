@@ -1,5 +1,4 @@
 import { createApi } from 'unsplash-js'
-import { NextResponse } from 'next/server'
 import { handleError } from '../../../lib/api'
 import { searchImageQueryParamsSchema } from './schema'
 import { env } from '../../../env'
@@ -17,8 +16,8 @@ export async function searchImage(request: Request) {
       perPage: 40,
       page: Number.parseInt(page, 10),
     })
-    return NextResponse.json({
-      photos: response,
+    return new Response(JSON.stringify({ photos: response }), {
+      headers: { 'Content-Type': 'application/json' },
     })
   } catch (error) {
     return handleError(error)

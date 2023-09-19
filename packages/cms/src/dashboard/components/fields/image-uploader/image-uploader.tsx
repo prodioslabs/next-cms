@@ -33,8 +33,6 @@ export default function ImageUploader({ required, uploadedImage, onChange, class
     },
   )
 
-  console.log(uploadedImage)
-
   return (
     <div className={cn('relative cursor-pointer overflow-hidden rounded-md', className)} style={style}>
       {progress !== 0 && progress !== 1 ? (

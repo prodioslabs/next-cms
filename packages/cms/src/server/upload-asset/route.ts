@@ -102,9 +102,12 @@ export async function uploadAssetHandler(request: Request) {
       },
     })
 
-    return Response.json(
-      { assetType: createdFile.assetType, url: createdFile.url, metadata: createdFile.metadata },
-      { status: 200 },
+    return new Response(
+      JSON.stringify({ assetType: createdFile.assetType, url: createdFile.url, metadata: createdFile.metadata }),
+      {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      },
     )
   } catch (error) {
     return handleError(error)
