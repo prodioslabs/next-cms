@@ -43,8 +43,10 @@ export function generateDummyDataForField(field: CMSField) {
     case 'image':
       return {
         url: faker.image.urlLoremFlickr({ width: 1920, height: 1080, category: 'nature' }),
-        width: 1920,
-        height: 1080,
+        metadata: {
+          width: 1920,
+          height: 1080,
+        },
       }
 
     case 'video': {

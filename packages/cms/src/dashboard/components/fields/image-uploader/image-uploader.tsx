@@ -33,6 +33,8 @@ export default function ImageUploader({ required, uploadedImage, onChange, class
     },
   )
 
+  console.log(uploadedImage)
+
   return (
     <div className={cn('relative cursor-pointer overflow-hidden rounded-md', className)} style={style}>
       {progress !== 0 && progress !== 1 ? (
@@ -56,14 +58,14 @@ export default function ImageUploader({ required, uploadedImage, onChange, class
           <Image
             alt=""
             src={uploadedImage.url}
-            width={uploadedImage.width}
-            height={uploadedImage.height}
+            width={uploadedImage.metadata.width}
+            height={uploadedImage.metadata.height}
             className="h-10 w-10 rounded-md object-cover"
           />
           <div className="flex-1 truncate text-xs text-muted-foreground">
             <div className="line-clamp-1 truncate whitespace-break-spaces">{uploadedImage.url}</div>
             <div className="truncate">
-              {uploadedImage.width}x{uploadedImage.height}
+              {uploadedImage.metadata.width}x{uploadedImage.metadata.height}
             </div>
           </div>
           {!required ? (

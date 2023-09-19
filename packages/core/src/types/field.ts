@@ -35,8 +35,10 @@ export type CMSImageField = CMSBaseField & {
 }
 export type CMSImageData = {
   url: string
-  width: number
-  height: number
+  metadata: {
+    width: number
+    height: number
+  }
 }
 
 export type CMSIconField = CMSBaseField & {

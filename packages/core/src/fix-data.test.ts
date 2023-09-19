@@ -130,8 +130,8 @@ test('should fix image data when not present', () => {
   const fixedData = fixData(schema, data, result.error)
   assert(typeof fixedData.imageField === 'object', 'data should be fixed')
   assert(typeof fixedData.imageField.url === 'string', 'imageField.url should be string')
-  assert(typeof fixedData.imageField.width === 'number', 'imageField.width should be number')
-  assert(typeof fixedData.imageField.height === 'number', 'imageField.height should be number')
+  assert(typeof fixedData.imageField.metadata.width === 'number', 'imageField.width should be number')
+  assert(typeof fixedData.imageField.metadata.height === 'number', 'imageField.height should be number')
 })
 
 test('should fix image data when the data is invalid', () => {
@@ -153,8 +153,8 @@ test('should fix image data when the data is invalid', () => {
   const fixedData = fixData(schema, data, result.error)
   assert(typeof fixedData.imageField === 'object', 'data should be fixed')
   assert(typeof fixedData.imageField.url === 'string', 'imageField.url should be string')
-  assert(typeof fixedData.imageField.width === 'number', 'imageField.width should be number')
-  assert(typeof fixedData.imageField.height === 'number', 'imageField.height should be number')
+  assert(typeof fixedData.imageField.metadata.width === 'number', 'imageField.width should be number')
+  assert(typeof fixedData.imageField.metadata.height === 'number', 'imageField.height should be number')
 })
 
 test('should fix multiple image data when the data is invalid', () => {
@@ -178,8 +178,8 @@ test('should fix multiple image data when the data is invalid', () => {
   assert(Array.isArray(fixedData.imageField), 'data should be fixed')
   assert(typeof fixedData.imageField[0] === 'object', 'data should be fixed')
   assert(typeof fixedData.imageField[0].url === 'string', 'imageField.url should be string')
-  assert(typeof fixedData.imageField[0].width === 'number', 'imageField.width should be number')
-  assert(typeof fixedData.imageField[0].height === 'number', 'imageField.height should be number')
+  assert(typeof fixedData.imageField[0].metadata.width === 'number', 'imageField.width should be number')
+  assert(typeof fixedData.imageField[0].metadata.height === 'number', 'imageField.height should be number')
 })
 
 test('should fix multiple image data when a particular element of the field is invalid', () => {
@@ -217,13 +217,12 @@ test('should fix multiple image data when a particular element of the field is i
 
   assert(typeof fixedData.imageField[1] === 'object', 'data should be fixed')
   assert(typeof fixedData.imageField[1].url === 'string', 'imageField.url should be string')
-  assert(typeof fixedData.imageField[1].width === 'number', 'imageField.width should be number')
-  assert(typeof fixedData.imageField[1].height === 'number', 'imageField.height should be number')
-
+  assert(typeof fixedData.imageField[1].metadata.width === 'number', 'imageField.width should be number')
+  assert(typeof fixedData.imageField[1].metadata.height === 'number', 'imageField.height should be number')
   assert(typeof fixedData.imageField[2] === 'object', 'data should be fixed')
   assert(typeof fixedData.imageField[2].url === 'string', 'imageField.url should be string')
-  assert(typeof fixedData.imageField[2].width === 'number', 'imageField.width should be number')
-  assert(typeof fixedData.imageField[2].height === 'number', 'imageField.height should be number')
+  assert(typeof fixedData.imageField[2].metadata.width === 'number', 'imageField.width should be number')
+  assert(typeof fixedData.imageField[2].metadata.height === 'number', 'imageField.height should be number')
 })
 
 test('should fix object data when not present', () => {
@@ -409,7 +408,7 @@ test('should fix multiple object data when partial data is present', () => {
     'fixedData.objectField.imageField.url should of type string',
   )
   assert(
-    typeof fixedData.objectField[0].imageField.width === 'number',
+    typeof fixedData.objectField[0].imageField.metadata.width === 'number',
     'fixedData.objectField.imageField.width should of type number',
   )
 
@@ -494,7 +493,7 @@ test('should fix multiple deeply nested object data when partial data is present
     'fixedData.objectField.imageField.url should of type string',
   )
   assert(
-    typeof fixedData.objectField[0].nestedObjectField[0].imageField.width === 'number',
+    typeof fixedData.objectField[0].nestedObjectField[0].imageField.metadata.width === 'number',
     'fixedData.objectField.imageField.width should of type number',
   )
 

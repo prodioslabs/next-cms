@@ -56,10 +56,14 @@ model Folder {
 
 // Media Library
 model File {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  path     String
-  name     String
-  parent   Folder? @relation(fields: [parentId], references: [id])
-  parentId String? @db.ObjectId
-  metadata Json?
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  assetType String
+  mimeType  String
+  path      String
+  url       String
+  name      String
+  size      Int
+  parent    Folder? @relation(fields: [parentId], references: [id])
+  parentId  String? @db.ObjectId
+  metadata  Json?
 }

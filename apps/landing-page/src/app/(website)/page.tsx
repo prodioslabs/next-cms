@@ -33,8 +33,8 @@ export default function Home() {
                       className="block overflow-hidden rounded-xl border p-3"
                     >
                       <Image
-                        width={blog.data.coverImage.width}
-                        height={blog.data.coverImage.height}
+                        width={blog.data.coverImage.metadata.width}
+                        height={blog.data.coverImage.metadata.height}
                         src={blog.data.coverImage.url}
                         alt={blog.data.title}
                         className="mb-4 block aspect-video w-full rounded-2xl object-cover"

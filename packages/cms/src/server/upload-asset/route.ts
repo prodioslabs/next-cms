@@ -2,9 +2,43 @@ import fs from 'fs/promises'
 import path from 'path'
 import imageSize from 'image-size'
 import { format } from 'date-fns'
+import { prisma } from '@nextjs-cms/core'
+import filenamify from 'filenamify'
+import { nanoid } from 'nanoid'
 import { isErrnoException } from '../../lib/file'
 import { uploadAssetBodySchema } from './schema'
 import { handleError } from '../../lib/api'
+
+function getAssetType(blob: Blob) {
+  return /^(?<type>.+)\/(?<subtype>.+)$/.exec(blob.type)?.groups?.type
+}
+
+type GetMetadataOptions = {
+  blob: Blob
+  assetType?: ReturnType<typeof getAssetType>
+  buffer?: Buffer
+}
+
+/**
+ * Get metadata for an asset (e.g. image dimensions)
+ */
+async function getMetadata({ blob, buffer: incomigBuffer, assetType: incomingAssetType }: GetMetadataOptions) {
+  const assetType = incomingAssetType ?? getAssetType(blob)
+  const commonMetadata = { name: blob.name }
+
+  if (assetType === 'image') {
+    const buffer = incomigBuffer ?? Buffer.from(await blob.arrayBuffer())
+    const size = imageSize(buffer)
+    return {
+      ...commonMetadata,
+      width: size.width,
+      height: size.height,
+      type: size.type,
+    }
+  }
+
+  return commonMetadata
+}
 
 function getRelativeAssetUrl(basePath: string, filePath: string) {
   const assetUrl = path.relative(basePath, filePath)
@@ -13,7 +47,7 @@ function getRelativeAssetUrl(basePath: string, filePath: string) {
 
 async function getUploadDirectory(basePath: string, assetType: 'image' | 'video') {
   const currentDate = format(new Date(), 'dd-MM-yyyy')
-  const uploadDirectory = path.resolve(basePath, 'uploads', assetType, currentDate)
+  const uploadDirectory = path.join(basePath, 'uploads', assetType, currentDate)
   try {
     await fs.stat(uploadDirectory)
   } catch (error) {
@@ -29,41 +63,49 @@ async function getUploadDirectory(basePath: string, assetType: 'image' | 'video'
 export async function uploadAssetHandler(request: Request) {
   try {
     const formData = await request.formData()
-    const { file, assetType } = uploadAssetBodySchema.parse({
-      file: formData.get('file'),
-      assetType: formData.get('assetType'),
+    const incomingFile = formData.get('file')
+    const incomeAssetType = formData.get('assetType')
+    const incomingFolderId = formData.get('folderId')
+
+    // Validate if file is a blob first before validating the rest of the body
+    const { file } = uploadAssetBodySchema.pick({ file: true }).parse({ file: incomingFile })
+    const { assetType, folderId } = uploadAssetBodySchema.omit({ file: true }).parse({
+      assetType: incomeAssetType ?? getAssetType(file),
+      folderId: incomingFolderId ?? undefined,
     })
 
-    const basePath = path.join(process.cwd(), 'public')
+    // Add prefix to prevent name collisions and sanitize file name
+    const sanitizedFileName = `${nanoid(6)}-${filenamify(file.name)}`
+
+    // Calculate path where file will be saved
+    const basePath = path.resolve('public')
     const uploadDirectory = await getUploadDirectory(basePath, assetType)
+    const absoluteFilePath = path.resolve(uploadDirectory, sanitizedFileName)
+    const relativeFilePath = path.relative(basePath, absoluteFilePath)
 
-    switch (assetType) {
-      case 'image': {
-        const fileName = file.name
-        const fileBuffer = Buffer.from(await file.arrayBuffer())
-        const { width, height, type } = imageSize(fileBuffer)
-        const fileNameWithDimensions = `${width}x${height}_${fileName}`
+    // Write to disk
+    const buffer = Buffer.from(await file.arrayBuffer())
+    await fs.writeFile(absoluteFilePath, buffer)
 
-        const filePath = path.resolve(uploadDirectory, fileNameWithDimensions)
-        await fs.writeFile(filePath, fileBuffer)
+    // Create file record in database
+    const createdFile = await prisma.file.create({
+      data: {
+        assetType,
+        mimeType: file.type,
+        name: file.name,
+        path: relativeFilePath,
+        size: file.size,
+        // URL where file can be accessed
+        url: getRelativeAssetUrl(basePath, absoluteFilePath),
+        metadata: await getMetadata({ blob: file, buffer, assetType }),
+        parentId: folderId,
+      },
+    })
 
-        const assetUrl = getRelativeAssetUrl(basePath, filePath)
-
-        return Response.json({ url: assetUrl, width, height, type, assetType: 'image' }, { status: 200 })
-      }
-
-      case 'video': {
-        const fileName = file.name
-        const fileBuffer = Buffer.from(await file.arrayBuffer())
-
-        const filePath = path.resolve(uploadDirectory, fileName)
-        await fs.writeFile(path.resolve(uploadDirectory, fileName), fileBuffer)
-
-        const assetUrl = getRelativeAssetUrl(basePath, filePath)
-
-        return Response.json({ url: assetUrl, assetType: 'video' }, { status: 200 })
-      }
-    }
+    return Response.json(
+      { assetType: createdFile.assetType, url: createdFile.url, metadata: createdFile.metadata },
+      { status: 200 },
+    )
   } catch (error) {
     return handleError(error)
   }

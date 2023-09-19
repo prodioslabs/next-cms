@@ -5,7 +5,8 @@
     "start": "turbo start",
     "lint": "turbo lint",
     "format": "turbo format",
-    "build": "turbo build"
+    "build": "turbo build",
+    "test": "turbo test"
   },
   "devDependencies": {
     "eslint-config-custom": "workspace:*",

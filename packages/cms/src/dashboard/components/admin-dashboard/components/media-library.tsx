@@ -10,6 +10,7 @@ import { useToast } from '../../../../ui/use-toast'
 import { Button } from '../../../../ui/button'
 import { PageHeading } from '../../../../ui/page-heading'
 import FileCard from './file-card'
+import UploadFile from './upload-file'
 
 type MediaLibraryProps = {
   folderId?: string
@@ -77,9 +78,16 @@ export default function MediaLibrary({ folderId }: MediaLibraryProps) {
           <div className="flex flex-col items-center justify-center rounded-md border border-dashed p-4">
             <File name="package-open" className="mb-2 h-10 w-10 text-muted-foreground opacity-20" />
             <div className="mb-2 text-sm text-muted-foreground">No files found</div>
-            <Button icon={<Plus name="plus" />} size="sm" variant="outline">
-              Upload File
-            </Button>
+            <UploadFile
+              folderId={folderId}
+              onFileUploaded={() => {
+                folderContentQuery.refetch()
+              }}
+            >
+              <Button icon={<Upload />} size="sm" variant="outline">
+                Upload File
+              </Button>
+            </UploadFile>
           </div>
         )
       }
@@ -103,7 +111,7 @@ export default function MediaLibrary({ folderId }: MediaLibraryProps) {
         </div>
       )
     }
-  }, [folderContentQuery])
+  }, [folderId, folderContentQuery])
 
   return (
     <>
@@ -133,9 +141,20 @@ export default function MediaLibrary({ folderId }: MediaLibraryProps) {
         <div className="relative flex items-center justify-between space-x-4 px-4 before:absolute before:left-0 before:right-0 before:top-1/2 before:-z-10 before:h-px before:bg-muted">
           <div className="bg-background px-1 text-sm font-medium text-muted-foreground">Files</div>
           <div className="bg-background px-2">
-            <Button icon={<Upload />} size="sm" variant="outline">
-              Upload File
-            </Button>
+            <UploadFile
+              folderId={folderId}
+              onFileUploaded={() => {
+                folderContentQuery.refetch()
+                toast({
+                  title: 'Success',
+                  description: 'File has been uploaded successfully',
+                })
+              }}
+            >
+              <Button icon={<Upload />} size="sm" variant="outline">
+                Upload File
+              </Button>
+            </UploadFile>
           </div>
         </div>
         {filesContent}

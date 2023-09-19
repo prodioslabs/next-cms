@@ -47,8 +47,8 @@ export default function HeroSection({
           <Image
             className="max-h-[640px] w-full rounded-md object-cover"
             src={image.url}
-            width={image.width}
-            height={image.height}
+            width={image.metadata.width}
+            height={image.metadata.height}
             alt="Hero Image"
           />
           <div className="absolute inset-0 -z-[1] -mb-4 -ml-4 mr-4 mt-4 h-full w-full rounded-md bg-gradient-to-tr from-gray-200 via-white/0 to-white/0 dark:from-slate-800 dark:via-slate-900/0 dark:to-slate-900/0 lg:-mb-6 lg:-ml-6 lg:mr-6 lg:mt-6" />

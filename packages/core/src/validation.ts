@@ -31,8 +31,10 @@ export function getValidationSchemaForField(field: CMSField) {
     case 'image': {
       schemaBasedOnType = z.object({
         url: z.string().min(1),
-        width: z.number().int(),
-        height: z.number().int(),
+        metadata: z.object({
+          width: z.number().int(),
+          height: z.number().int(),
+        }),
       })
       break
     }

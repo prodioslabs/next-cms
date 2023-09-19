@@ -233,8 +233,8 @@ export default function Blogs() {
                   className="border-border rounded-md border p-4"
                 >
                   <Image
-                    width={blog.coverImage.width}
-                    height={blog.coverImage.height}
+                    width={blog.coverImage.metadata.width}
+                    height={blog.coverImage.metadata.height}
                     src={blog.coverImage.url}
                     alt={blog.title}
                     className="mb-2 h-40 w-full rounded-md object-cover"
