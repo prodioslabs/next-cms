@@ -4,17 +4,17 @@
   "description": "",
   "type": "module",
   "main": "./dist/index.js",
-  "types": "./src/index.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
       "import": "./dist/index.js",
-      "types": "./src/index.ts"
+      "types": "./dist/index.d.ts"
     },
     "./react": {
       "require": "./react/index.cjs",
       "import": "./react/index.js",
-      "types": "./src/react/index.ts"
+      "types": "./react/index.d.ts"
     }
   },
   "scripts": {
