@@ -62,9 +62,14 @@ export const FILE_INCLUDE_FIELDS = {
 export function createFile(input: z.infer<typeof createFileSchema>, prisma: PrismaClient) {
   return prisma.file.create({
     data: {
-      name: input.name,
+      assetType: input.assetType,
+      mimeType: input.mimeType,
       path: input.path,
+      url: input.url,
+      name: input.name,
+      size: input.size,
       parent: input.folder ? { connect: { id: input.folder } } : undefined,
+      metadata: input.metadata,
     },
     include: FILE_INCLUDE_FIELDS,
   })

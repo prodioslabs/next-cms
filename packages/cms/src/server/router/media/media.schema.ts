@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { objectId } from '../../../lib/validation'
+import { jsonSchema, objectId } from '../../../lib/validation'
 
 export const getFolderContentSchema = z.object({
   id: objectId.optional(),
@@ -19,9 +19,14 @@ export const deleteFolderSchema = z.object({
 })
 
 export const createFileSchema = z.object({
-  name: z.string().nonempty(),
+  assetType: z.enum(['image', 'video']),
+  mimeType: z.string().nonempty(),
   path: z.string().nonempty(),
+  url: z.string().nonempty(),
+  name: z.string().nonempty(),
   folder: objectId.optional(),
+  size: z.number(),
+  metadata: jsonSchema,
 })
 
 export const updateFileSchema = createFileSchema.partial().extend({
