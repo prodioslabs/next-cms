@@ -99,7 +99,26 @@ export function deleteFile(input: z.infer<typeof updateFileSchema>, prisma: Pris
 }
 
 export async function getFolderContent(input: z.infer<typeof getFolderContentSchema>, prisma: PrismaClient) {
-  const [folders, files] = await Promise.all([
+  const [folder, folders, files] = await Promise.all([
+    // Current folder if id is set else root folder i.e. parent is null
+    input.id
+      ? prisma.folder.findUnique({
+          where: {
+            id: input.id,
+          },
+          select: {
+            id: true,
+            name: true,
+            parent: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        })
+      : null,
+    // All folders and files in the current folder
     prisma.folder.findMany({
       where: {
         parentId: {
@@ -118,5 +137,5 @@ export async function getFolderContent(input: z.infer<typeof getFolderContentSch
     }),
   ])
 
-  return { folders, files }
+  return { folder, folders, files }
 }

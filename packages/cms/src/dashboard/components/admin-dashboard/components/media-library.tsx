@@ -11,6 +11,7 @@ import { Button } from '../../../../ui/button'
 import { PageHeading } from '../../../../ui/page-heading'
 import FileCard from './file-card'
 import UploadFile from './upload-file'
+import { MediaLibraryBreadcrumb } from './media-library-breadcrumb'
 
 type MediaLibraryProps = {
   folderId?: string
@@ -119,7 +120,13 @@ export default function MediaLibrary({ folderId }: MediaLibraryProps) {
       <div className="space-y-4 p-4">
         <PageHeading title="Media Library" icon={<Image />} />
         <div className="relative flex items-center justify-between space-x-4 px-4 before:absolute before:left-0 before:right-0 before:top-1/2 before:-z-10 before:h-px before:bg-muted">
-          <div className="bg-background px-1 text-sm font-medium text-muted-foreground">Folders</div>
+          <div>
+            {folderContentQuery.data?.folder ? (
+              <MediaLibraryBreadcrumb folder={folderContentQuery.data.folder} className="bg-background px-1" />
+            ) : (
+              <div className="bg-background px-1 text-sm font-medium text-muted-foreground">Folders</div>
+            )}
+          </div>
           <div className="bg-background px-2">
             <CreateFolder
               folderId={folderId}
