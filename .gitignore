@@ -9,7 +9,7 @@
 /coverage
 
 # Uploads
-**/public/uploads
+**/uploads
 
 # next.js
 **/.next/

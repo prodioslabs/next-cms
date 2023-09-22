@@ -1,5 +1,5 @@
 import axios, { AxiosProgressEvent } from 'axios'
-import { uploadAssetResponseSchema } from '../../../server/upload-asset/schema'
+import { uploadAssetResponseSchema } from '../../../server/asset/upload/schema'
 
 export async function uploadAsset(
   { file, folderId }: { file: File; folderId?: string },
@@ -11,7 +11,7 @@ export async function uploadAsset(
     formData.append('folderId', folderId)
   }
 
-  const { data } = await axios.post('/cms/api/upload-asset', formData, {
+  const { data } = await axios.post('/cms/api/asset/upload', formData, {
     onUploadProgress,
   })
 

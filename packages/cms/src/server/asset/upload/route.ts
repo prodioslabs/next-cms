@@ -4,10 +4,10 @@ import imageSize from 'image-size'
 import { format } from 'date-fns'
 import { prisma } from '@nextjs-cms/core'
 import filenamify from 'filenamify'
-import { nanoid } from 'nanoid'
-import { isErrnoException } from '../../lib/file'
+import ObjectId from 'bson-objectid'
+import { isErrnoException } from '../../../lib/file'
 import { uploadAssetBodySchema } from './schema'
-import { handleError } from '../../lib/api'
+import { handleError } from '../../../lib/api'
 
 function getAssetType(blob: Blob) {
   return /^(?<type>.+)\/(?<subtype>.+)$/.exec(blob.type)?.groups?.type
@@ -40,14 +40,9 @@ async function getMetadata({ blob, buffer: incomigBuffer, assetType: incomingAss
   return commonMetadata
 }
 
-function getRelativeAssetUrl(basePath: string, filePath: string) {
-  const assetUrl = path.relative(basePath, filePath)
-  return `/${path.posix.join(...assetUrl.split(path.sep))}`
-}
-
-async function getUploadDirectory(basePath: string, assetType: 'image' | 'video') {
+async function getUploadDirectory(assetType: 'image' | 'video') {
   const currentDate = format(new Date(), 'dd-MM-yyyy')
-  const uploadDirectory = path.join(basePath, 'uploads', assetType, currentDate)
+  const uploadDirectory = path.join('uploads', assetType, currentDate)
   try {
     await fs.stat(uploadDirectory)
   } catch (error) {
@@ -75,11 +70,12 @@ export async function uploadAssetHandler(request: Request) {
     })
 
     // Add prefix to prevent name collisions and sanitize file name
-    const sanitizedFileName = `${nanoid(6)}-${filenamify(file.name)}`
+    const fileId = ObjectId().toHexString()
+    const sanitizedFileName = `${fileId}-${filenamify(file.name)}`
 
     // Calculate path where file will be saved
-    const basePath = path.resolve('public')
-    const uploadDirectory = await getUploadDirectory(basePath, assetType)
+    const basePath = path.resolve()
+    const uploadDirectory = await getUploadDirectory(assetType)
     const absoluteFilePath = path.resolve(uploadDirectory, sanitizedFileName)
     const relativeFilePath = path.relative(basePath, absoluteFilePath)
 
@@ -90,13 +86,14 @@ export async function uploadAssetHandler(request: Request) {
     // Create file record in database
     const createdFile = await prisma.file.create({
       data: {
+        id: fileId,
         assetType,
         mimeType: file.type,
         name: file.name,
         path: relativeFilePath,
         size: file.size,
         // URL where file can be accessed
-        url: getRelativeAssetUrl(basePath, absoluteFilePath),
+        url: `/cms/api/asset/download/${fileId}`,
         metadata: await getMetadata({ blob: file, buffer, assetType }),
         parentId: folderId,
       },
