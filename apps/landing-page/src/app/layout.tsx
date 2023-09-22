@@ -2,6 +2,8 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import '@nextjs-cms/cms/dist/styles.css'
 
+export const dynamic = 'force-dynamic'
+
 const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
