@@ -2,7 +2,7 @@
   "name": "eslint-config-custom",
   "main": "index.js",
   "devDependencies": {
-    "@next/eslint-plugin-next": "^13.4.7",
+    "@next/eslint-plugin-next": "^13.5.2",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
     "eslint": "^8.43.0",
     "eslint-config-standard-with-typescript": "^35.0.0",
