@@ -1,5 +1,6 @@
 {
   "name": "landing-page",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -30,7 +31,7 @@
     "autoprefixer": "^10.4.14",
     "env-cmd": "^10.1.0",
     "postcss": "^8.4.27",
-    "prettier-config": "workspace:*",
+    "@nextjs-cms/prettier-config": "workspace:*",
     "tailwindcss": "^3.3.3",
     "tailwindcss-animate": "^1.0.6",
     "typescript": "^5.1.3"
