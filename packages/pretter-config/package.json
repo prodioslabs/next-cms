@@ -1,6 +1,7 @@
 {
   "name": "@nextjs-cms/prettier-config",
   "main": "./index.js",
+  "version": "0.0.2",
   "devDependencies": {
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0"
